@@ -47,20 +47,20 @@ Note: The exact PyOpticL module path depends on your OS and FreeCAD configuratio
 
 ## Boards
 
-- Reference_board:![The schematic of reference board in FreeCAD](<Ref.png>)
+- Reference_board:![The schematic of reference board in FreeCAD](<pics/Ref.png>)
   After exiting the laser, the main beam passes through polarizing elements and isolators, then through several PBSs before entering the fiber, which leads to the Spectroscopy board for frequency locking. Three beams, including the MOT light and Repump light, are each combined with side beams split from the main beam by PBSs, using beatnote technology to achieve frequency locking of these beams.<br><br>
 
-- MOT_board:  ![The schematic of 780nm MOT board in Freecad](<MOT_780.png>) ![The schematic of 852nm MOT board in Freecad](<MOT_852.png>)
+- MOT_board:  ![The schematic of 780nm MOT board in Freecad](<pics/MOT_780.png>) ![The schematic of 852nm MOT board in Freecad](<pics/MOT_852.png>)
 The MOT board’s beam splits into two paths: one for MOT operation and one to the Reference board for frequency locking. 
 Because different wavelengths require different isolators, there are two versions of the MOT board (780nm and 852nm).<br><br>
 
-- Repumper_board:![The schematic of repumper board in FreeCAD](<Repump.png>)
+- Repumper_board:![The schematic of repumper board in FreeCAD](<pics/Repump.png>)
 The Repumper board’s beam similarly splits into two paths. In the repump path, we add a single-pass AOM, an iris, and a shutter to enable fast on/off control of the repumper light.<br><br>
 
-- Spectroscopy_board: ![The schematic of spectroscopy board in FreeCAD](<Spectroscopy.png>)
+- Spectroscopy_board: ![The schematic of spectroscopy board in FreeCAD](<pics/Spectroscopy.png>)
 After going through the reference board, the main beam splits into two beams, one strong(pump) and one weak(probe), which counterpropagate through the Rb atomic vapor at this board. The stronger beam finally goes to the photodetector. Here we use the Saturation absorption spectroscopy method, which will selectively saturate zero-velocity atoms in a vapor, producing a narrow Lamb dip that overcomes Doppler broadening and provides a stable reference for high-precision laser frequency locking.<br><br>
 
-- post_TA_board:  ![The schematic of post-TA board in FreeCAD](<post-TA.png>)
+- post_TA_board:  ![The schematic of post-TA board in FreeCAD](<pics/post-TA.png>)
 After amplifying the laser, we split the beam into three paths for different uses. Each path includes an AOM, iris, and shutter for on/off control.
 
 ## How to Use
