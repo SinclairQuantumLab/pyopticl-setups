@@ -7,7 +7,7 @@ base_dz = layout.inch
 gap = layout.inch/8
 
 # x-y coordinates of mount holes (in inches) (x,y)
-mount_holes = [(3, 0), (0, 7), (13, 0), (13, 7)]
+mount_holes = [(3, 0), (0, 7), (12, 0), (13, 7)]
 
 # y coordinate of beam input
 input_y = 4*layout.inch
@@ -68,7 +68,7 @@ def example_baseplate(x=0, y=0, angle=0):
 
 
     # add mirror along the transmitted beam, mounted in a m05 mount
-    baseplate.pladce_element_along_beam("Mirror", optomech.circular_mirror, beam,
+    baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b10, distance=1*layout.inch, angle=layout.turn['up-left'],
                                        mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))

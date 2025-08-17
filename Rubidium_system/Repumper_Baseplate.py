@@ -1,7 +1,7 @@
 from PyOpticL import layout, optomech
 
 # baseplate constants
-base_dx = 18*layout.inch
+base_dx = 17*layout.inch
 base_dy = 11*layout.inch
 base_dz = layout.inch
 gap = layout.inch/8
