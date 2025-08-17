@@ -1,6 +1,6 @@
 # Rb87 Neutral Atom Optical Platform (PyOpticL + FreeCAD)
 
-This repository contains a PyOpticL-based optical/mechanical layout for building an optical platform targeting Rb-87 neutral atom quantum computing experiments. It assembles a complete, code-driven CAD model in FreeCAD, organizing the setup into modular boards.
+This repository contains a PyOpticL-based optical/mechanical layout for building an optical platform targeting Rb-87 neutral atom experiments. It assembles a complete, code-driven CAD model in FreeCAD, organizing the setup into modular boards.
 
 The project originates from (and depends on) PyOpticL, a code-to-CAD tooling framework for modular optics systems engineering, and uses FreeCAD as the CAD backend.
 
@@ -16,11 +16,12 @@ The project originates from (and depends on) PyOpticL, a code-to-CAD tooling fra
 - Purpose: Build a modular optical platform for Rb-87 neutral atom quantum computing.
 - CAD Backend: FreeCAD
 - Optical/CAD Tooling: PyOpticL
-- Project Structure: The system is organized into five main boards:
+- Project Structure: The system is organized into six main boards:
   - Reference_board
   - MOT_board
   - Repumper_board
   - Spectroscopy_board
+  - TA_board
   - post_TA_board
 
 ## Prerequisites
@@ -59,6 +60,9 @@ The Repumper board’s beam similarly splits into two paths. In the repump path,
 
 - Spectroscopy_board: ![The schematic of spectroscopy board in FreeCAD](<pics/Spectroscopy.png>)
 After going through the reference board, the main beam splits into two beams, one strong(pump) and one weak(probe), which counterpropagate through the Rb atomic vapor at this board. The stronger beam finally goes to the photodetector. Here we use the Saturation absorption spectroscopy method, which will selectively saturate zero-velocity atoms in a vapor, producing a narrow Lamb dip that overcomes Doppler broadening and provides a stable reference for high-precision laser frequency locking.<br><br>
+
+- TA_board: 
+(Coming Soon)<br><br>
 
 - post_TA_board:  ![The schematic of post-TA board in FreeCAD](<pics/post-TA.png>)
 After amplifying the laser, we split the beam into three paths for different uses. Each path includes an AOM, iris, and shutter for on/off control.
