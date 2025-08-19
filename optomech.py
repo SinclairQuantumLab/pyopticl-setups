@@ -3652,6 +3652,10 @@ class surface_adapter_fiberport_lip:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
                                               x = 16 + i * 10, y=0, z=14.7))
 
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x=26, y=i*9.164, z=14.7))
+
         part.Placement = obj.Placement
         obj.DrillPart = part
 
