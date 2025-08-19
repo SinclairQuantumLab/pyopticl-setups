@@ -67,6 +67,7 @@ After going through the reference board, the main beam splits into two beams, on
 - post_TA_board:  ![The schematic of post-TA board in FreeCAD](<pics/post-TA.png>)
 After amplifying the laser, we split the beam into three paths for different uses. Each path includes an AOM, iris, and shutter for on/off control.
 
+(The pictures of the board may not be the latest version.)
 ## How to Use
 
 Please see the Quickstart Guide in the PyOpticL wiki:

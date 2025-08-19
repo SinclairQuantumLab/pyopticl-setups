@@ -10,7 +10,7 @@ gap = layout.inch/8
 mount_holes = [(1, 0), (0, 10), (16, 0), (16, 10)]
 
 # y coordinate of beam input
-input_y = 7*layout.inch
+input_y = 6.25*layout.inch
 
 # function so baseplate can be added to other layouts
 def example_baseplate(x=0, y=0, angle=0):
@@ -49,11 +49,15 @@ def example_baseplate(x=0, y=0, angle=0):
                                        mount_type=optomech.skate_mount)
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
-                                       beam_index=0b11, distance=2.5*layout.inch, angle=layout.turn['up-left'],
+                                       beam_index=0b11, distance=3*layout.inch, angle=layout.turn['up-left'],
                                        mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))
 
     # add waveplate along the reflected beam, mounted in a rotation stage
+    baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
+                                       beam_index=0b11, distance=1.25*layout.inch, angle=layout.cardinal['left'],
+                                       mount_type=optomech.rotation_stage_rsp05)
+    
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
                                        beam_index=0b11, distance=1.25*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
@@ -109,14 +113,10 @@ def example_baseplate(x=0, y=0, angle=0):
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
                                        beam_index=0b101, distance=1.5*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
-    
-    baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, beam,
-                                       beam_index=0b101, distance=1.25*layout.inch, angle=layout.cardinal['left'],
-                                       mount_type=optomech.skate_mount)
 
     # add output fiberport along the transmitted beam
     baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
-                                       beam_index=0b1010, distance=2.5*layout.inch, angle=layout.cardinal['right'],
+                                       beam_index=0b101, distance=2.5*layout.inch, angle=layout.cardinal['right'],
                                        mount_args=dict(thumbscrews=True))
 
 if __name__ == "__main__":

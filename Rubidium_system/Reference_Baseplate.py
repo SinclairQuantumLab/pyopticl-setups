@@ -121,17 +121,17 @@ def example_baseplate(x=0, y=0, angle=0):
 
     # add waveplate along the beam, 1/2" before the PBS , mounted in a rotation stage
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, ref_beam,
-                                       beam_index=0b11, distance=1.75*layout.inch, angle=layout.cardinal['left'],
+                                       beam_index=0b11, distance=2*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
-    # add splitter component along beam
-    baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, ref_beam,
-                                       beam_index=0b11, distance=2*layout.inch, angle=layout.cardinal['right'],
-                                       mount_type=optomech.skate_mount)
+    # add waveplate along the beam, 1/2" before the PBS , mounted in a rotation stage
+    baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, ref_beam,
+                                       beam_index=0b11, distance=1.25*layout.inch, angle=layout.cardinal['left'],
+                                       mount_type=optomech.rotation_stage_rsp05)
 
     # add output fiberport along the transmitted beam
     baseplate.place_element_along_beam("MOT Output Fiberport", optomech.fiberport_mount_km05T, ref_beam,
-                                       beam_index=0b110, distance=2.5*layout.inch, angle=layout.cardinal['right'], mount_args=dict(thumbscrews=True))
+                                       beam_index=0b11, distance=2.5*layout.inch, angle=layout.cardinal['right'], mount_args=dict(thumbscrews=True))
 
 
 
@@ -163,13 +163,12 @@ def example_baseplate(x=0, y=0, angle=0):
                                        beam_index=0b101, distance=1.2*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
-    # add splitter component along beam
-    baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, ref_beam,
-                                       beam_index=0b101, distance=2.5*layout.inch, angle=layout.cardinal['right'],
-                                       mount_type=optomech.skate_mount)
+    baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, ref_beam,
+                                       beam_index=0b101, distance=3*layout.inch, angle=layout.cardinal['left'],
+                                       mount_type=optomech.rotation_stage_rsp05)
 
     baseplate.place_element_along_beam("Repumper Output Fiberport", optomech.fiberport_mount_km05T, ref_beam,
-                                       beam_index=0b1010, distance=4.5*layout.inch, angle=layout.cardinal['right'], mount_args=dict(thumbscrews=True))
+                                       beam_index=0b101, distance=3.25*layout.inch, angle=layout.cardinal['right'], mount_args=dict(thumbscrews=True))
 
 
 
@@ -204,14 +203,13 @@ def example_baseplate(x=0, y=0, angle=0):
                                        beam_index=0b1001, distance=1.2*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
-    # add splitter component along beam
-    baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, ref_beam,
-                                       beam_index=0b1001, distance=1.25*layout.inch, angle=layout.cardinal['right'],
-                                       mount_type=optomech.skate_mount)
+    baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, ref_beam,
+                                       beam_index=0b1001, distance=4.5*layout.inch, angle=layout.cardinal['left'],
+                                       mount_type=optomech.rotation_stage_rsp05)
 
     # add output fiberport along the transmitted beam
     baseplate.place_element_along_beam("Spare Output Fiberport", optomech.fiberport_mount_km05T, ref_beam,
-                                       beam_index=0b10010, x=7.95*layout.inch, angle=layout.cardinal['right'], mount_args=dict(thumbscrews=True))
+                                       beam_index=0b1001, distance=3*layout.inch, angle=layout.cardinal['right'], mount_args=dict(thumbscrews=True))
 
 
 # this allows the file to be run as a macro or imported into other files
