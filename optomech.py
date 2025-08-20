@@ -910,7 +910,7 @@ class surface_adapter_PD:
     Surface adapter for RSP05 with a lip 
     '''
     type = 'Mesh::FeaturePython'
-    def __init__(self, obj, drill=True, mount_hole_dy=36, adapter_height=8, outer_thickness=2, center_thread_depth=3):
+    def __init__(self, obj, drill=True, mount_hole_dy=110, adapter_height=8, outer_thickness=2, center_thread_depth=3):
         obj.Proxy = self
         ViewProvider(obj.ViewObject)
 
@@ -931,6 +931,9 @@ class surface_adapter_PD:
         obj.Mesh = mesh
 
         part = _bounding_box(obj, self.drill_tolerance, 0.125*layout.inch)
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x=0, y=i* 55, z=16.5))
         part.Placement = obj.Placement
         obj.DrillPart = part
 
