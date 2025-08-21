@@ -3881,7 +3881,7 @@ class shutter_adapter:
         for i in [-1, 1]:
             for j in [-1, 1]:
                 part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                                  x=j * 35, y=i * 12, z=0))
+                                                  x=j * 22.86, y=i * 17, z=0))
         part.Placement = obj.Placement
         obj.DrillPart = part
 
