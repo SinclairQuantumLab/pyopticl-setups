@@ -3837,7 +3837,7 @@ class shutter_sr475:
         obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
         obj.addProperty('Part::PropertyPartShape', 'DrillPart')
 
-        obj.ViewObject.ShapeColor = adapter_color
+        obj.ViewObject.ShapeColor = misc_color
         self.part_numbers = ['SRS SR475 Shutter']
         self.transmission = True
         self.max_angle = 10
