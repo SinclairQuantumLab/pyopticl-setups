@@ -16,13 +16,15 @@ The project originates from (and depends on) PyOpticL, a code-to-CAD tooling fra
 - Purpose: Build a modular optical platform for Rb-87 neutral atom quantum computing.
 - CAD Backend: FreeCAD
 - Optical/CAD Tooling: PyOpticL
-- Project Structure: The system is organized into six main boards:
+- Project Structure: The system is organized into these main boards:
   - Reference_board
   - MOT_board
   - Repumper_board
   - Spectroscopy_board
   - TA_board
   - post_TA_board
+  - Split_board
+  - AOM_board
 
 ## Prerequisites
 
@@ -48,7 +50,8 @@ Note: The exact PyOpticL module path depends on your OS and FreeCAD configuratio
 
 ## Boards
 
-- Reference_board:![The schematic of reference board in FreeCAD](<pics/Ref.png>)
+- Reference_board:![The schematic of reference board in FreeCA(front view))](<pics/Ref.png>)
+![The schematic of reference board in FreeCAD(top view)](<pics/Ref2.png>)
   After exiting the laser, the main beam passes through polarizing elements and isolators, then through several PBSs before entering the fiber, which leads to the Spectroscopy board for frequency locking. Three beams, including the MOT light and Repump light, are each combined with side beams split from the main beam by PBSs, using beatnote technology to achieve frequency locking of these beams.<br><br>
 
 - MOT_board:  ![The schematic of 780nm MOT board in Freecad](<pics/MOT_780.png>) ![The schematic of 852nm MOT board in Freecad](<pics/MOT_852.png>)
@@ -64,8 +67,10 @@ After going through the reference board, the main beam splits into two beams, on
 - TA_board: 
 (Coming Soon)<br><br>
 
-- post_TA_board:  ![The schematic of post-TA board in FreeCAD](<pics/post-TA.png>)
-After amplifying the laser, we split the beam into three paths for different uses. Each path includes an AOM, iris, and shutter for on/off control.
+- Split_board and AOM_board:![The schematic of split board in FreeCAD](<pics/Split.png>)
+![The schematic of AOM board in FreeCAD](<pics/AOM.png>)
+
+After the TA board, we split the beam into multiple paths, couple each into an optical fiber, and equip each path with an AOM and shutter for switching. This is achieved by combining the split board and AOM board. The TA output is sent via fiber to the split board, where a PBS divides it into two beams: one is routed to the appropriately positioned AOM board, and the other passes through an AOM and shutter into a fiber. The beam entering the AOM board is split again: one branch feeds the next AOM board, and the other is coupled into a fiber. This way, we can control the number of beams by adjusting the number of AOM boards.
 
 (The pictures of the board may not be the latest version.)
 ## How to Use
