@@ -6,7 +6,7 @@ base_dy = 6*layout.inch
 base_dz = layout.inch
 gap = layout.inch/8
 
-mount_holes = [(3, 0), (3, 5), (22, 0), (23, 5),  (15, 0), (13, 5), (25, 2)]
+mount_holes = [(3, 0), (3, 5), (22, 0), (23, 5),  (15, 0), (13, 5)]
 
 def Repumper_baseplate(x=0, y=0, angle=0):
     baseplate = layout.baseplate(base_dx, base_dy, base_dz, x=x, y=y, angle=angle, gap=gap, mount_holes=mount_holes)
@@ -33,7 +33,7 @@ def Repumper_baseplate(x=0, y=0, angle=0):
                                        mount_args=dict(thumbscrews=True))
 
     baseplate.place_element_along_beam("Reference Output", optomech.fiberport_mount_km05T, beam,
-                                       beam_index=0b10, distance=4.5*layout.inch, angle=layout.cardinal['left'],
+                                       beam_index=0b10, distance=5*layout.inch - 5.136, angle=layout.cardinal['left'],
                                        mount_args=dict(thumbscrews=True))
 
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
