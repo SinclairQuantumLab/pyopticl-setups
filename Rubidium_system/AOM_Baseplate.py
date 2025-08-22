@@ -35,8 +35,8 @@ def AOM_baseplate(x=0, y=0, angle=0):
     
     baseplate.place_element_along_beam("Lens f150mm AB coat", optomech.circular_lens, beam,
                                          beam_index=0b11, distance=0.75*layout.inch, angle=layout.cardinal['left'],
-                                         focal_length=125, part_number='LA4043-AB', mount_type=optomech.lens_holder_l05g)
-    
+                                         focal_length=125, part_number='LA4004-AB', mount_type=optomech.lens_holder_l05g)
+
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b11, distance=1.5*layout.inch, angle=layout.turn['down-left'],
                                        mount_type=optomech.mirror_mount_M05)
@@ -53,7 +53,7 @@ def AOM_baseplate(x=0, y=0, angle=0):
     
     baseplate.place_element_along_beam("Lens f150mm AB coat", optomech.circular_lens, beam,
                                          beam_index=0b111, distance=150, angle=layout.cardinal['left'],
-                                         focal_length=125, part_number='LA4043-AB', mount_type=optomech.lens_holder_l05g)
+                                         focal_length=125, part_number='LA4004-AB', mount_type=optomech.lens_holder_l05g)
 
     baseplate.place_element_along_beam("SRS SR475 Shutter", optomech.shutter_sr475, beam,
                                        beam_index=0b111, distance=1.8*layout.inch, angle=layout.cardinal['left'])
