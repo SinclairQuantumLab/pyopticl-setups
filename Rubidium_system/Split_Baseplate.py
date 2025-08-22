@@ -17,7 +17,7 @@ def Split_baseplate(x=0, y=0, angle=0):
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b1, distance=2.75*layout.inch, angle=layout.turn['down-right'],
-                                       mount_type=optomech.mirror_mount_M05)
+                                       mount_type=optomech.mirror_mount_FMP05)
 
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
                                        beam_index=0b1, distance=0.9*layout.inch, angle=layout.cardinal['up'],
@@ -47,7 +47,8 @@ def Split_baseplate(x=0, y=0, angle=0):
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b11, distance=3*layout.inch, angle=layout.turn['up-left'],
-                                       mount_type=optomech.mirror_mount_M05)
+                                       mount_type=optomech.mirror_mount_M05,
+                                       mount_args=dict(thumbscrews=True))
     
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b11, distance=1.6*layout.inch, angle=layout.turn['down-right'],
@@ -70,7 +71,7 @@ def Split_baseplate(x=0, y=0, angle=0):
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b110, distance=3.5*layout.inch, angle=layout.turn['down-left'],
-                                       mount_type=optomech.mirror_mount_M05)
+                                       mount_type=optomech.mirror_mount_FMP05)
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b110, distance=1.5*layout.inch, angle=layout.turn['up-right'],

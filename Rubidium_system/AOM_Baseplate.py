@@ -39,7 +39,7 @@ def AOM_baseplate(x=0, y=0, angle=0):
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b11, distance=1.5*layout.inch, angle=layout.turn['down-left'],
-                                       mount_type=optomech.mirror_mount_M05)
+                                       mount_type=optomech.mirror_mount_FMP05)
     
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b11, distance=1.08*layout.inch, angle=layout.turn['up-right'],
@@ -63,7 +63,7 @@ def AOM_baseplate(x=0, y=0, angle=0):
     
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b111, distance=1.7*layout.inch, angle=layout.turn['up-left'],
-                                       mount_type=optomech.mirror_mount_M05)
+                                       mount_type=optomech.mirror_mount_FMP05)
     
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b111, distance=1*layout.inch, angle=layout.turn['down-right'],
