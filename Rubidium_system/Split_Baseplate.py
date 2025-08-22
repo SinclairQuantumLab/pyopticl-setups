@@ -8,7 +8,7 @@ gap = layout.inch/8
 
 mount_holes = [(3, 0), (3, 5), (22, 0), (23, 5),  (15, 0), (13, 5), (25, 2)]
 
-def Repumper_baseplate(x=0, y=0, angle=0):
+def Split_baseplate(x=0, y=0, angle=0):
     baseplate = layout.baseplate(base_dx, base_dy, base_dz, x=x, y=y, angle=angle, gap=gap, mount_holes=mount_holes)
 
     beam = baseplate.add_beam_path(x=4.5*layout.inch, y=1.7*layout.inch, angle=layout.cardinal['left'])
@@ -32,10 +32,11 @@ def Repumper_baseplate(x=0, y=0, angle=0):
                                        mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))
 
-    baseplate.place_element_along_beam("Reference Output", optomech.fiberport_mount_km05T, beam,
-                                       beam_index=0b10, distance=4.5*layout.inch, angle=layout.cardinal['left'],
+    baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
+                                       beam_index=0b10, distance=1*layout.inch, angle=layout.turn['down-left'],
+                                       mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))
-
+    
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
                                        beam_index=0b11, distance=3.25*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
@@ -89,5 +90,5 @@ def Repumper_baseplate(x=0, y=0, angle=0):
                                        mount_args=dict(thumbscrews=True))
     
 if __name__ == "__main__":
-    Repumper_baseplate()
+    Split_baseplate()
     layout.redraw()
