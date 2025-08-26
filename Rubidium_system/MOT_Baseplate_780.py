@@ -65,7 +65,7 @@ def example_baseplate(x=0, y=0, angle=0):
 
     # add output fiberport along the second beam
     baseplate.place_element_along_beam("Beat Output Fiberport", optomech.fiberport_mount_km05T, beam,
-                                       beam_index=0b11, distance = 2.5*layout.inch, angle=layout.cardinal['right'],
+                                       beam_index=0b11, distance=2.5*layout.inch, angle=layout.cardinal['right'],
                                        mount_args=dict(thumbscrews=True))
 
 
