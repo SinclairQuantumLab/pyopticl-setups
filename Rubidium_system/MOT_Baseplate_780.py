@@ -73,9 +73,8 @@ def example_baseplate(x=0, y=0, angle=0):
 
     # add mirror along the transmitted beam, mounted in a m05 mount
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
-                                       beam_index=0b10, distance=0.8*layout.inch, angle=layout.turn['up-left'],
-                                       mount_type=optomech.mirror_mount_M05,
-                                       mount_args=dict(thumbscrews=True))
+                                       beam_index=0b10, distance=0.9*layout.inch, angle=layout.turn['up-left'],
+                                       mount_type=optomech.mirror_mount_FMP05)
 
     # add mirror along the transmitted beam, mounted in a m05 mount
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,

@@ -6,14 +6,14 @@ base_dy = 6*layout.inch
 base_dz = layout.inch
 gap = layout.inch/8
 
-mount_holes = [(3, 0), (3, 5), (22, 0), (23, 5),  (15, 0), (13, 5), (25, 2)]
+mount_holes = [(3, 0), (3, 5), (22, 1), (23, 5),  (15, 0), (13, 5), (25, 2)]
 
 def Split_baseplate(x=0, y=0, angle=0):
     baseplate = layout.baseplate(base_dx, base_dy, base_dz, x=x, y=y, angle=angle, gap=gap, mount_holes=mount_holes)
 
-    beam = baseplate.add_beam_path(x=4.5*layout.inch, y=1.7*layout.inch, angle=layout.cardinal['left'])
+    beam = baseplate.add_beam_path(x=4*layout.inch, y=1.7*layout.inch, angle=layout.cardinal['left'])
 
-    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_km05T, x=5*layout.inch, y=1.7*layout.inch, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=True))
+    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_km05T, x=4.75*layout.inch, y=1.7*layout.inch, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=True))
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b1, distance=2.75*layout.inch, angle=layout.turn['down-right'],
