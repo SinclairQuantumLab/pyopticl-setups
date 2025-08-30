@@ -5614,6 +5614,61 @@ class ViewProvider:
         return None
     
 
+class TA_butterfly:
+    '''
+    Tapered Amplifier Evaluation board, model EYP-TPA-0785-0100-3006-CMT03
+
+    Args:
+        drill (bool) : Whether baseplate mounting for this part should be drilled
+    '''
+    type = 'Mesh::FeaturePython'
+    def __init__(self, obj, drill=True):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = adapter_color
+        self.part_numbers = ['TAboard']
+
+
+    def execute(self, obj):
+        mesh = _import_stl("TAboard.stl", (90, 0, 0), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        part = _custom_cylinder(dia=bolt_M2_5['tap_dia'], dz=drill_depth,
+                        y=15.625, x=-36.8, z=-13)
+
+        part = part.fuse(_custom_cylinder(dia=bolt_M2_5['tap_dia'], dz=drill_depth,
+                               y=-15.625, x=-36.8, z=-13))
+        # Additional holes (fused)
+        part = part.fuse(_custom_cylinder(dia=bolt_M2_5['tap_dia'], dz=drill_depth,
+                               x=13.2, y=15.625, z=-13))
+
+
+        part = part.fuse(_custom_cylinder(dia=bolt_M2_5['tap_dia'], dz=drill_depth,
+                        x=13.2, y=-15.625, z=-13))
+ 
+
+        # --- Baseplate cutout ---
+        # Recessed region beneath controller (like KM05)
+        # --- Baseplate cutout ---
+        cutout = _bounding_box(obj, 2, 3,
+                               min_offset=(0, 0, 0),
+                               max_offset=(0,  0,  0.0))
+
+
+        # # Apply fillet to the cutout before fusing
+        cutout = _fillet_all(cutout, 1)
+        part = part.fuse(cutout)
+
+
+        part.Placement = obj.Placement
+        obj.DrillPart = part
+
+
 
 ####################################### ARXIV #######################################
 # just rotate it 90 degrees but do not want to change other code....
