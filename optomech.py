@@ -1173,6 +1173,60 @@ class mirror_mount_M05:
         part.Placement = obj.Placement
         obj.DrillPart = part
 
+class mirror_mount_FMP05:
+    '''
+    Mirror mount, model FMP05
+
+    Args:
+        drill (bool) : Whether baseplate mounting for this part should be drilled
+        mirror (bool) : Whether to add a mirror component to the mount
+    '''
+    type = 'Mesh::FeaturePython'
+    def __init__(self, obj, drill=True):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = mount_color
+        self.part_numbers = ['Thorlabs-FMP05']
+        _add_linked_object(obj, "FMP05 Adapter", adapter_FMP05, pos_offset=(-6.9, 0, -24.25), rot_offset=(0, 0, -90))
+
+    def execute(self, obj):
+        mesh = _import_stl("FMP05.stl", (90, 0, 90), (3.1, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+class adapter_FMP05:
+    '''
+    Adapter for mirror mount, model FMP05
+
+    Args:
+        drill (bool) : Whether baseplate mounting for this part should be drilled
+    '''
+    type = 'Mesh::FeaturePython'
+    def __init__(self, obj, drill=True):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+        self.drill_tolerance = 1
+        obj.ViewObject.ShapeColor = adapter_color
+
+    def execute(self, obj):
+        mesh = _import_stl("FMP05_Adapter.stl", (0, 0, 0), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        part = _bounding_box(obj, self.drill_tolerance, 0.125*layout.inch)
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x=i*5, y=-3.5, z=0))
+
+        part.Placement = obj.Placement
+        obj.DrillPart = part
 
 class mirror_mount_M05_rot90:
     '''
@@ -3651,13 +3705,13 @@ class surface_adapter_fiberport_lip:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
                                               x=0, y=i*obj.MountHoleDistance.Value/2, z=0))
 
-        for i in [1, 2, 3]:
+        for i in [1, 2]:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
                                               x = 16 + i * 10, y=0, z=14.7))
 
         for i in [-1, 1]:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                              x=26, y=i*9.164, z=14.7))
+                                              x=30, y=i*9.164, z=14.7))
 
         part.Placement = obj.Placement
         obj.DrillPart = part

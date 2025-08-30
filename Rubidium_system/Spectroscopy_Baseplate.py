@@ -55,8 +55,6 @@ def example_baseplate(x=0, y=0, angle=0):
 
     baseplate.place_element("Beam Splitter Cube", optomech.cube_splitter, x=11*layout.inch, y=3.75*layout.inch, angle=layout.cardinal['right'], mount_type=optomech.skate_mount)
 
-    # baseplate.place_element("Output Fiberport", optomech.fiberport_mount_km05T, x=11.5*layout.inch, y=3.5*layout.inch, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=True))
-    
     baseplate.place_element("Mirror", optomech.circular_mirror, x=11*layout.inch, y=5.75*layout.inch, angle=layout.turn['up-right'],
                             mount_type=optomech.mirror_mount_M05, mount_args=dict(thumbscrews=True))
     

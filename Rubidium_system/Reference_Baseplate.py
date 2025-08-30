@@ -10,7 +10,7 @@ base_dz = layout.inch
 gap = layout.inch/8
 
 # x-y coordinates of mount holes (in inches) (x,y)
-mount_holes = [(0, 0), (0, 13), (17, 0), (17, 13)]
+mount_holes = [(1, 1), (1, 12), (17, 0), (17, 13), (17,2), (11, 12)]
 
 # y coordinate of beam input
 input_y = 7*layout.inch
@@ -92,7 +92,7 @@ def example_baseplate(x=0, y=0, angle=0):
 
     # add output fiberport along the transmitted beam
     baseplate.place_element_along_beam("Ref Output Fiberport", optomech.fiberport_mount_km05T, ref_beam,
-                                       beam_index=0b1000, distance=2.5*layout.inch, angle=layout.cardinal['down'],
+                                       beam_index=0b1000, distance=3*layout.inch -5.136, angle=layout.cardinal['down'],
                                        mount_args=dict(thumbscrews=True))
 
 

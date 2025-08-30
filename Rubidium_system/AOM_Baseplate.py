@@ -2,18 +2,18 @@ from PyOpticL import layout, optomech
 
 # baseplate constants
 base_dx = 26*layout.inch
-base_dy = 5*layout.inch
+base_dy = 5.5*layout.inch
 base_dz = layout.inch
 gap = layout.inch/8
 
-mount_holes = [(3, 0), (3, 3), (23, 0), (23, 3),  (13, 0), (13, 3),(25,4), (7, 0)]
+mount_holes = [(3, 0), (2, 4), (3, 3.5), (23, 0),  (15, 0.5), (13, 4),(24,4), (9, 0.5), (21,3.5)]
 
 def AOM_baseplate(x=0, y=0, angle=0):
     baseplate = layout.baseplate(base_dx, base_dy, base_dz, x=x, y=y, angle=angle, gap=gap, mount_holes=mount_holes)
 
-    beam = baseplate.add_beam_path(x=1.5*layout.inch, y=0.25*layout.inch, angle=layout.cardinal['up'])
+    beam = baseplate.add_beam_path(x=1.25*layout.inch, y=0.25*layout.inch, angle=layout.cardinal['up'])
 
-    baseplate.place_element("1/2 Waveplate", optomech.waveplate, x=1.5*layout.inch, y=0.75*layout.inch,angle=layout.cardinal['down'], mount_type=optomech.rotation_stage_rsp05)
+    baseplate.place_element("1/2 Waveplate", optomech.waveplate, x=1.25*layout.inch, y=0.75*layout.inch,angle=layout.cardinal['down'], mount_type=optomech.rotation_stage_rsp05)
 
     baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, beam,
                                        beam_index=0b1, distance=1.5*layout.inch, angle=layout.cardinal['down'],
@@ -34,26 +34,27 @@ def AOM_baseplate(x=0, y=0, angle=0):
                                        mount_type=optomech.rotation_stage_rsp05)
     
     baseplate.place_element_along_beam("Lens f150mm AB coat", optomech.circular_lens, beam,
-                                         beam_index=0b11, distance=0.75*layout.inch, angle=layout.cardinal['left'],
-                                         focal_length=125, part_number='LA4004-AB', mount_type=optomech.lens_holder_l05g)
+                                         beam_index=0b11, distance=0.6*layout.inch, angle=layout.cardinal['left'],
+                                         focal_length=150, part_number='LA4004-AB', mount_type=optomech.lens_holder_l05g)
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b11, distance=1.5*layout.inch, angle=layout.turn['down-left'],
-                                       mount_type=optomech.mirror_mount_M05)
+                                       mount_type=optomech.mirror_mount_M05,
+                                       mount_args=dict(thumbscrews=True))
     
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
-                                       beam_index=0b11, distance=1.08*layout.inch, angle=layout.turn['up-right'],
+                                       beam_index=0b11, distance=1.5*layout.inch, angle=layout.turn['up-right'],
                                        mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))
 
     aom = baseplate.place_element_along_beam("AOM", optomech.AOMO_3100_125, beam,
-                                       beam_index=0b11, distance=150-2.508*layout.inch, angle=layout.cardinal['left'],
+                                       beam_index=0b11, distance=150-3.0*layout.inch, angle=layout.cardinal['left'],
                                        forward_direction=-1, backward_direction=1, diffraction_angle = 0)
     
     
     baseplate.place_element_along_beam("Lens f150mm AB coat", optomech.circular_lens, beam,
                                          beam_index=0b111, distance=150, angle=layout.cardinal['left'],
-                                         focal_length=125, part_number='LA4004-AB', mount_type=optomech.lens_holder_l05g)
+                                         focal_length=150, part_number='LA4004-AB', mount_type=optomech.lens_holder_l05g)
 
     baseplate.place_element_along_beam("SRS SR475 Shutter", optomech.shutter_sr475, beam,
                                        beam_index=0b111, distance=1.8*layout.inch, angle=layout.cardinal['left'])
@@ -62,8 +63,8 @@ def AOM_baseplate(x=0, y=0, angle=0):
                                        beam_index=0b110, distance=5.5*layout.inch, angle=layout.cardinal['left'])
     
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
-                                       beam_index=0b111, distance=1.7*layout.inch, angle=layout.turn['up-left'],
-                                       mount_type=optomech.mirror_mount_M05)
+                                       beam_index=0b111, distance=1.75*layout.inch, angle=layout.turn['up-left'],
+                                       mount_type=optomech.mirror_mount_FMP05)
     
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b111, distance=1*layout.inch, angle=layout.turn['down-right'],
@@ -71,7 +72,7 @@ def AOM_baseplate(x=0, y=0, angle=0):
                                        mount_args=dict(thumbscrews=True))
     
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
-                                       beam_index=0b110, distance=6*layout.inch, angle=layout.cardinal['left'],
+                                       beam_index=0b110, distance=6.25*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
     
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
