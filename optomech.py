@@ -4962,7 +4962,7 @@ class Koheron_DFB_Laser:
 
         _add_linked_object(obj, "DFB Laser Diode", DFB_butterfly_diode, pos_offset=(0, 0, 0), **mount_args)
         _add_linked_object(obj, "Koheron Controller", Koheron_Controller, pos_offset=(0, 0, 0))
-        _add_linked_object(obj, "Laser Adapter", Laser_adapter, pos_offset=(2.5, 0, 0.4))
+        _add_linked_object(obj, "Laser Adapter", Laser_adapter, pos_offset=(2.5, 0, 5.5))
 
 
 
