@@ -20,7 +20,7 @@ def Laser_baseplate():
     baseplate.place_element("DFB", optomech.Koheron_DFB_Laser, x=3.125*layout.inch, y=input_y, angle=0)
 
     baseplate.place_element_along_beam("Optical_Isolator", optomech.isolator_780, beam,
-                                       beam_index=0b1, distance=2*layout.inch, angle=layout.cardinal['left'])
+                                       beam_index=0b1, distance=2.25*layout.inch, angle=layout.cardinal['left'])
 
     baseplate.place_element_along_beam("1/4 Waveplate", optomech.waveplate, beam,
                                        beam_index=0b1, distance=1.5*layout.inch, angle=layout.cardinal['right'],

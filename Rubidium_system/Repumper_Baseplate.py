@@ -13,7 +13,7 @@ def Repumper_baseplate(x=0, y=0, angle=0):
 
     beam = baseplate.add_beam_path(x=4.5*layout.inch, y=1.7*layout.inch, angle=layout.cardinal['left'])
 
-    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_km05T, x=5*layout.inch, y=1.7*layout.inch, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=True))
+    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_km05T, x=5.3*layout.inch, y=1.7*layout.inch, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=True))
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b1, distance=2.75*layout.inch, angle=layout.turn['down-right'],
