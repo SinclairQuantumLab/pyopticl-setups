@@ -8,7 +8,7 @@ The project originates from (and depends on) PyOpticL, a code-to-CAD tooling fra
 - Affiliation: UC Berkeley, Department of Physics — Prof. Sulyemanzade’s research group
 - Lab website: https://suleymanzadelab.com/
 - Collaborators:
-  - Prof. Josiah Sinclair, University of Wisconsin–Madison — https://www.physics.wisc.edu/directory/sinclair-josiah/
+  - University of Wisconsin-Madison - Prof. Sinclair's research group - https://sinclair.physics.wisc.edu/
   - Dr. Brandon Grinkemeyer, Harvard University (Postdoctoral Researcher) — https://lukin.physics.harvard.edu/people/brandon-grinkemeyer
 
 ## Overview
@@ -18,12 +18,10 @@ The project originates from (and depends on) PyOpticL, a code-to-CAD tooling fra
 - Optical/CAD Tooling: PyOpticL
 - Project Structure: The system is organized into these main boards:
   - Reference_board
-  - MOT_board
+  - Laser_board
   - Repumper_board
   - Spectroscopy_board
   - TA_board
-  - post_TA_board
-  - Split_board
   - AOM_board
 
 ## Prerequisites
@@ -50,29 +48,32 @@ Note: The exact PyOpticL module path depends on your OS and FreeCAD configuratio
 
 ## Boards
 
-- Reference_board:![The schematic of reference board in FreeCA(front view))](<pics/Ref.png>)
-![The schematic of reference board in FreeCAD(top view)](<pics/Ref2.png>)
+- Reference_board:![The schematic of reference board in FreeCAD(front view))](<Production/ReferenceBoard/ReferenceBoard1.png>)
+![The schematic of reference board in FreeCAD(top view)](<Production/ReferenceBoard/ReferenceBoard2.png>)
   After exiting the laser, the main beam passes through polarizing elements and isolators, then through several PBSs before entering the fiber, which leads to the Spectroscopy board for frequency locking. Three beams, including the MOT light and Repump light, are each combined with side beams split from the main beam by PBSs, using beatnote technology to achieve frequency locking of these beams.<br><br>
 
-- MOT_board:  ![The schematic of 780nm MOT board in Freecad](<pics/MOT_780.png>) ![The schematic of 852nm MOT board in Freecad](<pics/MOT_852.png>)
-The MOT board’s beam splits into two paths: one for MOT operation and one to the Reference board for frequency locking. 
-Because different wavelengths require different isolators, there are two versions of the MOT board (780nm and 852nm).<br><br>
+- Laser_board:  ![The schematic of Laser board1 in FreeCAD(front view)](<Production/LaserBoard/Laser_Board1.png>) 
+![The schematic of Laser board1 in FreeCAD(top view)](<Production/LaserBoard/Laser_Board2.png>) 
+![The schematic of Laser board2 in FreeCAD(front view)](<Production/LaserBoard2/Laser_Board21.png>) 
+![The schematic of Laser board2 in FreeCAD(top view)](<Production/LaserBoard2/Laser_Board22.png>) 
+The Laser board’s beam splits into two paths: one for various operations (Like MOT and Repumper) and one to the Reference board for frequency locking. 
+Because of different types of isolators we may using, there are two versions of the Laser board.<br><br>
 
-- Repumper_board:![The schematic of repumper board in FreeCAD](<pics/Repump.png>)
-The Repumper board’s beam similarly splits into two paths. In the repump path, we add a single-pass AOM, an iris, and a shutter to enable fast on/off control of the repumper light.<br><br>
+- Repumper_board:![The schematic of repumper board in FreeCAD(front view)](<Production/RepumperBoard/Repumper_Board1.png>)
+![The schematic of repumper board in FreeCAD(top view)](<Production/RepumperBoard/Repumper_Board2.png>)
+The laser board output is sent via fiber to the repumper board (lower left), where a PBS splits it into two beams: one directed to the AOM board (which we likely won’t use for repumping), and the other passing through an AOM and shutter into a fiber.<br><br>
 
-- Spectroscopy_board: ![The schematic of spectroscopy board in FreeCAD](<pics/Spectroscopy.png>)
+- Spectroscopy_board: ![The schematic of spectroscopy board in FreeCAD(front view)](<Production/SASBoard/SAS_Board1.png>)
+![The schematic of spectroscopy board in FreeCAD(top view)](<Production/SASBoard/SAS_Board2.png>)
 After going through the reference board, the main beam splits into two beams, one strong(pump) and one weak(probe), which counterpropagate through the Rb atomic vapor at this board. The stronger beam finally goes to the photodetector. Here we use the Saturation absorption spectroscopy method, which will selectively saturate zero-velocity atoms in a vapor, producing a narrow Lamb dip that overcomes Doppler broadening and provides a stable reference for high-precision laser frequency locking.<br><br>
 
 - TA_board: 
 (Coming Soon)<br><br>
 
-- Split_board and AOM_board:![The schematic of split board in FreeCAD](<pics/Split.png>)
-![The schematic of AOM board in FreeCAD](<pics/AOM.png>)
+- AOM_board:![The schematic of AOM board in FreeCAD(front view)](<Production/AOMBoard/AOM_Board1.png>)
+![The schematic of AOM board in FreeCAD(top view)](<Production/AOMBoard/AOM_Board2.png>)
+After the TA board, we split the beam into multiple paths, couple each into an optical fiber, and equip each path with an AOM and shutter for switching. This is achieved by combining the Repumper board and AOM board. The TA output is sent via fiber to the repumper board, where a PBS divides it into two beams: one is routed to the appropriately positioned AOM board, and the other passes through an AOM and shutter into a fiber. The beam entering the AOM board is split again: one branch feeds the next AOM board, and the other is coupled into a fiber. This way, we can control the number of beams by adjusting the number of AOM boards.
 
-After the TA board, we split the beam into multiple paths, couple each into an optical fiber, and equip each path with an AOM and shutter for switching. This is achieved by combining the split board and AOM board. The TA output is sent via fiber to the split board, where a PBS divides it into two beams: one is routed to the appropriately positioned AOM board, and the other passes through an AOM and shutter into a fiber. The beam entering the AOM board is split again: one branch feeds the next AOM board, and the other is coupled into a fiber. This way, we can control the number of beams by adjusting the number of AOM boards.
-
-(The pictures of the board may not be the latest version.)
 ## How to Use
 
 Please see the Quickstart Guide in the PyOpticL wiki:
@@ -86,7 +87,7 @@ https://github.com/UMassIonTrappers/PyOpticL/wiki#quickstart-guide
 
 - Core development by UC Berkeley, Department of Physics — Prof. Sulyemanzade’s group (Lab website: https://suleymanzadelab.com/).
 - Collaboration and valuable input from:
-  - Prof. Josiah Sinclair, University of Wisconsin–Madison — https://www.physics.wisc.edu/directory/sinclair-josiah/
+  - University of Wisconsin-Madison - Prof. Sinclair's research group - https://sinclair.physics.wisc.edu/
   - Dr. Brandon Grinkemeyer, Harvard University (Postdoctoral Researcher) — https://lukin.physics.harvard.edu/people/brandon-grinkemeyer
 - Built on PyOpticL: a code-to-CAD optical layout tool enabling parametric, modular optics design inside FreeCAD.
 - FreeCAD: Open-source parametric 3D CAD modeler used to render and manipulate the generated assemblies.
