@@ -24,14 +24,14 @@ def Laser_baseplate():
                                        mount_type=optomech.rotation_stage_rsp05)
 
     baseplate.place_element_along_beam("Optical_Isolator", optomech.isolator_780, beam,
-                                       beam_index=0b1, distance=1.5*layout.inch, angle=layout.cardinal['left'])
+                                       beam_index=0b1, distance=2.5*layout.inch, angle=layout.cardinal['left'])
 
     baseplate.place_element_along_beam("1/4 Waveplate", optomech.waveplate, beam,
-                                       beam_index=0b1, distance=1.5*layout.inch, angle=layout.cardinal['right'],
+                                       beam_index=0b1, distance=2.5*layout.inch, angle=layout.cardinal['right'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
-                                       beam_index=0b1, distance=3.5*layout.inch, angle=layout.turn['up-left'],
+                                       beam_index=0b1, distance=1.5*layout.inch, angle=layout.turn['up-left'],
                                        mount_type=optomech.mirror_mount_FMP05 )
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,

@@ -50,7 +50,7 @@ def example_baseplate(x=0, y=0, angle=0):
 
     # add mirror along the reflected beam, 1 inch from the splitter cube, mounted in a m05 mount
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
-                                       beam_index=0b11, distance=2.5*layout.inch, angle=layout.turn['up-left'],
+                                       beam_index=0b11, distance=2.25*layout.inch, angle=layout.turn['up-left'],
                                        mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))
 
