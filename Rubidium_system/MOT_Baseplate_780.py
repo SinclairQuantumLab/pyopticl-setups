@@ -24,14 +24,9 @@ def example_baseplate(x=0, y=0, angle=0):
 
     baseplate.place_element("DFB", optomech.Koheron_DFB_Laser, x=3.125*layout.inch, y=input_y, angle=0)
 
-    # add waveplate along the transmitted beam, 1" after the DFB laser, mounted in a rotation stage
-    baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
-                                       beam_index=0b1, distance=1.25*layout.inch, angle=layout.cardinal['right'],
-                                       mount_type=optomech.rotation_stage_rsp05)
-
     #Adding the isolator to make sure there is no unwanted beam going back as feedback
     baseplate.place_element_along_beam("Optical_Isolator", optomech.isolator_780, beam,
-                                       beam_index=0b1, distance=2.5*layout.inch, angle=layout.cardinal['left'])
+                                       beam_index=0b1, distance=3*layout.inch, angle=layout.cardinal['left'])
 
     baseplate.place_element_along_beam("1/4 Waveplate", optomech.waveplate, beam,
                                        beam_index=0b1, distance=2.5*layout.inch, angle=layout.cardinal['right'],
