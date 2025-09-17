@@ -62,8 +62,11 @@ def example_baseplate(x=0, y=0, angle=0):
                                        beam_index=0b11, distance=1.25*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
-    # add output fiberport along the second beam
-    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
+    # add output fiberport along the second beam (replaced km05T by KA05TB)
+    #baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
+    #                                   beam_index=0b11, distance=2.5*layout.inch, angle=layout.cardinal['right'],
+    #                                   mount_args=dict(thumbscrews=True))
+    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05TB, beam,
                                        beam_index=0b11, distance=2.5*layout.inch, angle=layout.cardinal['right'],
                                        mount_args=dict(thumbscrews=True))
 
@@ -114,8 +117,11 @@ def example_baseplate(x=0, y=0, angle=0):
                                        beam_index=0b101, distance=1.5*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
-    # add output fiberport along the transmitted beam
-    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
+    # add output fiberport along the transmitted beam (replaced km05T by KA05TB)
+    #baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
+    #                                   beam_index=0b101, distance=2.5*layout.inch, angle=layout.cardinal['right'],
+    #                                   mount_args=dict(thumbscrews=True))    
+    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05TB, beam,
                                        beam_index=0b101, distance=2.5*layout.inch, angle=layout.cardinal['right'],
                                        mount_args=dict(thumbscrews=True))
 

@@ -1659,6 +1659,91 @@ class mirror_mount_km05T:
         obj.DrillPart = part
 
 
+class mirror_mount_KA05TB:
+    '''
+    Mirror mount, model KA05TB
+
+    Args:
+        drill (bool) : Whether baseplate mounting for this part should be drilled
+        mirror (bool) : Whether to add a mirror component to the mount
+        thumbscrews (bool): Whether or not to add two HKTS 5-64 adjusters
+        bolt_length (float) : The length of the bolt used for mounting
+
+    Sub-Parts:
+        circular_mirror (mirror_args)
+    '''
+    type = 'Mesh::FeaturePython'
+    def __init__(self, obj, drill=True, thumbscrews=False, bolt_length=15):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('App::PropertyBool', 'ThumbScrews').ThumbScrews = thumbscrews
+        obj.addProperty('App::PropertyLength', 'BoltLength').BoltLength = bolt_length
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = mount_color
+
+        self.part_numbers = ['KA05TB']
+
+        # if mirror:
+        #     _add_linked_object(obj, "Mirror", circular_mirror, pos_offset=(...), rot_offset=(...), **mirror_args)
+
+        if thumbscrews:
+            _add_linked_object(obj, "Upper Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-10.668, 9.906, 9.906))
+            _add_linked_object(obj, "Lower Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-10.668 , -9.906, -9.906))
+
+    def execute(self, obj):
+        mesh = _import_stl("KA05TB.stl", (90, 0, 270), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        part = _bounding_box(obj, 2, 0.125*layout.inch)
+        part.Placement = obj.Placement
+        obj.DrillPart = part
+
+
+
+class fiberport_mount_KA05TB:
+    '''
+    Mirror mount, model KA05TB, adapted to use as fiberport mount
+
+    Args:
+        drill (bool) : Whether baseplate mounting for this part should be drilled
+
+    Sub-Parts:
+        mirror_mount_KA05TB (mount_args)
+        fiber_adapter_sm05fca2
+        lens_tube_sm05l05
+        lens_adapter_s05tm09
+        mounted_lens_c220tmda
+    '''
+    type = 'Part::FeaturePython'
+    def __init__(self, obj, drill=True, mount_args=dict(), adapter_args=dict()):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+
+        obj.ViewObject.ShapeColor = misc_color
+
+        _add_linked_object(obj, "Mount", mirror_mount_KA05TB, pos_offset=(5.8, 9.0, -14.8), **mount_args)
+
+
+        _add_linked_object(obj, "Fiber Adapter", fiber_adapter_sm05fca2, pos_offset=(1.524, 0, 0))
+        _add_linked_object(obj, "Lens Tube",    lens_tube_sm05l05,       pos_offset=(1.524+3.812, 0, 0))
+        _add_linked_object(obj, "Lens Adapter", lens_adapter_s05tm09,     pos_offset=(1.524+5, 0, 0))
+        _add_linked_object(obj, "Lens",         mounted_lens_c220tmda,    pos_offset=(1.524+3.167+5, 0, 0))
+
+        """
+        # surface adapter (fiberport lip)
+        _add_linked_object(
+            obj, 'surface_adapter', surface_adapter_fiberport_lip,
+            pos_offset=(-9.7, 0, -14.7), rot_offset=(0, 0, 180), **adapter_args
+        ) """
+
+
+
 class mirror_mount_km05T_custom:
     '''
     Mirror mount, model KM05T-8CB-SP

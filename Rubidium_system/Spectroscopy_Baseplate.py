@@ -16,7 +16,8 @@ def example_baseplate(x=0, y=0, angle=0):
 
     beam = baseplate.add_beam_path(x=5*layout.inch, y=input_y, angle=layout.cardinal['left'])
 
-    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_km05T, x=5.5*layout.inch, y=input_y, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=True))
+    #baseplate.place_element("Input Fiberport", optomech.fiberport_mount_km05T, x=5.5*layout.inch, y=input_y, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=True))
+    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_KA05TB, x=5.5*layout.inch, y=input_y, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=True))
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam, beam_index=0b1, x=1.75*layout.inch, angle=layout.turn['up-right'],
                                         mount_type=optomech.mirror_mount_M05, mount_args=dict(thumbscrews=True))

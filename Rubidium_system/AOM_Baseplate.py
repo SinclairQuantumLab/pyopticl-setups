@@ -79,7 +79,11 @@ def AOM_baseplate(x=0, y=0, angle=0):
                                        beam_index=0b110, distance=1*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
     
-    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
+    # replaced km05T by KA05TB
+#    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
+#                                       beam_index=0b110, distance=2.5*layout.inch, angle=layout.cardinal['left'],
+#                                       mount_args=dict(thumbscrews=True))
+    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05TB, beam,
                                        beam_index=0b110, distance=2.5*layout.inch, angle=layout.cardinal['left'],
                                        mount_args=dict(thumbscrews=True))
     
