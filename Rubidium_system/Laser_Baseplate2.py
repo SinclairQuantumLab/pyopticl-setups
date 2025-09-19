@@ -7,13 +7,13 @@ base_dz = layout.inch
 gap = layout.inch/8
 
 # x-y coordinates of mount holes (in inches) (x,y)
-mount_holes = [(3, 0), (0, 7), (11, 0), (13, 7)]
+mount_holes = [(3, 0), (0, 7), (12, 0), (13, 7)]
 
 # y coordinate of beam input
 input_y = 4*layout.inch
 
 # function so baseplate can be added to other layouts
-def laser_baseplate(x=0, y=0, angle=0):
+def example_baseplate(x=0, y=0, angle=0):
 
     # define and place baseplate object
     baseplate = layout.baseplate(base_dx, base_dy, base_dz, x=x, y=y, angle=angle,
@@ -30,14 +30,11 @@ def laser_baseplate(x=0, y=0, angle=0):
                                        mount_type=optomech.rotation_stage_rsp05)
 
     #Adding the isolator to make sure there is no unwanted beam going back as feedback
-    baseplate.place_element_along_beam("Optical_Isolator", optomech.isolator_780, beam,
-                                       beam_index=0b1, distance=1.5*layout.inch, angle=layout.cardinal['left'])
-    
-    baseplate.place_element_along_beam("Optical_Isolator", optomech.isolator_780, beam,
-                                       beam_index=0b1, distance=2*layout.inch, angle=layout.cardinal['left'])
+    baseplate.place_element_along_beam("Optical_Isolator", optomech.isolator_850, beam,
+                                       beam_index=0b1, distance=2.5*layout.inch, angle=layout.cardinal['left'])
 
     baseplate.place_element_along_beam("1/4 Waveplate", optomech.waveplate, beam,
-                                       beam_index=0b1, distance=1.5*layout.inch, angle=layout.cardinal['right'],
+                                       beam_index=0b1, distance=2.5*layout.inch, angle=layout.cardinal['right'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
     # add waveplate along the beam, mounted in a rotation stage
@@ -53,7 +50,7 @@ def laser_baseplate(x=0, y=0, angle=0):
 
     # add mirror along the reflected beam, 1 inch from the splitter cube, mounted in a m05 mount
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
-                                       beam_index=0b11, distance=2.5*layout.inch, angle=layout.turn['up-left'],
+                                       beam_index=0b11, distance=2.25*layout.inch, angle=layout.turn['up-left'],
                                        mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))
 
@@ -101,5 +98,5 @@ def laser_baseplate(x=0, y=0, angle=0):
 
 # this allows the file to be run as a macro or imported into other files
 if __name__ == "__main__":
-    laser_baseplate()
+    example_baseplate()
     layout.redraw()
