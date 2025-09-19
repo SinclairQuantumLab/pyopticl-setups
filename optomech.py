@@ -1274,7 +1274,7 @@ class mirror_mount_KM2CE:
         part = _bounding_box(obj, 2, 1/2*layout.inch, z_tol=True)
 
         for i in [-1, 1]:
-            part = part.fuse(_custom_cylinder(dia=bolt_M4['tap_dia'], dz=drill_depth,
+            part = part.fuse(_custom_cylinder(dia=bolt_Mx4['tap_dia'], dz=drill_depth,
                                               x=-7, y=1.6+(i*12) , z=0.25))
 
         part = part.fuse(_custom_cylinder(dia=bolt_M4['tap_dia'], dz=drill_depth,
@@ -4036,7 +4036,7 @@ class Mounted_asphere_100:
         self.max_width = 5
 
     def execute(self, obj):
-        mesh = _import_stl("mounted_f100_asphere_3.stl", (0, 0, 0), (0, 0, 0))
+        mesh = _import_stl("rotated_mounted_f100.stl", (0, 0, 0), (0, 0, 0))
         # original rotation -90, 180, -90
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
@@ -4111,8 +4111,78 @@ class Mounted_asphere_60:
 
         part.Placement = obj.Placement
         obj.DrillPart = part
-        
-        
+
+
+# ROTATED f150 ON TRANSLATION STAGE:
+
+class Mounted_stage_f150:
+    '''
+    Adapter for AOMs on KM100PM Mount
+    '''
+    type = 'Mesh::FeaturePython'
+
+    def __init__(self, obj, drill=True):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = adapter_color
+        self.part_numbers = ['AL75150Mounted']
+        self.transmission = True
+        self.max_angle = 10
+        self.max_width = 5
+
+    def execute(self, obj):
+        mesh = _import_stl("rotated_stage_f150.stl", (0, 0, 0), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        part = _bounding_box(obj, 2.5, 0.25 * layout.inch)
+
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_M6['tap_dia'], dz=drill_depth,
+                                              x=-10.3 + (i * 12.5), y=0, z=0))
+
+        part.Placement = obj.Placement
+        obj.DrillPart = part
+
+
+# rotated mounted stage f=200
+
+class Mounted_stage_f200:
+    '''
+    Adapter for AOMs on KM100PM Mount
+    '''
+    type = 'Mesh::FeaturePython'
+
+    def __init__(self, obj, drill=True):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = adapter_color
+        self.part_numbers = ['AL75150Mounted']
+        self.transmission = True
+        self.max_angle = 10
+        self.max_width = 5
+
+    def execute(self, obj):
+        mesh = _import_stl("rotated_stage_f200.stl", (0, 0, 0), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        part = _bounding_box(obj, 2.5, 0.25 * layout.inch)
+
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_M6['tap_dia'], dz=drill_depth,
+                                              x=-10.3+2.4 + (i * 12.5), y=0, z=0))
+
+        part.Placement = obj.Placement
+        obj.DrillPart = part
 
 class Mounted_asphere_150:
     '''
@@ -4133,7 +4203,8 @@ class Mounted_asphere_150:
         self.max_width = 5
 
     def execute(self, obj):
-        mesh = _import_stl("rotated_f150_mounted.stl", (90, -90, 0), (0, 0, 0))
+        mesh = _import_stl("rotated_f150_mounted.stl", (0, 0, 0), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
@@ -4142,7 +4213,7 @@ class Mounted_asphere_150:
         part = _bounding_box(obj, 1.0, 0.25*layout.inch)
         for i in [-1, 1]:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                              x=9.91+0.85, y=i*36 , z=0))
+                                              x=-10.4, y=i*(69.941/2) , z=0))
 
         part.Placement = obj.Placement
         obj.DrillPart = part
@@ -4235,7 +4306,7 @@ class Mounted_nostage_200:
         part = _bounding_box(obj, 1.0, 0.25*layout.inch)
         for i in [-1, 1]:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                              x=-11.91+0.62, y=i*50.112 , z=0))
+                                              x=-11.91+0.62, y=i*50.0 , z=0))
 
         part.Placement = obj.Placement
         obj.DrillPart = part
