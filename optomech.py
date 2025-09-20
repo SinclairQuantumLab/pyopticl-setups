@@ -1689,12 +1689,15 @@ class mirror_mount_KA05TB:
         # if mirror:
         #     _add_linked_object(obj, "Mirror", circular_mirror, pos_offset=(...), rot_offset=(...), **mirror_args)
 
-        if thumbscrews:
+        '''if thumbscrews:
             _add_linked_object(obj, "Upper Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-10.668, 9.906, 9.906))
-            _add_linked_object(obj, "Lower Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-10.668 , -9.906, -9.906))
+            _add_linked_object(obj, "Lower Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-10.668 , -9.906, -9.906))'''
+        if thumbscrews:
+            _add_linked_object(obj, "Upper Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-0.384*layout.inch, 0.35*layout.inch, 0.35*layout.inch))
+            _add_linked_object(obj, "Lower Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-0.384*layout.inch, -0.35*layout.inch, -0.35*layout.inch))
 
     def execute(self, obj):
-        mesh = _import_stl("KA05TB.stl", (90, 0, 270), (0, 0, 0))
+        mesh = _import_stl("KA05TB.stl", (0, 0, 0), (0, 0, 0))
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
@@ -1727,7 +1730,7 @@ class fiberport_mount_KA05TB:
 
         obj.ViewObject.ShapeColor = misc_color
 
-        _add_linked_object(obj, "Mount", mirror_mount_KA05TB, pos_offset=(5.8, 9.0, -14.8), **mount_args)
+        _add_linked_object(obj, "Mount", mirror_mount_KA05TB, pos_offset=(0, 0, 0), **mount_args)
 
 
         _add_linked_object(obj, "Fiber Adapter", fiber_adapter_sm05fca2, pos_offset=(1.524, 0, 0))
@@ -4835,7 +4838,7 @@ class thumbscrew_hkts_5_64:
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
-        part = _bounding_box(obj, 0, 0.125*layout.inch, z_tol=True, min_offset=(-6, 0, 0), max_offset=(-6, 0, 0))
+        part = _bounding_box(obj, 0, 0.125*layout.inch, z_tol=True, min_offset=(-6 -0.25*layout.inch, -0.125*layout.inch, -0.25*layout.inch), max_offset=(-5, 0.125*layout.inch, 0.25*layout.inch))
         part.Placement = obj.Placement
         obj.DrillPart = part
 
