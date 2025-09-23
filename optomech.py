@@ -959,7 +959,7 @@ class surface_adapter_PD:
     Surface adapter for RSP05 with a lip 
     '''
     type = 'Mesh::FeaturePython'
-    def __init__(self, obj, drill=True, mount_hole_dy=36, adapter_height=8, outer_thickness=2, center_thread_depth=3):
+    def __init__(self, obj, drill=True, mount_hole_dy=110, adapter_height=8, outer_thickness=2, center_thread_depth=3):
         obj.Proxy = self
         ViewProvider(obj.ViewObject)
 
@@ -980,6 +980,9 @@ class surface_adapter_PD:
         obj.Mesh = mesh
 
         part = _bounding_box(obj, self.drill_tolerance, 0.125*layout.inch)
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x=0, y=i*55, z=0))
         part.Placement = obj.Placement
         obj.DrillPart = part
 
@@ -5075,6 +5078,42 @@ class photodetector_pda10a2:
         part.Placement = obj.Placement
         obj.DrillPart = part
 
+class photodetector_pdb210a:
+    '''
+    Photodetector, model PDB210A
+
+    Args:
+        drill (bool) : Whether baseplate mounting for this part should be drilled
+
+    Sub-Parts:
+        surface_adapter (adapter_args)
+    
+    '''
+    type = 'Mesh::FeaturePython'
+    def __init__(self, obj, drill=True, adapter_args=dict()):
+        adapter_args.setdefault("mount_hole_dy", 60)
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = misc_color
+        self.part_numbers = ['PDB250A']
+        self.max_angle = 80
+        self.max_width = 5
+
+        _add_linked_object(obj, "Surface Adapter for PD", surface_adapter_PD, pos_offset=(-17.75, 0, -16.6), **adapter_args)
+
+    def execute(self, obj):
+        mesh = _import_stl("PDB210A_M.stl", (-90, 0, -90), (-26.15, 0.1, 10.76))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        part = _bounding_box(obj, 2, 0.125*layout.inch)
+        part.Placement = obj.Placement
+        obj.DrillPart = part
+
 class photodetector_pdb250a:
     '''
     Photodetector, model PDB250A
@@ -5100,10 +5139,10 @@ class photodetector_pdb250a:
         self.max_angle = 80
         self.max_width = 5
 
-        _add_linked_object(obj, "Surface Adapter for PD", surface_adapter_PD, pos_offset=(-17.75, 0, -16.5), **adapter_args)
+        _add_linked_object(obj, "Surface Adapter for PD", surface_adapter_PD, pos_offset=(-17.75, 0, -16.6), **adapter_args)
 
     def execute(self, obj):
-        mesh = _import_stl("PDB250A.stl", (-90, 0, -90), (21.099, 74.492, 20.806))
+        mesh = _import_stl("PDB250A.stl", (-90, 0, -90), (21.099, 74.492, 20.816))
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
