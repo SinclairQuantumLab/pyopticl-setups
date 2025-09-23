@@ -3819,9 +3819,8 @@ class surface_adapter_fiberport_lip:
         mesh = _import_stl("Surface_Adapter_fiberport_lip.stl", (0, 0, 0), ([0, 0, 0]))
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
-'''
-        part = _bounding_box(obj, self.drill_tolerance, 0.125*layout.inch)
 
+        part = _bounding_box(obj, self.drill_tolerance, 0.125*layout.inch)
         for i in [-1, 1]:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
                                               x=0, y=i*obj.MountHoleDistance.Value/2, z=0))
@@ -3830,12 +3829,12 @@ class surface_adapter_fiberport_lip:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
                                               x = 16 + i * 10, y=0, z=14.7))
 
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x=30, y=i*9.164, z=14.7))
+
         part.Placement = obj.Placement
         obj.DrillPart = part
-'''
-
-
-# NEW SURFACE ADAPTER FOR THE FIBERPORT:
 
 class SAFL_extra:
     '''
