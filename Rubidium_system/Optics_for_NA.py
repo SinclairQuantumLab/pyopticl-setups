@@ -19,7 +19,7 @@ def Optics_for_NA(x=0, y=0, angle=0):
 
     beam = baseplate.add_beam_path(x=3 * layout.inch, y=2.5 * layout.inch, angle=layout.cardinal['up'])
 
-    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_km05T, x=3 * layout.inch, y=2 * layout.inch,
+    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_km05T_2inch, x=3 * layout.inch, y=2 * layout.inch,
                             angle=layout.cardinal['up'], mount_args=dict(thumbscrews=True))
 
 

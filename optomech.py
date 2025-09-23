@@ -2112,6 +2112,37 @@ class fiberport_mount_km05T:
         _add_linked_object(obj, "Lens Adapter", lens_adapter_s05tm09, pos_offset=(1.524+5, 0, 0))
         _add_linked_object(obj, "Lens", mounted_lens_c220tmda, pos_offset=(1.524+3.167+5, 0, 0))
         _add_linked_object(obj, 'surface_adapter', surface_adapter_fiberport_lip, pos_offset=(-9.7, 0, -14.7),rot_offset=(0, 0, 180), **adapter_args)
+
+class fiberport_mount_km05T_2inch:
+    '''
+    Mirror mount, model KM05T-8CB-SP, adapted to use as fiberport mount
+    add a hole at center for mirror_mount_km05T mounting
+
+    Args:
+        drill (bool) : Whether baseplate mounting for this part should be drilled
+
+    Sub-Parts:
+        mirror_mount_km05T (mount_args)
+        fiber_adapter_sm05fca2
+        lens_tube_sm05l05
+        lens_adapter_s05tm09
+        mounted_lens_c220tmda
+    '''
+    type = 'Part::FeaturePython'
+    def __init__(self, obj, drill=True, mount_args=dict(), adapter_args=dict()):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+
+        obj.ViewObject.ShapeColor = misc_color
+
+        _add_linked_object(obj, "Mount", mirror_mount_km05T, pos_offset=(0, 0, 0), **mount_args)
+        _add_linked_object(obj, "Fiber Adapter", fiber_adapter_sm05fca2, pos_offset=(1.524, 0, 0))
+        _add_linked_object(obj, "Lens Tube", lens_tube_sm05l05, pos_offset=(1.524+3.812, 0, 0))
+        _add_linked_object(obj, "Lens Adapter", lens_adapter_s05tm09, pos_offset=(1.524+5, 0, 0))
+        _add_linked_object(obj, "Lens", mounted_lens_c220tmda, pos_offset=(1.524+3.167+5, 0, 0))
+        _add_linked_object(obj, 'surface_adapter', surface_adapter_fiberport_lip, pos_offset=(-9.7, 0, -14.7),rot_offset=(0, 0, 180), **adapter_args)
         _add_linked_object(obj, 'SAFL extra', SAFL_extra, pos_offset=(0,0,0),rot_offset=(0, 0, 0), **adapter_args)
 
 class fiberport_mount_km05T_rotated_90:
@@ -5530,7 +5561,7 @@ class Koheron_DFB_Laser:
 
         _add_linked_object(obj, "DFB Laser Diode", DFB_butterfly_diode, pos_offset=(0, 0, 0), **mount_args)
         _add_linked_object(obj, "Koheron Controller", Koheron_Controller, pos_offset=(0, 0, 0))
-        _add_linked_object(obj, "Laser Adapter", Laser_adapter, pos_offset=(2.5, 0, 0.4))
+        _add_linked_object(obj, "Laser Adapter", Laser_adapter, pos_offset=(2.5, 0, 5.5))
 
 
 
