@@ -46,7 +46,7 @@ def Post_TA_preAOD(x=0, y=0, angle=0):
 
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate_raised, beam,
                                        beam_index=0b1, distance=100, angle=layout.cardinal['down'],
-                                       mount_type=optomech.rotation_stage_rsp05)
+                                       mount_type=optomech.rotation_stage_rsp05_2inch)
 
     baseplate.place_element_along_beam("AL7560B", optomech.Mounted_asphere_60, beam,
                                        beam_index=0b1, distance=107.017, angle=layout.cardinal['up'])
