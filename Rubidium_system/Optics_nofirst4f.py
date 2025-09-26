@@ -81,8 +81,11 @@ def Optics_for_NA(x=0, y=0, angle=0):
                                        beam_index=0b1, distance=140, angle=layout.turn['up-right'],
                                        mount_type=optomech.mirror_mount_KM2CE)
 
+    baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate_2in, beam,
+                                       beam_index=0b1, distance=45, angle=layout.cardinal['left'])
+
     baseplate.place_element_along_beam("Mirror", optomech.mirror_2inch, beam,
-                                       beam_index=0b1, distance=225-9.22, angle=layout.turn['right-up'],
+                                       beam_index=0b1, distance=215.78-45, angle=layout.turn['right-up'],
                                        mount_type=optomech.mirror_mount_KM2CE)
 
 
@@ -114,8 +117,11 @@ def Optics_for_NA(x=0, y=0, angle=0):
                                        beam_index=0b1, distance=119.506, angle=layout.turn['left-down'],
                                        mount_type=optomech.mirror_mount_KM2CE)
 
+    baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate_2in, beam,
+                                       beam_index=0b1, distance=60, angle=layout.cardinal['up'])
+
     baseplate.place_element_along_beam("AL100200B", optomech.Mounted_stage_f200, beam,
-                                       beam_index=0b1, distance=389.642+3.23-1, angle=layout.cardinal['up'])
+                                       beam_index=0b1, distance=331.872, angle=layout.cardinal['up'])
 
     baseplate.place_element_along_beam("Mirror", optomech.mirror_2inch, beam,
                                        beam_index=0b1, distance=95, angle=layout.turn['down-left'],
@@ -127,7 +133,8 @@ def Optics_for_NA(x=0, y=0, angle=0):
 
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate_raised, beam,
                                        beam_index=0b1, distance=30, angle=layout.cardinal['down'],
-                                       mount_type=optomech.rotation_stage_rsp05)
+                                       mount_type=optomech.rotation_stage_rsp05
+                                       )
 
     baseplate.place_element_along_beam("1/4 Waveplate", optomech.waveplate_raised, beam,
                                     beam_index=0b1, distance=48-30, angle=layout.cardinal['down'],
