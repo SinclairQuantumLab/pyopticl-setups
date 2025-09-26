@@ -4493,6 +4493,44 @@ class PBS_2in_mounted:
         obj.DrillPart = part
 
 
+# 2 inch waveplate:
+
+class waveplate_2in:
+    '''
+    Adapter for AOMs on KM100PM Mount
+    '''
+    type = 'Mesh::FeaturePython'
+    def __init__(self, obj, drill=True):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = adapter_color
+        self.part_numbers = ['Mounted 2 inch waveplate']
+        self.transmission = True
+        self.max_angle = 10
+        self.max_width = 5
+
+    def execute(self, obj):
+        mesh = _import_stl("rotated_waveplate_indexrotstage.stl", (0, 0, 0), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        part = _bounding_box(obj, 1.5, 0.25*layout.inch)
+
+        part = _bounding_box(obj, 1.0, 0.25*layout.inch)
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x=0, y=i * 50.0, z=0))
+
+        part.Placement = obj.Placement
+        obj.DrillPart = part
+
+
+
 class adapter_FMP05:
     '''
     Adapter for mirror mount, model FMP05
