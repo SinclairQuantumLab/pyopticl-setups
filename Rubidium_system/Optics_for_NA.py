@@ -19,7 +19,7 @@ def Optics_for_NA(x=0, y=0, angle=0):
 
     beam = baseplate.add_beam_path(x=3 * layout.inch, y=2.5 * layout.inch, angle=layout.cardinal['up'])
 
-    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_km05T, x=3 * layout.inch, y=2 * layout.inch,
+    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_km05T_2inch, x=3 * layout.inch, y=2 * layout.inch,
                             angle=layout.cardinal['up'], mount_args=dict(thumbscrews=True))
 
 
@@ -46,7 +46,7 @@ def Optics_for_NA(x=0, y=0, angle=0):
 
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate_raised, beam,
                                        beam_index=0b1, distance=100, angle=layout.cardinal['down'],
-                                       mount_type=optomech.rotation_stage_rsp05)
+                                       mount_type=optomech.rotation_stage_rsp05_2inch)
 
 # distance from the last AL50100 lens to the f60 lens should be 483.399
 
@@ -107,7 +107,7 @@ def Optics_for_NA(x=0, y=0, angle=0):
 
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate_raised, beam,
                                        beam_index=0b1, distance=146, angle=layout.cardinal['down'],
-                                       mount_type=optomech.rotation_stage_rsp05)
+                                       mount_type=optomech.rotation_stage_rsp05_2inch)
 
 # THE NEXT f150 LENS MUST BE 250.634mm away, not mounted
 
@@ -137,7 +137,7 @@ def Optics_for_NA(x=0, y=0, angle=0):
 
     baseplate.place_element_along_beam("1/4 Waveplate", optomech.waveplate_raised, beam,
                                     beam_index=0b1, distance=43, angle=layout.cardinal['down'],
-                                    mount_type=optomech.rotation_stage_rsp05)
+                                    mount_type=optomech.rotation_stage_rsp05_2inch)
 
 # next distance should be 413.036mm to the 2nd f200 lens
     baseplate.place_element_along_beam("AL100200B", optomech.Mounted_nostage_200, beam,
