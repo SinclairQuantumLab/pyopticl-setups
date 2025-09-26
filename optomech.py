@@ -1261,13 +1261,13 @@ class mirror_mount_M05:
         part = _custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
                                 x=-0.274*layout.inch, y=0, z=-layout.inch/2)
 
-        # # Alignment pin farther from mirror
-        # part = part.fuse(_custom_cylinder(dia=1.6, dz=1.6,
-        #                                   x=-0.454*layout.inch, y=0, z=-layout.inch/2))
+        # Alignment pin farther from mirror
+        part = part.fuse(_custom_cylinder(dia=1.6, dz=1.6,
+                                          x=-0.454*layout.inch, y=0, z=-layout.inch/2))
 
-        # # Alignment pin closer to mirror
-        # part = part.fuse(_custom_cylinder(dia=1.6, dz=1.5,
-        #                                   x=-0.134*layout.inch, y=0, z=-layout.inch/2))
+        # Alignment pin closer to mirror
+        part = part.fuse(_custom_cylinder(dia=1.6, dz=1.5,
+                                          x=-0.134*layout.inch, y=0, z=-layout.inch/2))
 
         part.Placement = obj.Placement
         obj.DrillPart = part
@@ -1301,7 +1301,7 @@ class mirror_mount_KM2CE:
             _add_linked_object(obj, "Lower Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-13.208, -9.144, -9.144))
 
     def execute(self, obj):
-        mesh = _import_stl("rotated_2inmirror_adapter.stl", (0, 0, 0),
+        mesh = _import_stl("rotated_2inmirror_adapter_longer.stl", (0, 0, 0),
                            #original rot (0, -90, 0)
                            #original translate (11, 0, 0.25)
                             (11, 0, 0.25))
@@ -1311,7 +1311,7 @@ class mirror_mount_KM2CE:
         part = _bounding_box(obj, 2, 1/2*layout.inch, z_tol=True)
 
         for i in [-1, 1]:
-            part = part.fuse(_custom_cylinder(dia=bolt_Mx4['tap_dia'], dz=drill_depth,
+            part = part.fuse(_custom_cylinder(dia=bolt_M4['tap_dia'], dz=drill_depth,
                                               x=-7, y=1.6+(i*12) , z=0.25))
 
         part = part.fuse(_custom_cylinder(dia=bolt_M4['tap_dia'], dz=drill_depth,
@@ -1747,8 +1747,15 @@ class mirror_mount_km05T:
         mesh = _import_stl("KM05T.stl", (90, 0, 90), (0, 0, 0))
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
-        
-        part = _bounding_box(obj, 2, 0.125*layout.inch)
+
+        part = _bounding_box(obj, 2, 3, min_offset=(4.35, 0, 0))
+        part = part.fuse(_bounding_box(obj, 2, 3, max_offset=(0, -20, 0)))
+        part = _fillet_all(part, 3)
+        # part = part.fuse(_custom_cylinder(dia=bolt_8_32['clear_dia'], dz=inch,
+        #                                   head_dia=bolt_8_32['head_dia'], head_dz=0.92*inch-obj.BoltLength.Value,
+        #                                   x=-7.29, y=0, z=-inch*3/2, dir=(0,0,1)))
+        part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=inch, x=-7.29, y=0, z=-inch*3/2, dir=(0,0,1)))
+        # part = _custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth, x=-7.4168, y=0, z=-14.732)
         part.Placement = obj.Placement
         obj.DrillPart = part
 
@@ -2117,8 +2124,6 @@ class fiberport_mount_km05:
         _add_linked_object(obj, "Lens Adapter", lens_adapter_s05tm09, pos_offset=(1.524+5, 0, 0))
         _add_linked_object(obj, "Lens", mounted_lens_c220tmda, pos_offset=(1.524+3.167+5, 0, 0))
 
-
-
 class fiberport_mount_km05T:
     '''
     Mirror mount, model KM05T-8CB-SP, adapted to use as fiberport mount
@@ -2180,6 +2185,38 @@ class fiberport_mount_km05T_2inch:
         _add_linked_object(obj, "Lens Adapter", lens_adapter_s05tm09, pos_offset=(1.524+5, 0, 0))
         _add_linked_object(obj, "Lens", mounted_lens_c220tmda, pos_offset=(1.524+3.167+5, 0, 0))
         _add_linked_object(obj, 'surface_adapter', surface_adapter_fiberport_lip, pos_offset=(-9.7, 0, -14.7),rot_offset=(0, 0, 180), **adapter_args)
+
+
+class fiberport_mount_km05T_raised:
+    '''
+    Mirror mount, model KM05T-8CB-SP, adapted to use as fiberport mount
+    add a hole at center for mirror_mount_km05T mounting
+
+    Args:
+        drill (bool) : Whether baseplate mounting for this part should be drilled
+
+    Sub-Parts:
+        mirror_mount_km05T (mount_args)
+        fiber_adapter_sm05fca2
+        lens_tube_sm05l05
+        lens_adapter_s05tm09
+        mounted_lens_c220tmda
+    '''
+    type = 'Part::FeaturePython'
+    def __init__(self, obj, drill=True, mount_args=dict(), adapter_args=dict()):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+
+        obj.ViewObject.ShapeColor = misc_color
+
+        _add_linked_object(obj, "Mount", mirror_mount_km05T, pos_offset=(0, 0, 0), **mount_args)
+        _add_linked_object(obj, "Fiber Adapter", fiber_adapter_sm05fca2, pos_offset=(1.524, 0, 0))
+        _add_linked_object(obj, "Lens Tube", lens_tube_sm05l05, pos_offset=(1.524+3.812, 0, 0))
+        _add_linked_object(obj, "Lens Adapter", lens_adapter_s05tm09, pos_offset=(1.524+5, 0, 0))
+        _add_linked_object(obj, "Lens", mounted_lens_c220tmda, pos_offset=(1.524+3.167+5, 0, 0))
+        _add_linked_object(obj, 'surface_adapter', surface_adapter_fiberport_lip, pos_offset=(-9.7, 0, -14.7),rot_offset=(0, 0, 180), **adapter_args)
         _add_linked_object(obj, 'SAFL extra', SAFL_extra, pos_offset=(0,0,0),rot_offset=(0, 0, 0), **adapter_args)
 
 class fiberport_mount_km05T_rotated_90:
@@ -2212,10 +2249,6 @@ class fiberport_mount_km05T_rotated_90:
         _add_linked_object(obj, "Lens Adapter", lens_adapter_s05tm09, pos_offset=(1.524+5, 0, 0))
         _add_linked_object(obj, "Lens", mounted_lens_c220tmda, pos_offset=(1.524+3.167+5, 0, 0))
         _add_linked_object(obj, 'surface_adapter', surface_adapter_rotated_90, pos_offset=(-9.7, 0, -14.7),rot_offset=(0, 0, 0), **adapter_args)
-
-
-
-
 
 class splitter_mount_b1g:
     '''
@@ -3803,7 +3836,7 @@ class surface_adapter_fiberport_lip:
         center_thread_depth (float) : The depth of the threaded portion in the center hole
     '''
     type = 'Mesh::FeaturePython'
-    def __init__(self, obj, drill=True, mount_hole_dy=36, adapter_height=8, outer_thickness=2, center_thread_depth=3):
+    def __init__(self, obj, drill=True, mount_hole_dy=36, adapter_height=20, outer_thickness=2, center_thread_depth=3):
         obj.Proxy = self
         ViewProvider(obj.ViewObject)
 
@@ -3819,7 +3852,7 @@ class surface_adapter_fiberport_lip:
         self.drill_tolerance = 1
 
     def execute(self, obj):
-        mesh = _import_stl("Surface_Adapter_fiberport_lip.stl", (0, 0, 0), ([0, 0, 0]))
+        mesh = _import_stl("2nd_adapter_oldoptics.stl", (0, 0, 0), ([0, 0, 0]))
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
@@ -3867,7 +3900,7 @@ class SAFL_extra:
         self.drill_tolerance = 1
 
     def execute(self, obj):
-        mesh = _import_stl("fiberport_to_board_adapter.stl", (90, 0, 90), (-9.7, 0, -14.7-8.5))
+        mesh = _import_stl("fiberport_to_board_adapter.stl", (90, 0, 90), (-9.7, 0, -14.7-8.5-12))
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
@@ -4242,8 +4275,8 @@ class Mounted_stage_f200:
         part = _bounding_box(obj, 2.5, 0.25 * layout.inch)
 
         for i in [-1, 1]:
-            part = part.fuse(_custom_cylinder(dia=bolt_M6['tap_dia'], dz=drill_depth,
-                                              x=-10.3+2.4 + (i * 12.5), y=0, z=0))
+            part = part.fuse(_custom_cylinder(dia=bolt_M6['tap_dia'], dz=drill_depth*10,
+                                              x=-12.3+3.23 + (i * 12.5), y=0, z=0))
 
         part.Placement = obj.Placement
         obj.DrillPart = part
@@ -4489,6 +4522,81 @@ class mirror_mount_FMP05:
         mesh = _import_stl("FMP05.stl", (90, 0, 90), (3.1, 0, 0))
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
+
+# 2 inch PBS already mounted:
+
+class PBS_2in_mounted:
+    '''
+    Adapter for AOMs on KM100PM Mount
+    '''
+    type = 'Mesh::FeaturePython'
+    def __init__(self, obj, drill=True):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = adapter_color
+        self.part_numbers = ['Mounted PBS 2 inch']
+        self.transmission = True
+        self.max_angle = 10
+        self.max_width = 5
+
+    def execute(self, obj):
+        mesh = _import_stl("pbs_2in_mounted.stl", (0, 0, 0), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        part = _bounding_box(obj, 1.5, 0.25*layout.inch)
+
+        part = _bounding_box(obj, 1.0, 0.25*layout.inch)
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x=-12.4, y=i*(39) , z=0))
+
+        part.Placement = obj.Placement
+        obj.DrillPart = part
+
+
+# 2 inch waveplate:
+
+class waveplate_2in:
+    '''
+    Adapter for AOMs on KM100PM Mount
+    '''
+    type = 'Mesh::FeaturePython'
+    def __init__(self, obj, drill=True):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = adapter_color
+        self.part_numbers = ['Mounted 2 inch waveplate']
+        self.transmission = True
+        self.max_angle = 10
+        self.max_width = 5
+
+    def execute(self, obj):
+        mesh = _import_stl("rotated_waveplate_indexrotstage.stl", (0, 0, 0), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        part = _bounding_box(obj, 1.5, 0.25*layout.inch)
+
+        part = _bounding_box(obj, 1.0, 0.25*layout.inch)
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x=0, y=i * 50.0, z=0))
+
+        part.Placement = obj.Placement
+        obj.DrillPart = part
+
+
 
 class adapter_FMP05:
     '''
