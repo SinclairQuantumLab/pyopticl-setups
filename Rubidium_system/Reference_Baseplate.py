@@ -58,7 +58,7 @@ def example_baseplate(x=0, y=0, angle=0):
     # add splitter component along beam
     baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, ref_beam,
                                        beam_index=0b1, x=10.75*layout.inch, angle=layout.cardinal['right'],
-                                       mount_type=optomech.skate_mount)
+                                       mount_type=optomech.cube_mount_halfinch)
 
 
     # add waveplate along the beam, 1/2" before the PBS , mounted in a rotation stage
@@ -69,7 +69,7 @@ def example_baseplate(x=0, y=0, angle=0):
     # add splitter component along beam
     baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, ref_beam,
                                        beam_index=0b10, x=14.05*layout.inch, angle=layout.cardinal['right'],
-                                       mount_type=optomech.skate_mount)
+                                       mount_type=optomech.cube_mount_halfinch)
 
     # add waveplate along the beam, 1/2" before the PBS , mounted in a rotation stage
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, ref_beam,
@@ -79,7 +79,7 @@ def example_baseplate(x=0, y=0, angle=0):
     # add splitter component along beam
     baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, ref_beam,
                                        beam_index=0b100, x=17.3*layout.inch, angle=layout.cardinal['right'],
-                                       mount_type=optomech.skate_mount)
+                                       mount_type=optomech.cube_mount_halfinch)
 
     # add mirror along the MOT beam, mounted in a m05 mount
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, ref_beam,

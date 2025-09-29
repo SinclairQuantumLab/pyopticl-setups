@@ -26,7 +26,7 @@ def Split_baseplate(x=0, y=0, angle=0):
 
     baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, beam,
                                        beam_index=0b1, distance=1*layout.inch, angle=layout.cardinal['down'],
-                                       mount_type=optomech.skate_mount, invert=True)
+                                       mount_type=optomech.cube_mount_halfinch, invert=True)
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
                                        beam_index=0b10, distance=1.2*layout.inch, angle=layout.turn['up-right'],
