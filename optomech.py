@@ -1018,6 +1018,43 @@ class BSH01_cube_mount:
         # obj.DrillPart = part
         obj.Mesh = mesh
 
+# ==== 1/2" PBS Cube Mount (uses cube_mount_halfinch.stl) ====
+class cube_mount_halfinch:
+    """
+    Cube mount for 1/2\" (12.7 mm) PBS.
+    - Loads 'cube_mount_halfinch.stl' (modified to widened pocket & moved holes)
+    - Keeps a DrillPart for baseplate hole generation, like other mounts.
+    """
+    type = 'Mesh::FeaturePython'
+    def __init__(self, obj, drill=True, bolt_length=15):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        # Properties similar to other mounts in optomech
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('App::PropertyLength', 'BoltLength').BoltLength = bolt_length
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = adapter_color  # keep house style color
+        # Part number list is optional; add lab-internal code if you have one
+        self.part_numbers = ['CUBE-MOUNT-1/2IN']
+
+    def execute(self, obj):
+        # Import your new STEP/STL (filename is case-sensitive on some systems)
+        # NOTE: If you exported STEP instead, you can still point _import_stl to it
+        # (PyOpticL helper usually supports either mesh or converts; if not, use STL).
+        mesh = _import_stl("Cube_Mount_Halfinch.stl", (0, 0, 0), (0, 0, 0))
+        # preserve placement set by caller
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        # Provide a drilling proxy shape like other mounts do
+        # Height=2 (mm) and offset use the same pattern used elsewhere
+        part = _bounding_box(obj, 2, 0.125*layout.inch)
+        part.Placement = obj.Placement
+        obj.DrillPart = part
+
+
 class rotation_stage_rsp05_lying_down:
     '''
     Rotation stage, model RSP05
