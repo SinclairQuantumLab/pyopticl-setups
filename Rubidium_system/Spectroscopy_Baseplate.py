@@ -38,7 +38,7 @@ def example_baseplate(x=0, y=0, angle=0):
                                        mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))
 
-    baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
+    baseplate.place_element_along_beam("1/4 Waveplate", optomech.waveplate, beam,
                                        beam_index=0b10, distance=3*layout.inch, angle=layout.cardinal['right'],
                                        mount_type=optomech.rotation_stage_rsp05)
     
