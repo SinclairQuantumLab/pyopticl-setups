@@ -5428,7 +5428,7 @@ class thumbscrew_hkts_5_64:
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
-        part = _bounding_box(obj, 0, 0.125*layout.inch, z_tol=True, min_offset=(-6, 0, 0), max_offset=(-6, 0, 0))
+        part = _bounding_box(obj, 3, 0.125*layout.inch, z_tol=True, min_offset=(-6, 0, 0), max_offset=(-6, 0, 0))
         part.Placement = obj.Placement
         obj.DrillPart = part
 
