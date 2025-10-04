@@ -3553,7 +3553,7 @@ class surface_adapter_aom:
         part = _bounding_box(obj, self.drill_tolerance, 0.125*layout.inch)
         for i in [-1, 1]:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                              x=0, y=i*obj.MountHoleDistance.Value/2, z=0))
+                                              x=0, y=i*65/2, z=0))
 
         part.Placement = obj.Placement
         obj.DrillPart = part
@@ -3861,9 +3861,9 @@ class surface_adapter_fiberport_lip:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
                                               x=0, y=i*obj.MountHoleDistance.Value/2, z=0))
 
-        for i in [1, 2, 3]:
+        for i in [1, 2]:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                              x = 16 + i * 10, y=0, z=14.7))
+                                              x = 33 + i * 10, y=0, z=14.7))
 
         for i in [-1, 1]:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
@@ -4656,7 +4656,7 @@ class shutter_adapter:
         for i in [-1, 1]:
             for j in [-1, 1]:
                 part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                                  x=j * 35, y=i * 12, z=0))
+                                                  x=j * 22.86, y=i * 17, z=0))
         part.Placement = obj.Placement
         obj.DrillPart = part
 
@@ -5428,7 +5428,7 @@ class thumbscrew_hkts_5_64:
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
-        part = _bounding_box(obj, 3, 0.125*layout.inch, z_tol=True, min_offset=(-6, 0, 0), max_offset=(-6, 0, 0))
+        part = _bounding_box(obj, 2.75, 0.125*layout.inch, z_tol=True, min_offset=(-6, 0, 0), max_offset=(-6, 0, 0))
         part.Placement = obj.Placement
         obj.DrillPart = part
 

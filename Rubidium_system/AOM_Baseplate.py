@@ -20,7 +20,7 @@ def AOM_baseplate(x=0, y=0, angle=0):
                                        mount_type=optomech.skate_mount, invert=True)
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
-                                       beam_index=0b10, distance=1.25*layout.inch, angle=layout.turn['up-right'],
+                                       beam_index=0b10, distance=1.75*layout.inch, angle=layout.turn['up-right'],
                                        mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))
 
