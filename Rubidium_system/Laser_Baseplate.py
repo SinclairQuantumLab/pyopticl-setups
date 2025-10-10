@@ -22,11 +22,11 @@ def laser_baseplate(x=0, y=0, angle=0):
     # add beam
     beam = baseplate.add_beam_path(x=3*layout.inch, y=input_y, angle=layout.cardinal['right'])
 
-    baseplate.place_element("DFB", optomech.Koheron_DFB_Laser, x=3.125*layout.inch, y=input_y, angle=0)
+    baseplate.place_element("DFB", optomech.Koheron_DFB_Laser_u, x=3.75*layout.inch, y=input_y, angle=0)
 
     # add waveplate along the transmitted beam, 1" after the DFB laser, mounted in a rotation stage
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
-                                       beam_index=0b1, distance=1.25*layout.inch, angle=layout.cardinal['right'],
+                                       beam_index=0b1, distance=1.875*layout.inch, angle=layout.cardinal['right'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
     #Adding the isolator to make sure there is no unwanted beam going back as feedback
@@ -34,7 +34,7 @@ def laser_baseplate(x=0, y=0, angle=0):
                                        beam_index=0b1, distance=1.5*layout.inch, angle=layout.cardinal['left'])
     
     baseplate.place_element_along_beam("Optical_Isolator", optomech.isolator_780, beam,
-                                       beam_index=0b1, distance=2*layout.inch, angle=layout.cardinal['left'])
+                                       beam_index=0b1, distance=1.75*layout.inch, angle=layout.cardinal['left'])
 
     baseplate.place_element_along_beam("1/4 Waveplate", optomech.waveplate, beam,
                                        beam_index=0b1, distance=1.5*layout.inch, angle=layout.cardinal['right'],
@@ -59,7 +59,7 @@ def laser_baseplate(x=0, y=0, angle=0):
 
     # add waveplate along the reflected beam, mounted in a rotation stage
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
-                                       beam_index=0b11, distance=1.75*layout.inch, angle=layout.cardinal['left'],
+                                       beam_index=0b11, distance=1*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
     
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
@@ -72,7 +72,7 @@ def laser_baseplate(x=0, y=0, angle=0):
     #                                   mount_args=dict(thumbscrews=True))
 
     baseplate.place_element_along_beam("Beat Output Fiberport", optomech.fiberport_mount_KA05TB, beam,
-                                       beam_index=0b11, distance=2.5*layout.inch, angle=layout.cardinal['right'],
+                                       beam_index=0b11, distance=3.5*layout.inch, angle=layout.cardinal['right'],
                                        mount_args=dict(thumbscrews=True))
 
     # add mirror along the transmitted beam, mounted in a m05 mount
@@ -88,7 +88,7 @@ def laser_baseplate(x=0, y=0, angle=0):
 
     # add waveplate along the transmitted beam, mounted in a rotation stage
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
-                                       beam_index=0b10, distance=1.75*layout.inch, angle=layout.cardinal['left'],
+                                       beam_index=0b10, distance=1.9*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
     
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
@@ -101,7 +101,7 @@ def laser_baseplate(x=0, y=0, angle=0):
     #                                   mount_args=dict(thumbscrews=True))
 
     baseplate.place_element_along_beam("MOT Output Fiberport", optomech.fiberport_mount_KA05TB, beam,
-                                       beam_index=0b10, distance=2.5*layout.inch, angle=layout.cardinal['right'],
+                                       beam_index=0b10, distance=3.5*layout.inch, angle=layout.cardinal['right'],
                                        mount_args=dict(thumbscrews=True))
 
 # this allows the file to be run as a macro or imported into other files

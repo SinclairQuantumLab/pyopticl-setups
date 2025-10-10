@@ -1022,35 +1022,57 @@ class BSH01_cube_mount:
 class cube_mount_halfinch:
     """
     Cube mount for 1/2\" (12.7 mm) PBS.
-    - Loads 'cube_mount_halfinch.stl' (modified to widened pocket & moved holes)
-    - Keeps a DrillPart for baseplate hole generation, like other mounts.
     """
     type = 'Mesh::FeaturePython'
     def __init__(self, obj, drill=True, bolt_length=15):
         obj.Proxy = self
         ViewProvider(obj.ViewObject)
 
-        # Properties similar to other mounts in optomech
         obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
         obj.addProperty('App::PropertyLength', 'BoltLength').BoltLength = bolt_length
         obj.addProperty('Part::PropertyPartShape', 'DrillPart')
 
-        obj.ViewObject.ShapeColor = adapter_color  # keep house style color
-        # Part number list is optional; add lab-internal code if you have one
+        obj.ViewObject.ShapeColor = adapter_color  
         self.part_numbers = ['CUBE-MOUNT-1/2IN']
 
     def execute(self, obj):
-        # Import your new STEP/STL (filename is case-sensitive on some systems)
-        # NOTE: If you exported STEP instead, you can still point _import_stl to it
-        # (PyOpticL helper usually supports either mesh or converts; if not, use STL).
         mesh = _import_stl("Cube_Mount_Halfinch.stl", (0, 0, 0), (0, 0, 0))
-        # preserve placement set by caller
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
-        # Provide a drilling proxy shape like other mounts do
-        # Height=2 (mm) and offset use the same pattern used elsewhere
         part = _bounding_box(obj, 2, 0.125*layout.inch)
+        part.Placement = obj.Placement
+        obj.DrillPart = part
+
+class Laser_board_adapter:
+    """
+    Adapter for Koheron and TA
+    """
+    type = 'Mesh::FeaturePython'
+
+    def __init__(self, obj, drill=True, bolt_length=15):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('App::PropertyLength', 'BoltLength').BoltLength = bolt_length
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = adapter_color
+        self.part_numbers = ['Laser_board_adapter']
+
+    def execute(self, obj):
+        mesh = _import_stl("Laser_board_adapter.stl", (0, 0, 0), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        part = _bounding_box(obj, 2, 0.125*layout.inch)
+
+        part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth, x=5,   y= 37.5,  z=0))
+        part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth, x=5,   y=-37.5, z=0))
+        part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth, x=-70, y=-37.5, z=0))
+        part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth, x=-70, y= 37.5,  z=0))
+
         part.Placement = obj.Placement
         obj.DrillPart = part
 
@@ -5084,6 +5106,8 @@ class Laser_adapter:
         obj.DrillPart = part
 
 
+
+
 class Koheron_Controller:
     '''
     Koheron Current + TEC Controller
@@ -5101,7 +5125,7 @@ class Koheron_Controller:
         obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
         obj.addProperty('Part::PropertyPartShape', 'DrillPart')
 
-        obj.ViewObject.ShapeColor = adapter_color
+        obj.ViewObject.ShapeColor = mount_color
         self.part_numbers = ['koheron-CTL200-V5']
 
 
@@ -5166,8 +5190,25 @@ class Koheron_DFB_Laser:
 
         _add_linked_object(obj, "DFB Laser Diode", DFB_butterfly_diode, pos_offset=(0, 0, 0), **mount_args)
         _add_linked_object(obj, "Koheron Controller", Koheron_Controller, pos_offset=(0, 0, 0))
-        _add_linked_object(obj, "Laser Adapter", Laser_adapter, pos_offset=(2.5, 0, 5.5))
+        _add_linked_object(obj, "Laser adapter", Laser_adapter, pos_offset=(2.5, 0, 5.5))
 
+
+class Koheron_DFB_Laser_u:
+    '''
+    Koheron_DFB_Laser with Laser_board_adapter.stl
+    '''
+    type = 'Part::FeaturePython'
+    def __init__(self, obj, drill=True, mount_args=dict()):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+
+        obj.ViewObject.ShapeColor = misc_color
+
+        _add_linked_object(obj, "DFB Laser Diode", DFB_butterfly_diode, pos_offset=(0, 0, 0), **mount_args)
+        _add_linked_object(obj, "Koheron Controller", Koheron_Controller, pos_offset=(0, 0, 0))
+        _add_linked_object(obj, "Laser board adapter", Laser_board_adapter, pos_offset=(2.5, 0, 5.5))
 
 
 class Room_temp_chamber:
@@ -5887,9 +5928,10 @@ class TA_butterfly:
         obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
         obj.addProperty('Part::PropertyPartShape', 'DrillPart')
 
-        obj.ViewObject.ShapeColor = adapter_color
+        obj.ViewObject.ShapeColor = mount_color
         self.part_numbers = ['TAboard']
 
+        _add_linked_object(obj, "Laser board adapter", Laser_board_adapter, pos_offset=(10.2, 0, 5.5))
 
     def execute(self, obj):
         mesh = _import_stl("TAboard.stl", (90, 0, 0), (0, 0, 0))
@@ -5897,32 +5939,18 @@ class TA_butterfly:
         obj.Mesh = mesh
 
         part = _custom_cylinder(dia=bolt_M2_5['tap_dia'], dz=drill_depth,
-                        y=15.625, x=-36.8, z=-13)
+                        y=15.875, x=-37.2, z=-13)
 
         part = part.fuse(_custom_cylinder(dia=bolt_M2_5['tap_dia'], dz=drill_depth,
-                               y=-15.625, x=-36.8, z=-13))
+                               y=-15.875, x=-37.2, z=-13))
         # Additional holes (fused)
         part = part.fuse(_custom_cylinder(dia=bolt_M2_5['tap_dia'], dz=drill_depth,
-                               x=13.2, y=15.625, z=-13))
+                               x=13.6, y=15.875, z=-13))
 
 
         part = part.fuse(_custom_cylinder(dia=bolt_M2_5['tap_dia'], dz=drill_depth,
-                        x=13.2, y=-15.625, z=-13))
+                        x=13.6, y=-15.875, z=-13))
  
-
-        # --- Baseplate cutout ---
-        # Recessed region beneath controller (like KM05)
-        # --- Baseplate cutout ---
-        cutout = _bounding_box(obj, 2, 3,
-                               min_offset=(0, 0, 0),
-                               max_offset=(0,  0,  0.0))
-
-
-        # # Apply fillet to the cutout before fusing
-        cutout = _fillet_all(cutout, 1)
-        part = part.fuse(cutout)
-
-
         part.Placement = obj.Placement
         obj.DrillPart = part
 
