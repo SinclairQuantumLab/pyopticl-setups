@@ -4032,11 +4032,11 @@ class AOMO_3100_125:
         self.max_width = 5
         
         _add_linked_object(obj, "Mount KM100PM", prism_mount_km100pm,
-                           pos_offset=(-17.6, -16.4, -24.5), **mount_args)
+                           pos_offset=(-30.3, -16.4, -24.5), **mount_args)
         _add_linked_object(obj, "AOM Adapter", aom_adapter,
-                           pos_offset=(-4.3, -7.65, -17.1), rot_offset=(0, 0, -90))
+                           pos_offset=(-17, -7.65, -17.1), rot_offset=(0, 0, -90))
         _add_linked_object(obj, "Surface Adapter", surface_adapter_aom,
-                           pos_offset=(-31.7, -3.65, -30), **surface_adapter_args)
+                           pos_offset=(-44.4, -3.65, -30), **surface_adapter_args)
 
     def execute(self, obj):
         mesh = _import_stl("aomo_3100-125.stl", (0, 0, -90), (0, -7.65, -7.1))
@@ -4070,7 +4070,7 @@ class aom_adapter:
         self.max_width = 5
 
     def execute(self, obj):
-        mesh = _import_stl("aom_Adapter.stl", (0, 0, 0), (0, 0, 0))
+        mesh = _import_stl("aom_adapter.stl", (0, 0, 0), (0, 0, 0))
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
