@@ -32,9 +32,9 @@ def example_baseplate(x=0, y=0, angle=0):
     spare_beam = baseplate.add_beam_path(x=7.5*layout.inch, y=input_y-5.5*layout.inch, angle=layout.cardinal['right'])
 
 
-    baseplate.place_element("DFB", optomech.Koheron_DFB_Laser, x=3.125*layout.inch, y=input_y, angle=0)
+    baseplate.place_element("DFB", optomech.Koheron_IPS_Laser, x=3.125*layout.inch, y=input_y, angle=0)
 
-    # add waveplate along the transmitted beam, 1" after the DFB laser, mounted in a rotation stage
+    # add waveplate along the transmitted beam, 1" after the IPS laser, mounted in a rotation stage
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, ref_beam,
                                        beam_index=0b1, distance=1.25*layout.inch, angle=layout.cardinal['right'],
                                        mount_type=optomech.rotation_stage_rsp05)
