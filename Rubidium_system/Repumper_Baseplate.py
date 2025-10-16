@@ -43,11 +43,11 @@ def Split_baseplate(x=0, y=0, angle=0):
                                        mount_type=optomech.rotation_stage_rsp05)
     
     baseplate.place_element_along_beam("Lens f150mm AB coat", optomech.circular_lens, beam,
-                                         beam_index=0b11, distance=0.5*layout.inch, angle=layout.cardinal['left'],
+                                         beam_index=0b11, distance=0.75*layout.inch, angle=layout.cardinal['left'],
                                          focal_length=125, part_number='LA4004-AB', mount_type=optomech.lens_holder_l05g)
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
-                                       beam_index=0b11, distance=3*layout.inch, angle=layout.turn['up-left'],
+                                       beam_index=0b11, distance=3.2*layout.inch, angle=layout.turn['up-left'],
                                        mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))
     
@@ -57,7 +57,7 @@ def Split_baseplate(x=0, y=0, angle=0):
                                        mount_args=dict(thumbscrews=True))
 
     aom = baseplate.place_element_along_beam("AOM", optomech.AOMO_3100_125, beam,
-                                       beam_index=0b11, distance=150-4.6*layout.inch, angle=layout.cardinal['left'],
+                                       beam_index=0b11, distance=150-4.8*layout.inch, angle=layout.cardinal['left'],
                                        forward_direction=-1, backward_direction=1, diffraction_angle = 0)
     
     baseplate.place_element_along_beam("Lens f150mm AB coat", optomech.circular_lens, beam,

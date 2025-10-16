@@ -10,7 +10,7 @@ base_dz = layout.inch
 gap = layout.inch/8
 
 # x-y coordinates of mount holes (in inches) (x,y)
-mount_holes = [(1, 1), (1, 12), (17, 0), (19, 13), (19,2), (11, 12)]
+mount_holes = [(1, 1), (1, 12), (16, 0), (14, 13), (19,2)]
 
 # y coordinate of beam input
 input_y = 7*layout.inch

@@ -35,11 +35,11 @@ def example_baseplate(x=0, y=0, angle=0):
                                        mount_type=optomech.cube_mount_halfinch)
     
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
-                                       beam_index=0b10, distance=2*layout.inch, angle=layout.turn['down-right'],
+                                       beam_index=0b10, distance=2.15*layout.inch, angle=layout.turn['down-right'],
                                        mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))
 
-    baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
+    baseplate.place_element_along_beam("1/4 Waveplate", optomech.waveplate, beam,
                                        beam_index=0b10, distance=3*layout.inch, angle=layout.cardinal['right'],
                                        mount_type=optomech.rotation_stage_rsp05)
     
@@ -48,7 +48,7 @@ def example_baseplate(x=0, y=0, angle=0):
                                        mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))
     
-    baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, beam, beam_index=0b10, distance=2*layout.inch, angle=layout.cardinal['right'], mount_type=optomech.cube_mount_halfinch, invert=True)
+    baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, beam, beam_index=0b10, distance=2.15*layout.inch, angle=layout.cardinal['right'], mount_type=optomech.skate_mount, invert=True)
 
     baseplate.place_element_along_beam("Vapor Cell", optomech.Vapor_Ref_Cell, beam, beam_index=0b11, distance=3.25*layout.inch, angle=layout.cardinal['right'])
 
@@ -59,9 +59,8 @@ def example_baseplate(x=0, y=0, angle=0):
     baseplate.place_element("Mirror", optomech.circular_mirror, x=11*layout.inch, y=5.75*layout.inch, angle=layout.turn['up-right'],
                             mount_type=optomech.mirror_mount_M05, mount_args=dict(thumbscrews=True))
     
-    # baseplate.place_element("Output Fiberport", optomech.fiberport_mount_km05T, x=11.5*layout.inch, y=5.5*layout.inch, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=True))
-
-    baseplate.place_element("PD", optomech.photodetector_pdb250a, x=12*layout.inch, y=4.75*layout.inch, angle=layout.cardinal['left'])
+    # For the photodiode, we can choose different models in optomech.py like optomech.photodetector_pdb250a or optomech.photodetector_pdb210a.
+    baseplate.place_element("PD", optomech.photodetector_pdb210a, x=12*layout.inch, y=4.75*layout.inch, angle=layout.cardinal['left'])
 
     
 if __name__ == "__main__":
