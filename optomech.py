@@ -2964,7 +2964,7 @@ class prism_mount_km100pm:
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
-        part = _bounding_box(obj, 1, 0.125*layout.inch, max_offset=(-18, -38, 0), z_tol=True)
+        part = _bounding_box(obj, 6, 0.125*layout.inch, max_offset=(-18, -38, 0), z_tol=True)
         part = part.fuse(_bounding_box(obj, 3, 0.125*layout.inch, min_offset=(17, 0, 0.63)))    
         # part = part.fuse(_bounding_box(obj, 3, 4, max_offset=(-18, -38, 0), z_tol=True))
         part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
