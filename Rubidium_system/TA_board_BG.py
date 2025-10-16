@@ -57,7 +57,7 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     # Adding beam splitter to divide the beam to : to saty on the baseplate and to to send to the next baseplate
     baseplate.place_element_along_beam("Beam Splitter", optomech.cube_splitter, beam,
                                        beam_index=0b1, distance=28, angle=layout.cardinal['up'],
-                                       mount_type=optomech.skate_mount)
+                                       mount_type=optomech.cube_mount_halfinch)
         # add waveplate along the beam, 1/2" after the PBS , mounted in a rotation stage
     baseplate.place_element_along_beam("Rotation Stage", optomech.waveplate, beam,
                                        beam_index=0b11, distance=1*layout.inch, angle=layout.cardinal['up'],
@@ -84,8 +84,11 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
                                 beam_index=0b111, distance=.75*layout.inch, angle=layout.cardinal['right'],
                                 mount_type=optomech.rotation_stage_rsp05)
 
-    # add output fiberport along the transmitted beam
-    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
+    # add output fiberport along the transmitted beam (replace km05T by KA05TB)
+    #baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
+    #                                   beam_index=0b111, distance=3*layout.inch, angle=layout.cardinal['right'],
+    #                                   mount_args=dict(thumbscrews=True))    
+    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05TB, beam,
                                        beam_index=0b111, distance=3*layout.inch, angle=layout.cardinal['right'],
                                        mount_args=dict(thumbscrews=True))
 
@@ -100,7 +103,7 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     # Adding beam splitter to divide the beam to : to saty on the baseplate and to to send to the next baseplate
     baseplate.place_element_along_beam("Beam Splitter", optomech.cube_splitter, beam,
                                        beam_index=0b10, distance=30, angle=layout.cardinal['up'],
-                                       mount_type=optomech.skate_mount)
+                                       mount_type=optomech.cube_mount_halfinch)
     
 
         # add waveplate along the beam, 1/2" after the PBS , mounted in a rotation stage
@@ -128,8 +131,12 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     baseplate.place_element_along_beam("cleanup Stage", optomech.waveplate, beam,
                                 beam_index=0b1001, distance=.75*layout.inch, angle=layout.cardinal['down'],
                                 mount_type=optomech.rotation_stage_rsp05)
-    # add output fiberport along the transmitted beam
-    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
+    
+    # add output fiberport along the transmitted beam (replace km05T by KA05TB)
+    #baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
+    #                                   beam_index=0b1001, distance=3*layout.inch, angle=layout.cardinal['down'],
+    #                                   mount_args=dict(thumbscrews=True))
+    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05TB, beam,
                                        beam_index=0b1001, distance=3*layout.inch, angle=layout.cardinal['down'],
                                        mount_args=dict(thumbscrews=True))
     
@@ -160,8 +167,11 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     baseplate.place_element_along_beam("cleanup Stage", optomech.waveplate, beam,
                                 beam_index=0b1011, distance=.75*layout.inch, angle=layout.cardinal['right'],
                                 mount_type=optomech.rotation_stage_rsp05)
-    # add output fiberport along the transmitted beam
-    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
+    # add output fiberport along the transmitted beam (replace km05T by KA05TB)
+    #baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
+    #                                   beam_index=0b1011, distance=3*layout.inch, angle=layout.cardinal['right'],
+    #                                   mount_args=dict(thumbscrews=True))    
+    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05TB, beam,
                                        beam_index=0b1011, distance=3*layout.inch, angle=layout.cardinal['right'],
                                        mount_args=dict(thumbscrews=True))
 
