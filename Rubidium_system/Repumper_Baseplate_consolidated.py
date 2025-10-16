@@ -22,7 +22,7 @@ def example_baseplate(x=0, y=0, angle=0):
     # add beam
     beam = baseplate.add_beam_path(x=3*layout.inch, y=input_y, angle=layout.cardinal['right'])
 
-    baseplate.place_element("DFB", optomech.Koheron_DFB_Laser, x=3.125*layout.inch, y=input_y, angle=0)
+    baseplate.place_element("IPS Laser", optomech.Koheron_IPS_Laser, x=3.125*layout.inch, y=input_y, angle=0)
 
     # add waveplate along the transmitted beam, 1" after the DFB laser, mounted in a rotation stage
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
@@ -62,11 +62,11 @@ def example_baseplate(x=0, y=0, angle=0):
                                        beam_index=0b11, distance=1.25*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
-    # add output fiberport along the second beam (replaced km05T by KA05TB)
+    # add output fiberport along the second beam (replaced km05T by KA05T)
     #baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
     #                                   beam_index=0b11, distance=2.5*layout.inch, angle=layout.cardinal['right'],
     #                                   mount_args=dict(thumbscrews=True))
-    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05TB, beam,
+    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05T, beam,
                                        beam_index=0b11, distance=2.5*layout.inch, angle=layout.cardinal['right'],
                                        mount_args=dict(thumbscrews=True))
 
@@ -117,11 +117,11 @@ def example_baseplate(x=0, y=0, angle=0):
                                        beam_index=0b101, distance=1.5*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
-    # add output fiberport along the transmitted beam (replaced km05T by KA05TB)
+    # add output fiberport along the transmitted beam (replaced km05T by KA05T)
     #baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_km05T, beam,
     #                                   beam_index=0b101, distance=2.5*layout.inch, angle=layout.cardinal['right'],
     #                                   mount_args=dict(thumbscrews=True))    
-    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05TB, beam,
+    baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05T, beam,
                                        beam_index=0b101, distance=2.5*layout.inch, angle=layout.cardinal['right'],
                                        mount_args=dict(thumbscrews=True))
 

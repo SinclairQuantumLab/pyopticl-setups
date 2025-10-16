@@ -1883,8 +1883,8 @@ class mirror_mount_km05T_custom:
         self.part_numbers = ['KM05T-8CB-SP']
 
         if thumbscrews:
-            _add_linked_object(obj, "Upper Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-10.668, 9.906, 9.906))
-            _add_linked_object(obj, "Lower Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-10.668 , -9.906, -9.906))
+            _add_linked_object(obj, "Upper Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-0.673*layout.inch, 0.35*layout.inch, 0.35*layout.inch))
+            _add_linked_object(obj, "Lower Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-0.673*layout.inch, -0.35*layout.inch, -0.35*layout.inch))
 
     def execute(self, obj):
         mesh = _import_stl("KM05T-8CB-SP.stl", (90, 0, 0), (0, 0, 0))
