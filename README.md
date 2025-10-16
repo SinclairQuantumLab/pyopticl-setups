@@ -99,12 +99,10 @@ https://github.com/UMassIonTrappers/PyOpticL/wiki#quickstart-guide
 
 ## Acknowledgments
 
-- Core development by UC Berkeley, Department of Physics — Prof. Sulyemanzade’s group (Lab website: https://suleymanzadelab.com/).
-- Collaboration and valuable input from:
-  - University of Wisconsin-Madison - Prof. Sinclair's research group - https://sinclair.physics.wisc.edu/
-  - Dr. Brandon Grinkemeyer, Harvard University (Postdoctoral Researcher) — https://lukin.physics.harvard.edu/people/brandon-grinkemeyer
-- Built on PyOpticL: a code-to-CAD optical layout tool enabling parametric, modular optics design inside FreeCAD.
-- FreeCAD: Open-source parametric 3D CAD modeler used to render and manipulate the generated assemblies.
+**Developed through a collaborative effort between the Department of Physics at the [University of California, Berkeley](https://suleymanzadelab.com/) (Prof. Sulyemanzade’s group) and the [University of Wisconsin–Madison](https://sinclair.physics.wisc.edu/) (Prof. Sinclair’s research group).**  
+Additional contributions were provided by [Dr. Brandon Grinkemeyer](https://lukin.physics.harvard.edu/people/brandon-grinkemeyer) (Harvard University, Lukin Group).
+
+The project builds on **PyOpticL**, a code-to-CAD optical layout tool enabling parametric and modular optics design within **FreeCAD**, an open-source parametric 3D CAD modeler used to render and manipulate the generated assemblies.
 
 ## Citation
 
