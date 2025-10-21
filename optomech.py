@@ -2325,6 +2325,16 @@ class mirror_mount_KA05T:
         obj.Mesh = mesh
 
         part = _bounding_box(obj, 2, 0.125*layout.inch)
+
+        part = part.fuse(_custom_cylinder(
+            dia=bolt_8_32["tap_dia"],   
+            dz=drill_depth,             
+            x=-0.32264471*layout.inch,  
+            y=0,
+            z=-0.5*layout.inch,
+            dir=(0, 0, -1)              
+        ))
+
         part.Placement = obj.Placement
         obj.DrillPart = part
 
@@ -2337,7 +2347,7 @@ class fiberport_mount_KA05T:
         drill (bool) : Whether baseplate mounting for this part should be drilled
 
     Sub-Parts:
-        mirror_mount_KA05TB (mount_args)
+        mirror_mount_KA05T (mount_args)
         fiber_adapter_sm05fca2
         lens_tube_sm05l05
         lens_adapter_s05tm09
