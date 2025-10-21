@@ -1070,26 +1070,40 @@ class BSH01_cube_mount:
 # ==== 1/2" PBS Cube Mount (uses cube_mount_halfinch.stl) ====
 class cube_mount_halfinch:
     """
-    Cube mount for 1/2\" (12.7 mm) PBS.
+    Cube mount for 1/2" (12.7 mm) PBS.
     """
     type = 'Mesh::FeaturePython'
-    def __init__(self, obj, drill=True, bolt_length=15):
+    def __init__(self, obj, drill=True, bolt_length=15, mount_hole_dy=22.6):
         obj.Proxy = self
         ViewProvider(obj.ViewObject)
 
-        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('App::PropertyBool',   'Drill').Drill = drill
         obj.addProperty('App::PropertyLength', 'BoltLength').BoltLength = bolt_length
+        obj.addProperty('App::PropertyLength', 'MountHoleDistance').MountHoleDistance = mount_hole_dy
         obj.addProperty('Part::PropertyPartShape', 'DrillPart')
 
-        obj.ViewObject.ShapeColor = adapter_color  
+        obj.ViewObject.ShapeColor = adapter_color
+        obj.setEditorMode('Placement', 2)
+        self.drill_tolerance = 1  # matches the approach used elsewhere
         self.part_numbers = ['CUBE-MOUNT-1/2IN']
 
     def execute(self, obj):
+        # 1) place the mesh
         mesh = _import_stl("Cube_Mount_Halfinch.stl", (0, 0, 0), (0, 0, 0))
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
-        part = _bounding_box(obj, 2, 0.125*layout.inch)
+        # 2) create drill geometry (tap holes) in a bounding box
+        part = _bounding_box(obj, self.drill_tolerance, 0.125*layout.inch)
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(
+                dia=bolt_8_32['tap_dia'],  # tap drill (e.g., #29 for 8-32)
+                dz=drill_depth,
+                x=0,
+                y=i * obj.MountHoleDistance.Value/2,
+                z=0
+            ))
+
         part.Placement = obj.Placement
         obj.DrillPart = part
 
