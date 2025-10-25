@@ -1302,13 +1302,13 @@ class mirror_mount_M05:
         part = _custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
                                 x=-0.274*layout.inch, y=0, z=-layout.inch/2)
 
-        # Alignment pin farther from mirror
-        part = part.fuse(_custom_cylinder(dia=1.6, dz=1.6,
-                                          x=-0.454*layout.inch, y=0, z=-layout.inch/2))
+        # # Alignment pin farther from mirror
+        # part = part.fuse(_custom_cylinder(dia=1.6, dz=1.6,
+        #                                   x=-0.454*layout.inch, y=0, z=-layout.inch/2))
 
-        # Alignment pin closer to mirror
-        part = part.fuse(_custom_cylinder(dia=1.6, dz=1.5,
-                                          x=-0.134*layout.inch, y=0, z=-layout.inch/2))
+        # # Alignment pin closer to mirror
+        # part = part.fuse(_custom_cylinder(dia=1.6, dz=1.5,
+        #                                   x=-0.134*layout.inch, y=0, z=-layout.inch/2))
 
         part.Placement = obj.Placement
         obj.DrillPart = part
