@@ -1868,13 +1868,14 @@ class mirror_mount_KA05TB:
         circular_mirror (mirror_args)
     '''
     type = 'Mesh::FeaturePython'
-    def __init__(self, obj, drill=True, thumbscrews=False, bolt_length=15):
+    def __init__(self, obj, drill=True, mount_hole_dy=36, thumbscrews=False, bolt_length=15):
         obj.Proxy = self
         ViewProvider(obj.ViewObject)
 
         obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
         obj.addProperty('App::PropertyBool', 'ThumbScrews').ThumbScrews = thumbscrews
         obj.addProperty('App::PropertyLength', 'BoltLength').BoltLength = bolt_length
+        obj.addProperty('App::PropertyLength', 'MountHoleDistance').MountHoleDistance = mount_hole_dy
         obj.addProperty('Part::PropertyPartShape', 'DrillPart')
 
         obj.ViewObject.ShapeColor = mount_color
@@ -1891,6 +1892,21 @@ class mirror_mount_KA05TB:
         obj.Mesh = mesh
 
         part = _bounding_box(obj, 2, 0.125*layout.inch)
+
+
+        #adding some extra holes for strain relief
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x=-1*layout.inch, y=i*obj.MountHoleDistance.Value/2, z=0))
+
+        # for i in [1, 2]:
+        #     part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+        #                                       x = 33 + i * 10, y=0, z=14.7))
+
+        # for i in [-1, 1]:
+        #     part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+        #                                       x=30, y=i*9.164, z=14.7))
+
         part.Placement = obj.Placement
         obj.DrillPart = part
 
@@ -1927,6 +1943,8 @@ class fiberport_mount_KA05TB:
         _add_linked_object(obj, "Lens Adapter", lens_adapter_s05tm09,     pos_offset=(1.524+5, 0, 0))
         _add_linked_object(obj, "Lens",         mounted_lens_c220tmda,    pos_offset=(1.524+3.167+5, 0, 0))
 
+
+
         """
         # surface adapter (fiberport lip)
         _add_linked_object(
@@ -1948,13 +1966,14 @@ class mirror_mount_KA05T:
         circular_mirror (mirror_args)
     '''
     type = 'Mesh::FeaturePython'
-    def __init__(self, obj, drill=True, thumbscrews=False, bolt_length=15):
+    def __init__(self, obj, drill=True, mount_hole_dy=36, thumbscrews=False, bolt_length=15):
         obj.Proxy = self
         ViewProvider(obj.ViewObject)
 
         obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
         obj.addProperty('App::PropertyBool', 'ThumbScrews').ThumbScrews = thumbscrews
         obj.addProperty('App::PropertyLength', 'BoltLength').BoltLength = bolt_length
+        obj.addProperty('App::PropertyLength', 'MountHoleDistance').MountHoleDistance = mount_hole_dy
         obj.addProperty('Part::PropertyPartShape', 'DrillPart')
 
         obj.ViewObject.ShapeColor = mount_color
@@ -1974,6 +1993,20 @@ class mirror_mount_KA05T:
         obj.Mesh = mesh
 
         part = _bounding_box(obj, 2, 0.125*layout.inch)
+
+                #adding some extra holes for strain relief
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x=-2.5*layout.inch, y=i*obj.MountHoleDistance.Value/2, z=0))
+
+        for i in [-1, 0, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x = -2.5*layout.inch + i * 10, y=0, z=14.7))
+
+        # for i in [-1, 1]:
+        #     part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+        #                                       x=30, y=i*9.164, z=14.7))
+
         part.Placement = obj.Placement
         obj.DrillPart = part
 
@@ -4288,8 +4321,8 @@ class AOMO_3100_125:
                            pos_offset=(-30.3, -16.4, -24.5), **mount_args)
         _add_linked_object(obj, "AOM Adapter", aom_adapter,
                            pos_offset=(-17, -7.65, -17.1), rot_offset=(0, 0, -90))
-        _add_linked_object(obj, "Surface Adapter", surface_adapter_aom,
-                           pos_offset=(-44.4, -3.65, -30), **surface_adapter_args)
+        # _add_linked_object(obj, "Surface Adapter", surface_adapter_aom,
+        #                    pos_offset=(-44.4, -3.65, -30), **surface_adapter_args)
 
     def execute(self, obj):
         mesh = _import_stl("aomo_3100-125.stl", (0, 0, -90), (0, -7.65, -7.1))
