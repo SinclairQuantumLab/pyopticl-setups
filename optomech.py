@@ -2006,7 +2006,14 @@ class mirror_mount_KA05T:
         # for i in [-1, 1]:
         #     part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
         #                                       x=30, y=i*9.164, z=14.7))
-
+        part = part.fuse(_custom_cylinder(
+            dia=bolt_8_32["tap_dia"],   
+            dz=drill_depth,             
+            x=-0.32264471*layout.inch,  
+            y=0,
+            z=-0.5*layout.inch,
+            dir=(0, 0, -1)              
+        ))
         part.Placement = obj.Placement
         obj.DrillPart = part
 
