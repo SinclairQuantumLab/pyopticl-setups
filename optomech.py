@@ -5026,7 +5026,7 @@ class isolator_850:
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
-        part = _custom_box(dx=80, dy=25, dz=5,
+        part = _custom_box(dx=108, dy=35, dz=5,
                            x=0, y= 0, z=-layout.inch/2,
                            fillet=0.125*layout.inch, dir=(0, 0, -1))
         part.Placement = obj.Placement
@@ -6189,7 +6189,7 @@ class Koheron_IPS_Laser:
 
         _add_linked_object(obj, "IPS Laser Diode", IPS_butterfly_diode, pos_offset=(0, 0, 0), **mount_args)
         _add_linked_object(obj, "Koheron Controller", Koheron_Controller, pos_offset=(0, 0, 0))
-        _add_linked_object(obj, "Koheron adapter", IPS_adapter, pos_offset=(0, 0, 0))
+        _add_linked_object(obj, "IPS adapter", IPS_adapter, pos_offset=(0, 0, 0))
 
 
 class Koheron_IPS_Laser_u:
