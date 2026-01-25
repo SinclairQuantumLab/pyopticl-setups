@@ -1,7 +1,7 @@
 from PyOpticL import layout, optomech
 
 # baseplate constants
-base_dx = 19.5*layout.inch
+base_dx = 20*layout.inch
 base_dy = 11.25*layout.inch
 base_dz = layout.inch
 gap = layout.inch/8
@@ -38,12 +38,12 @@ def example_baseplate(x=0, y=0, angle=0):
                                        mount_type=optomech.rotation_stage_rsp05)
 
     #Adding the isolator to make sure there is no unwanted beam going back as feedback
-    baseplate.place_element_along_beam("Optical_Isolator", optomech.isolator_850, beam,
-                                       beam_index=0b1, distance=2.8*layout.inch, angle=layout.cardinal['left'])
+    baseplate.place_element_along_beam("Optical_Isolator", optomech.isolator_780_mp, beam,
+                                       beam_index=0b1, distance=3*layout.inch, angle=layout.cardinal['left'])
 
 
     baseplate.place_element_along_beam("1/4 Waveplate", optomech.waveplate, beam,
-                                       beam_index=0b1, distance=2.8*layout.inch, angle=layout.cardinal['right'],
+                                       beam_index=0b1, distance=3*layout.inch, angle=layout.cardinal['right'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
     # add waveplate along the beam, 1/2" before the PBS , mounted in a rotation stage
@@ -106,7 +106,7 @@ def example_baseplate(x=0, y=0, angle=0):
     # Lens 2
     # add mirror along the transmitted beam, mounted in a m05 mount
     lens = baseplate.place_element_along_beam("Lens f212mm B coat", optomech.circular_lens, beam,
-                                         beam_index=0b101, distance=150-3*layout.inch, angle=layout.cardinal['right'] + aom.DiffractionAngle.Value,
+                                         beam_index=0b101, distance=150-3*layout.inch, angle=layout.cardinal['left'] + aom.DiffractionAngle.Value,
                                          focal_length=150, part_number='AC127-075-B', mount_type=optomech.lens_holder_l05g)    
     
     baseplate.place_element_along_beam("SRS SR475 Shutter", optomech.shutter_sr475, beam,

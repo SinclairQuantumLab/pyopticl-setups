@@ -5071,6 +5071,45 @@ class isolator_780:
         part.Placement = obj.Placement
         obj.DrillPart = part
 
+class isolator_780_mp:
+    '''
+    Isolator Optimized for 780nm, Model IOT-5-780-MP
+
+    Args:
+        drill (bool) : Whether baseplate mounting for this part should be drilled
+
+    Sub-Parts:
+        surface_adapter (adapter_args)
+    '''
+    type = 'Mesh::FeaturePython'
+    def __init__(self, obj, drill=True, adapter_args=dict()):
+        adapter_args.setdefault("mount_hole_dy", 45)
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = misc_color
+        self.part_numbers = ['IOT-5-670-VLP']
+        self.transmission = True
+        self.max_angle = 10
+        self.max_width = 5
+
+        _add_linked_object(obj, "Surface Adapter", surface_adapter_isolator_lip,
+                           pos_offset=(0, 0, -22.1), **adapter_args)
+
+    def execute(self, obj):
+        mesh = _import_stl("IOT-5-780-MP.stl", (90, 0, -90), (-46.482, -0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        part = _custom_box(dx=120, dy=35, dz=5,
+                           x=0, y= 0, z=-layout.inch/2,
+                           fillet=0.125*layout.inch, dir=(0, 0, -1))
+        part.Placement = obj.Placement
+        obj.DrillPart = part
+
 class isolator_405:
     '''
     Isolator Optimized for 405nm, Model IO-3D-405-PBS
