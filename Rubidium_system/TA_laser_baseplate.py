@@ -39,16 +39,16 @@ def example_baseplate(x=0, y=0, angle=0):
 
     #Adding the isolator to make sure there is no unwanted beam going back as feedback
     baseplate.place_element_along_beam("Optical_Isolator", optomech.isolator_780_mp, beam,
-                                       beam_index=0b1, distance=3*layout.inch, angle=layout.cardinal['left'])
+                                       beam_index=0b1, distance=2.95*layout.inch, angle=layout.cardinal['left'])
 
 
     baseplate.place_element_along_beam("1/4 Waveplate", optomech.waveplate, beam,
-                                       beam_index=0b1, distance=3*layout.inch, angle=layout.cardinal['right'],
+                                       beam_index=0b1, distance=2.9*layout.inch, angle=layout.cardinal['right'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
     # add waveplate along the beam, 1/2" before the PBS , mounted in a rotation stage
     baseplate.place_element_along_beam("1/2 Waveplate", optomech.waveplate, beam,
-                                       beam_index=0b1, distance=layout.inch, angle=layout.cardinal['right'],
+                                       beam_index=0b1, distance=1.15*layout.inch, angle=layout.cardinal['right'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
     # add splitter component along beam
