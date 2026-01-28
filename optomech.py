@@ -1942,6 +1942,7 @@ class fiberport_mount_KA05TB:
         _add_linked_object(obj, "Lens Tube",    lens_tube_sm05l05,       pos_offset=(1.524+3.812, 0, 0))
         _add_linked_object(obj, "Lens Adapter", lens_adapter_s05tm09,     pos_offset=(1.524+5, 0, 0))
         _add_linked_object(obj, "Lens",         mounted_lens_c220tmda,    pos_offset=(1.524+3.167+5, 0, 0))
+        
 
 
 
@@ -1999,9 +2000,6 @@ class mirror_mount_KA05T:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
                                               x=-2.5*layout.inch, y=i*obj.MountHoleDistance.Value/2, z=0))
 
-        for i in [-1, 0, 1]:
-            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                              x = -2.5*layout.inch + i * 10, y=0, z=14.7))
 
         # for i in [-1, 1]:
         #     part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
@@ -2048,6 +2046,10 @@ class fiberport_mount_KA05T:
         _add_linked_object(obj, "Lens Tube",    lens_tube_sm05l05,       pos_offset=(1.524+3.812, 0, 0))
         _add_linked_object(obj, "Lens Adapter", lens_adapter_s05tm09,     pos_offset=(1.524+5, 0, 0))
         _add_linked_object(obj, "Lens",         mounted_lens_c220tmda,    pos_offset=(1.524+3.167+5, 0, 0))
+        _add_linked_object(obj, "Fiber Clamp 3 Bottom", fiber_clamp_3_bottom,
+                           pos_offset=(-2.5*layout.inch, 0, -12.7), rot_offset=(0, 0, 90))
+        _add_linked_object(obj, "Fiber Clamp 3 Top", fiber_clamp_3_top,
+                           pos_offset=(-2.5*layout.inch, 0, -12.7), rot_offset=(0, 0, 90))
 
 
 
@@ -4291,6 +4293,40 @@ class isomet_1205c_on_km100pm:
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
+class fiber_clamp_3_bottom:
+
+    type = 'Mesh::FeaturePython'
+
+    def __init__(self, obj, drill=False):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.ViewObject.ShapeColor = misc_color
+
+        self.part_numbers = ['Fiber Clamp 3 Bottom']
+        self.transmission = True
+
+    def execute(self, obj):
+        mesh = _import_stl("Fiber_Clamp_3_bottom.stl", (0, 0, 0), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+
+class fiber_clamp_3_top:
+
+    type = 'Mesh::FeaturePython'
+
+    def __init__(self, obj, drill=False):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.ViewObject.ShapeColor = misc_color
+
+    def execute(self, obj):
+        mesh = _import_stl("Fiber_Clamp_3_top.stl", (0, 0, 0), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
 class AOMO_3100_125:
     '''
     G&H AOMO 3100-125 AOM on KM100PM Mount
@@ -4328,18 +4364,23 @@ class AOMO_3100_125:
                            pos_offset=(-30.3, -16.4, -24.5), **mount_args)
         _add_linked_object(obj, "AOM Adapter", aom_adapter,
                            pos_offset=(-17, -7.65, -17.1), rot_offset=(0, 0, -90))
+        _add_linked_object(obj, "Fiber Clamp 3 Bottom", fiber_clamp_3_bottom,
+                           pos_offset=(-0.4*layout.inch, -2.2*layout.inch, -12.7))
+        _add_linked_object(obj, "Fiber Clamp 3 Top", fiber_clamp_3_top,
+                           pos_offset=(-0.4*layout.inch, -2.2*layout.inch, -12.7))
         # _add_linked_object(obj, "Surface Adapter", surface_adapter_aom,
         #                    pos_offset=(-44.4, -3.65, -30), **surface_adapter_args)
 
     def execute(self, obj):
         mesh = _import_stl("aomo_3100-125.stl", (0, 0, -90), (0, -7.65, -7.1))
+        
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
 
         part = _bounding_box(obj, 2, 0.125*layout.inch)
-        for i in [1, 2]:
+        for i in [-1, 1]:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                              x=2.5, y=-40-i*10, z=0))
+                                              x=-0.4*layout.inch + 18*i, y=-2.2*layout.inch, z=0))
 
         part.Placement = obj.Placement
         obj.DrillPart = part
