@@ -1297,7 +1297,7 @@ class mirror_mount_KA05D:
 
         # Add cylinders for mounting hole and 2 alignment pins
         part = _custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                x=-7.44, y=0, z=-layout.inch/2)
+                                x=-9.94, y=0, z=-layout.inch/2)
 
         # # Alignment pin farther from mirror
         # part = part.fuse(_custom_cylinder(dia=1.6, dz=1.6,
@@ -1344,7 +1344,7 @@ class mirror_mount_KA05A:
 
         # Add cylinders for mounting hole and 2 alignment pins
         part = _custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                x=-7.44, y=0, z=-layout.inch/2)
+                                x=-9.94, y=0, z=-layout.inch/2)
 
         # # Alignment pin farther from mirror
         # part = part.fuse(_custom_cylinder(dia=1.6, dz=1.6,
