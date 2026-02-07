@@ -7,7 +7,7 @@ base_dz = layout.inch
 gap = layout.inch/8
 
 # x-y coordinates of mount holes (in inches) (x,y)
-mount_holes = [(0, 0), (6, 10), (14, 0), (14, 10)]
+mount_holes = [(0, 0), (5, 10), (16, 0), (18.5, 10)]
 
 # y coordinate of beam input
 # input_y = 6.00*layout.inch
@@ -29,7 +29,7 @@ def example_baseplate(x=0, y=0, angle=0):
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror_union_optic, beam,
                                    beam_index=0b1, distance=2*layout.inch, angle=layout.turn['down-right'],
-                                   mount_type=optomech.mirror_mount_KA05D,
+                                   mount_type=optomech.mirror_mount_KA05A,
                                    mount_args=dict(thumbscrews=True))
 
     # add waveplate along the transmitted beam, 1" after the laser, mounted in a rotation stage

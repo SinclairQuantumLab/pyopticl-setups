@@ -1311,6 +1311,53 @@ class mirror_mount_KA05D:
         obj.DrillPart = part
 
 
+class mirror_mount_KA05A:
+    '''
+    Mirror mount, model KA05A
+
+    Args:
+        drill (bool) : Whether baseplate mounting for this part should be drilled
+        mirror (bool) : Whether to add a mirror component to the mount
+        thumbscrews (bool): Whether or not to add two HKTS 5-64 adjusters
+    '''
+    type = 'Mesh::FeaturePython'
+    def __init__(self, obj, drill=True, thumbscrews=False):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('App::PropertyBool', 'ThumbScrews').ThumbScrews = thumbscrews
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = mount_color
+        self.part_numbers = ['KA05A']
+
+        if thumbscrews:
+            _add_linked_object(obj, "Upper Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-19.26082499, 8.88993607, 8.89006393))
+            _add_linked_object(obj, "Lower Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-19.26082499, -8.89006393, -8.88993607))
+            _add_linked_object(obj, "Position Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-19.26082499, 8.88993607, -8.88993607))
+
+    def execute(self, obj):
+        mesh = _import_stl("KA05A.stl", (0, 0, 0), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        # Add cylinders for mounting hole and 2 alignment pins
+        part = _custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                x=-7.44, y=0, z=-layout.inch/2)
+
+        # # Alignment pin farther from mirror
+        # part = part.fuse(_custom_cylinder(dia=1.6, dz=1.6,
+        #                                   x=-0.454*layout.inch, y=0, z=-layout.inch/2))
+
+        # # Alignment pin closer to mirror
+        # part = part.fuse(_custom_cylinder(dia=1.6, dz=1.5,
+        #                                   x=-0.134*layout.inch, y=0, z=-layout.inch/2))
+
+        part.Placement = obj.Placement
+        obj.DrillPart = part
+
+
 class mirror_mount_FMP05:
     '''
     Mirror mount, model FMP05
@@ -6363,6 +6410,14 @@ class TA_butterfly:
         self.part_numbers = ['TAboard']
 
         _add_linked_object(obj, "TA adapter", TA_adapter, pos_offset=(0, 0, 0))
+        _add_linked_object(obj, "Fiber Clamp 3 Bottom", fiber_clamp_3_bottom,
+                           pos_offset=(-18, 3*layout.inch, -12.7))
+        _add_linked_object(obj, "Fiber Clamp 3 Top", fiber_clamp_3_top,
+                           pos_offset=(-18, 3*layout.inch, -12.7))
+        _add_linked_object(obj, "Fiber Clamp 3 Bottom", fiber_clamp_3_bottom,
+                           pos_offset=(-54, 3.7*layout.inch, -12.7))
+        _add_linked_object(obj, "Fiber Clamp 3 Top", fiber_clamp_3_top,
+                           pos_offset=(-54, 3.7*layout.inch, -12.7))
 
     def execute(self, obj):
         mesh = _import_stl("TAboard.stl", (90, 0, 0), (0, 0, 0))
@@ -6381,6 +6436,14 @@ class TA_butterfly:
 
         part = part.fuse(_custom_cylinder(dia=bolt_M2_5['tap_dia'], dz=drill_depth/12,
                         x=13.6, y=-15.875, z=-13))
+
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x=-18 + 18*i, y=3*layout.inch, z=0))
+
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                              x=-54 + 18*i, y=3.7*layout.inch, z=0))
  
         part.Placement = obj.Placement
         obj.DrillPart = part
