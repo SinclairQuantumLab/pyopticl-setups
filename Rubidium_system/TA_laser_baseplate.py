@@ -29,7 +29,7 @@ def example_baseplate(x=0, y=0, angle=0):
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror_union_optic, beam,
                                    beam_index=0b1, distance=2*layout.inch, angle=layout.turn['down-right'],
-                                   mount_type=optomech.mirror_mount_KA05A,
+                                   mount_type=optomech.mirror_mount_M05X,
                                    mount_args=dict(thumbscrews=True))
 
     # add waveplate along the transmitted beam, 1" after the laser, mounted in a rotation stage
