@@ -76,21 +76,12 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
                                     beam_index=0b10, distance = 50, angle=layout.cardinal['left'],
                                     forward_direction=-1, backward_direction=1)
 
-    # #Adding lens make collimated beam. 
-    # baseplate.place_element_relative("Lens f50mm AB coat", optomech.circular_lens, crystal,
-    #                                 x_off=75, angle=layout.cardinal['right'],
-    #                                 focal_length=75, part_number='LA1213-AB', mount_type=optomech.lens_holder_l05g)
+    #Adding lens make collimated beam. 
+    baseplate.place_element_relative("Lens f50mm AB coat", optomech.circular_lens, crystal,
+                                    x_off=75, angle=layout.cardinal['right'],
+                                    focal_length=75, part_number='LA1213-AB', mount_type=optomech.lens_holder_l05g)
 
-    # Adding lens to collimate beam
-    baseplate.place_element_along_beam(
-        "Lens f50mm AB coat", optomech.circular_lens, beam,
-        beam_index=0b101,
-        distance=1.0*layout.inch,
-        angle=layout.cardinal['right'],
-        focal_length=50,
-        part_number='LA1213-AB',
-        mount_type=optomech.lens_holder_l05g
-    )
+
 
         # # Adding Iris to select the beam of right order
 
