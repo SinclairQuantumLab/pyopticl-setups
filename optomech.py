@@ -503,6 +503,106 @@ class skate_mount:
         part.Placement = obj.Placement
         obj.DrillPart = part
 
+
+class skate_mount_rot90:
+    '''
+    Skate mount for splitter cubes, geometry built rotated +90° relative to skate_mount.
+
+    Drop-in signature compatible with skate_mount.
+    '''
+    type = 'Part::FeaturePython'
+    def __init__(self, obj, drill=True, cube_dx=10, cube_dy=10, cube_dz=10,
+                 mount_hole_dy=20, cube_depth=1, outer_thickness=2, cube_tol=0.1, slots=False):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('App::PropertyLength', 'CubeDx').CubeDx = cube_dy
+        obj.addProperty('App::PropertyLength', 'CubeDy').CubeDy = cube_dx
+        obj.addProperty('App::PropertyLength', 'CubeDz').CubeDz = cube_dz
+        obj.addProperty('App::PropertyLength', 'MountHoleDistance').MountHoleDistance = mount_hole_dy
+        obj.addProperty('App::PropertyLength', 'CubeDepth').CubeDepth = cube_depth+1e-3
+        obj.addProperty('App::PropertyLength', 'OuterThickness').OuterThickness = outer_thickness
+        obj.addProperty('App::PropertyLength', 'CubeTolerance').CubeTolerance = cube_tol
+        obj.addProperty('App::PropertyBool', 'Slots').Slots = slots
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = adapter_color
+        obj.setEditorMode('Placement', 2)
+
+    def execute(self, obj):
+        # Original: dy = dx + MountHoleDistance and holes vary in y.
+        # Rot90 version: swap x<->y so the long axis is in x and holes vary in x.
+
+        if obj.Slots:
+            slot = 5
+            base_dx = bolt_8_32['head_dia'] + obj.OuterThickness.Value*2 + slot + 5
+        else:
+            slot = 0
+            base_dx = bolt_8_32['head_dia'] + obj.OuterThickness.Value*2 + 5
+
+        # original dimensions
+        orig_dx = base_dx
+        orig_dy = base_dx + obj.MountHoleDistance.Value
+
+        # rotated dimensions (swap)
+        dx = orig_dy
+        dy = orig_dx
+
+        raw_dz = obj.Baseplate.OpticsDz.Value - obj.CubeDz.Value/2 + obj.CubeDepth.Value
+        dz = max(raw_dz, 8)
+
+        cut_dy = obj.CubeDx.Value + obj.CubeTolerance.Value
+        cut_dx = obj.CubeDy.Value + obj.CubeTolerance.Value
+
+        part = _custom_box(dx=dx, dy=dy, dz=dz,
+                           x=0, y=0, z=-obj.Baseplate.OpticsDz.Value, fillet=5)
+
+        part = part.cut(_custom_box(dx=cut_dx, dy=cut_dy, dz=obj.CubeDepth.Value+1e-3,
+                                    x=0, y=0,
+                                    z=-obj.Baseplate.OpticsDz.Value + dz - obj.CubeDepth.Value - 1e-3))
+
+        for i in [-1, 1]:
+            # Rotated: holes/slots are offset in X, not Y.
+            if obj.Slots:
+                part = part.cut(_custom_box(
+                    dx=bolt_8_32['head_dia'], dy=slot + bolt_8_32['head_dia'], dz=bolt_8_32['head_dz'],
+                    x=i*obj.MountHoleDistance.Value/2, y=0, z=-obj.Baseplate.OpticsDz.Value+dz,
+                    fillet=bolt_8_32['head_dia']/2, dir=(0, 0, -1)
+                ))
+                part = part.cut(_custom_box(
+                    dx=bolt_8_32['clear_dia'], dy=slot + bolt_8_32['clear_dia'], dz=bolt_8_32['head_dz'],
+                    x=i*obj.MountHoleDistance.Value/2, y=0,
+                    z=-obj.Baseplate.OpticsDz.Value + dz - bolt_8_32['head_dz'],
+                    fillet=bolt_8_32['clear_dia']/2, dir=(0, 0, -1)
+                ))
+            else:
+                part = part.cut(_custom_cylinder(
+                    dia=bolt_8_32['clear_dia'], dz=dz,
+                    head_dia=bolt_8_32['head_dia'], head_dz=bolt_8_32['head_dz'],
+                    x=i*obj.MountHoleDistance.Value/2, y=0, z=-obj.Baseplate.OpticsDz.Value+dz
+                ))
+
+        part.translate(App.Vector(0, 0, obj.CubeDz.Value/2 + (raw_dz - dz)))
+        part = part.fuse(part)
+        obj.Shape = part
+
+        # Drill part: also move tap holes along X and swap slot offsets axis.
+        # In the original, slots extend in X (min_offset/max_offset on X).
+        # After rotation, slots should extend in Y.
+        drill = _bounding_box(obj, 1, 0.125*layout.inch,
+                              min_offset=(0, -slot, 0), max_offset=(0, slot, 0))
+
+        for i in [-1, 1]:
+            drill = drill.fuse(_custom_cylinder(
+                dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                x=i*obj.MountHoleDistance.Value/2, y=0,
+                z=-obj.Baseplate.OpticsDz.Value + obj.CubeDz.Value/2
+            ))
+
+        drill.Placement = obj.Placement
+        obj.DrillPart = drill
+
 class Prism_pair:
     '''
     this is prism pair for laser profile
