@@ -20,7 +20,7 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     input_x = 4*layout.inch
     input_y = 1.15*layout.inch
 
-    mount_holes = [(1, 0),  (dx-2, dy-1), (0, dy-1)]
+    mount_holes = [(.6, 0),  (dx-2, dy-1), (0, dy-1)]
     extra_mount_holes = []
 
     # Difining the baseplate
@@ -34,7 +34,7 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     # baseplate.place_element("Input Fiberport", optomech.mirror_mount_km05,
     #                                 x=input_x, y=input_y, angle=layout.cardinal['right'])
 
-    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_KA05T, x=3*layout.inch, y=input_y, angle=layout.cardinal['right'])
+    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_KA05T, x=3*layout.inch, y=input_y, angle=layout.cardinal['right'], mount_args=dict(thumbscrews=True))
     
     beam = baseplate.add_beam_path(x=input_x, y=input_y, angle=layout.cardinal['right'])    
 
@@ -131,7 +131,7 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
 
     # Fiberport to fiber the beam
     baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05T, beam,
-                                      beam_index=0b10111, distance=2.25*layout.inch, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=False))
+                                      beam_index=0b10111, distance=2.25*layout.inch, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=True))
 
 if __name__ == "__main__":
     doublepass_f100()  # changne the f__ depending on which lens you want
