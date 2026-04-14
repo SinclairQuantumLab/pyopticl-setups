@@ -5199,12 +5199,12 @@ class shutter_sr475:
         self.max_width = 5
 
         # _add_linked_object(obj, "Adapter", shutter_adapter, pos_offset=(2.7, 23.83, -25.4), rot_offset=(0, 0, 90))
-        _add_linked_object(obj, "Adapter", shutter_adapter, pos_offset=(2.7, 6.35, -4.83), rot_offset=(0, 0, 90))
+        _add_linked_object(obj, "Adapter", shutter_adapter, pos_offset=(0, 0, 0), rot_offset=(0, 0, 0))
 
 
     def execute(self, obj):
         # mesh = _import_stl("SR475.stl", (180, 0, 90), (0, 23.83, -6.35))
-        mesh = _import_stl("SR475.stl", (180, -90, 90), (0, 6.35, 23.83))
+        mesh = _import_stl("SR475.stl", (0, 0, 0), (0, 0, 0))
 
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
@@ -5367,7 +5367,7 @@ class shutter_adapter:
         for i in [-1, 1]:
             for j in [-1, 1]:
                 part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                                  x=j * 22.86, y=i * 17, z=0))
+                                                  x=j * 17, y=7.9248 + i * 22.86, z=0))
         part.Placement = obj.Placement
         obj.DrillPart = part
 
