@@ -69,17 +69,20 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
 
 
     
-    # baseplate.place_element_along_beam("shutter", optomech.shutter_sr475, beam,
-    #                                    beam_index=0b11, distance=63, angle=layout.cardinal['left'])
-    # Adding AOM
-    crystal = baseplate.place_element_along_beam("AOM", optomech.isomet_1205c_on_km100pm, beam,
-                                    beam_index=0b10, distance = 1.25*layout.inch, angle=layout.cardinal['left'],
-                                    forward_direction=-1, backward_direction=1)
 
-    # #Adding lens make collimated beam. 
-    # baseplate.place_element_relative("Lens f50mm AB coat", optomech.circular_lens, crystal,
-    #                                 x_off=75, angle=layout.cardinal['right'],
-    #                                 focal_length=75, part_number='LA1213-AB', mount_type=optomech.lens_holder_l05g)
+    # # Adding AOM
+    # crystal = baseplate.place_element_along_beam("AOM", optomech.isomet_1205c_on_km100pm, beam,
+    #                                 beam_index=0b10, distance = 1.25*layout.inch, angle=layout.cardinal['left'],
+    #                                 forward_direction=-1, backward_direction=1)
+    # Adding AOM
+    surface_adapter_args= dict(adapter_height=5)
+    crystal = baseplate.place_element_along_beam("AOM", optomech.AOMO_3100_125, beam,
+                                       beam_index=0b10, distance=1.25*layout.inch, angle=layout.cardinal['left'],
+                                       forward_direction=-1, backward_direction=1, diffraction_angle = 0, surface_adapter_args=surface_adapter_args, include_clamp=False) #422*1e-9 / 0.0002) 0.01
+    # diffraction angle is roughtly wavelength_of_light/wavelength_of_sound
+    # wavelength of sound is estimated in 20c in quartz
+    # but it is usually quite small
+
 
 
     # Adding lens to collimate the 1st-order AOM output
@@ -105,7 +108,7 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     # Adding another mirror to send the beam back into the AOM
     retromirror = baseplate.place_element_along_beam("Retro Mirror", optomech.circular_mirror, beam,
                                      beam_index=0b101, distance=10, angle=layout.cardinal['left']- 1*crystal.DiffractionAngle.Value,
-                                     mount_type=mirror, mount_args=dict(thumbscrews=thumbscrews))
+                                     mount_type=optomech.mirror_mount_M05, mount_args=dict(thumbscrews=thumbscrews))
 
     # baseplate.place_element_along_beam("Quarter waveplate", optomech.waveplate, beam,
     #                                 beam_index=0b10111, distance=1.25*layout.inch, angle=layout.cardinal['down'],
