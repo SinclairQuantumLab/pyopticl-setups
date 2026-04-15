@@ -67,8 +67,8 @@ def example_baseplate(x=0, y=0, angle=0):
     #baseplate.place_element_along_beam("Beat Output Fiberport", optomech.fiberport_mount_km05T, beam,
     #                                   beam_index=0b11, distance=2.5*layout.inch, angle=layout.cardinal['right'],
     #                                   mount_args=dict(thumbscrews=True))
-    baseplate.place_element_along_beam("Beat Output Fiberport", optomech.fiberport_mount_KA05To, beam,
-                                       beam_index=0b11, distance=2.5*layout.inch, angle=layout.cardinal['right'],
+    baseplate.place_element_along_beam("Beat Output Fiberport", optomech.fiberport_mount_KA05T, beam,
+                                       beam_index=0b11, distance=2.5*layout.inch, angle=layout.cardinal['right'], Fiber_Clamp="V1", 
                                        mount_args=dict(thumbscrews=True))
 
 

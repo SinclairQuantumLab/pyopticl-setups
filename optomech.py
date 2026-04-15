@@ -1208,6 +1208,49 @@ class cube_mount_halfinch:
         obj.DrillPart = part
 
 
+
+# ==== 1/2" PBS Cube Mount (uses cube_mount_halfinch.stl) ====
+class cube_mount_halfinch_rot90:
+    """
+    Cube mount for 1/2" (12.7 mm) PBS, rotated 90 degrees.
+    """
+    type = 'Mesh::FeaturePython'
+    def __init__(self, obj, drill=True, bolt_length=15, mount_hole_dy=22.6):
+        obj.Proxy = self
+        ViewProvider(obj.ViewObject)
+
+        obj.addProperty('App::PropertyBool',   'Drill').Drill = drill
+        obj.addProperty('App::PropertyLength', 'BoltLength').BoltLength = bolt_length
+        obj.addProperty('App::PropertyLength', 'MountHoleDistance').MountHoleDistance = mount_hole_dy
+        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+
+        obj.ViewObject.ShapeColor = adapter_color
+        obj.setEditorMode('Placement', 2)
+        self.drill_tolerance = 1  # matches the approach used elsewhere
+        self.part_numbers = ['CUBE-MOUNT-1/2IN']
+
+    def execute(self, obj):
+        # 1) place the mesh
+        mesh = _import_stl("Cube_Mount_Halfinch.stl", (0, 0, 90), (0, 0, 0))
+        mesh.Placement = obj.Mesh.Placement
+        obj.Mesh = mesh
+
+        # 2) create drill geometry (tap holes) in a bounding box
+        part = _bounding_box(obj, self.drill_tolerance, 0.125*layout.inch)
+        for i in [-1, 1]:
+            part = part.fuse(_custom_cylinder(
+                dia=bolt_8_32['tap_dia'],  # tap drill (e.g., #29 for 8-32)
+                dz=drill_depth,
+                x=i * obj.MountHoleDistance.Value/2,
+                y=0, 
+                z=0
+            ))
+
+        part.Placement = obj.Placement
+        obj.DrillPart = part
+
+
+
 class rotation_stage_rsp05_lying_down:
     '''
     Rotation stage, model RSP05
@@ -2194,7 +2237,7 @@ class mirror_mount_KA05T:
         circular_mirror (mirror_args)
     '''
     type = 'Mesh::FeaturePython'
-    def __init__(self, obj, drill=True, mount_hole_dy=36, thumbscrews=False, bolt_length=15):
+    def __init__(self, obj, drill=True, mount_hole_dy=36, thumbscrews=False, bolt_length=15, Fiber_Clamp='Standard'):
         obj.Proxy = self
         ViewProvider(obj.ViewObject)
 
@@ -2203,6 +2246,13 @@ class mirror_mount_KA05T:
         obj.addProperty('App::PropertyLength', 'BoltLength').BoltLength = bolt_length
         obj.addProperty('App::PropertyLength', 'MountHoleDistance').MountHoleDistance = mount_hole_dy
         obj.addProperty('Part::PropertyPartShape', 'DrillPart')
+        obj.addProperty('App::PropertyEnumeration', 'Fiber_Clamp')
+        obj.Fiber_Clamp = ['Standard', 'V1', 'None']
+        if isinstance(Fiber_Clamp, bool):
+            Fiber_Clamp = 'Standard' if Fiber_Clamp else 'None'
+        if Fiber_Clamp not in ('Standard', 'V1', 'None'):
+            Fiber_Clamp = 'Standard'
+        obj.Fiber_Clamp = Fiber_Clamp
 
         obj.ViewObject.ShapeColor = mount_color
 
@@ -2222,70 +2272,15 @@ class mirror_mount_KA05T:
 
         part = _bounding_box(obj, 2, 0.125*layout.inch)
 
-
-        for i in [-1, 1]:
+        fc = getattr(obj, 'Fiber_Clamp', 'Standard')
+        if fc == 'Standard':
+            for i in [-1, 1]:
+                part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                                  x=-2.5*layout.inch, y=18*i, z=0))
+        elif fc == 'V1':
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                              x=-2.5*layout.inch, y=18*i, z=0))
-
-        part = part.fuse(_custom_cylinder(
-            dia=bolt_8_32["tap_dia"],   
-            dz=drill_depth,             
-            x=-0.32264471*layout.inch,  
-            y=0,
-            z=-0.5*layout.inch,
-            dir=(0, 0, -1)              
-        ))
-        part.Placement = obj.Placement
-        obj.DrillPart = part
-
-
-class mirror_mount_KA05To:
-    '''
-    Mirror mount, model KA05T with one-hole fiberclamp
-
-    Args:
-        drill (bool) : Whether baseplate mounting for this part should be drilled
-        mirror (bool) : Whether to add a mirror component to the mount
-        thumbscrews (bool): Whether or not to add two HKTS 5-64 adjusters
-        bolt_length (float) : The length of the bolt used for mounting
-
-    Sub-Parts:
-        circular_mirror (mirror_args)
-    '''
-    type = 'Mesh::FeaturePython'
-    def __init__(self, obj, drill=True, mount_hole_dy=36, thumbscrews=False, bolt_length=15):
-        obj.Proxy = self
-        ViewProvider(obj.ViewObject)
-
-        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
-        obj.addProperty('App::PropertyBool', 'ThumbScrews').ThumbScrews = thumbscrews
-        obj.addProperty('App::PropertyLength', 'BoltLength').BoltLength = bolt_length
-        obj.addProperty('App::PropertyLength', 'MountHoleDistance').MountHoleDistance = mount_hole_dy
-        obj.addProperty('Part::PropertyPartShape', 'DrillPart')
-
-        obj.ViewObject.ShapeColor = mount_color
-
-        self.part_numbers = ['KA05To']
-
-        # if mirror:
-        #     _add_linked_object(obj, "Mirror", circular_mirror, pos_offset=(...), rot_offset=(...), **mirror_args)
-
-        if thumbscrews:
-            _add_linked_object(obj, "Upper Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-0.784*layout.inch, 0.35*layout.inch, 0.35*layout.inch))
-            _add_linked_object(obj, "Lower Thumbscrew", thumbscrew_hkts_5_64, pos_offset=(-0.784*layout.inch, -0.35*layout.inch, -0.35*layout.inch))
-
-    def execute(self, obj):
-        mesh = _import_stl("KA05T.stl", (0, 0, 0), (0, 0, 0))
-        mesh.Placement = obj.Mesh.Placement
-        obj.Mesh = mesh
-
-        part = _bounding_box(obj, 2, 0.125*layout.inch)
-
-            #adding some extra holes for strain relief
-        part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
                                               x=-2.5*layout.inch, y=18, z=0))
 
-
         part = part.fuse(_custom_cylinder(
             dia=bolt_8_32["tap_dia"],   
             dz=drill_depth,             
@@ -2296,6 +2291,7 @@ class mirror_mount_KA05To:
         ))
         part.Placement = obj.Placement
         obj.DrillPart = part
+
 
 
 class fiberport_mount_KA05T:
@@ -2313,15 +2309,25 @@ class fiberport_mount_KA05T:
         mounted_lens_c220tmda
     '''
     type = 'Part::FeaturePython'
-    def __init__(self, obj, drill=True, mount_args=dict(), adapter_args=dict()):
+    def __init__(self, obj, drill=True, Fiber_Clamp='Standard', mount_args=dict(), adapter_args=dict()):
         obj.Proxy = self
         ViewProvider(obj.ViewObject)
 
         obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('App::PropertyEnumeration', 'Fiber_Clamp')
 
         obj.ViewObject.ShapeColor = misc_color
 
-        _add_linked_object(obj, "Mount", mirror_mount_KA05T, pos_offset=(0, 0, 0), **mount_args)
+        obj.Fiber_Clamp = ['Standard', 'V1', 'None']
+        if isinstance(Fiber_Clamp, bool):
+            Fiber_Clamp = 'Standard' if Fiber_Clamp else 'None'
+        if Fiber_Clamp not in ('Standard', 'V1', 'None'):
+            Fiber_Clamp = 'Standard'
+        obj.Fiber_Clamp = Fiber_Clamp
+
+        mount_kw = dict(mount_args)
+        mount_kw['Fiber_Clamp'] = Fiber_Clamp
+        _add_linked_object(obj, "Mount", mirror_mount_KA05T, pos_offset=(0, 0, 0), **mount_kw)
 
 
         _add_linked_object(obj, "Fiber Adapter", fiber_adapter_sm05fca2, pos_offset=(1.524, 0, 0))
@@ -2329,46 +2335,17 @@ class fiberport_mount_KA05T:
         _add_linked_object(obj, "Lens Adapter", lens_adapter_s05tm09,     pos_offset=(1.524+5, 0, 0))
         _add_linked_object(obj, "Lens",         mounted_lens_c220tmda,    pos_offset=(1.524+3.167+5, 0, 0))
 
-        _add_linked_object(obj, "Fiber Clamp 3 Top", fiber_clamp_3_top,
-                           pos_offset=(-2.5*layout.inch, 0, -12.7), rot_offset=(0, 0, -90))
-        _add_linked_object(obj, "Fiber Clamp 3 Bottom", fiber_clamp_3_bottom,
-                           pos_offset=(-2.5*layout.inch, 0, -12.7), rot_offset=(0, 0, -90))
+        if Fiber_Clamp == 'Standard':
+            _add_linked_object(obj, "Fiber Clamp 3 Top", fiber_clamp_3_top,
+                               pos_offset=(-2.5*layout.inch, 0, -12.7), rot_offset=(0, 0, -90))
+            _add_linked_object(obj, "Fiber Clamp 3 Bottom", fiber_clamp_3_bottom,
+                               pos_offset=(-2.5*layout.inch, 0, -12.7), rot_offset=(0, 0, -90))
+        elif Fiber_Clamp == 'V1':
+            _add_linked_object(obj, "Fiber Clamp 3 Top1", fiber_clamp_3_top1,
+                               pos_offset=(-2.5*layout.inch, 0, -12.7), rot_offset=(0, 0, -90))
+            _add_linked_object(obj, "Fiber Clamp 3 Bottom1", fiber_clamp_3_bottom1,
+                               pos_offset=(-2.5*layout.inch, 0, -12.7), rot_offset=(0, 0, -90))
 
-
-class fiberport_mount_KA05To:
-    '''
-    Mirror mount, model KA05T, adapted to use as fiberport mount
-
-    Args:
-        drill (bool) : Whether baseplate mounting for this part should be drilled
-
-    Sub-Parts:
-        mirror_mount_KA05To (mount_args)
-        fiber_adapter_sm05fca2
-        lens_tube_sm05l05
-        lens_adapter_s05tm09
-        mounted_lens_c220tmda
-    '''
-    type = 'Part::FeaturePython'
-    def __init__(self, obj, drill=True, mount_args=dict(), adapter_args=dict()):
-        obj.Proxy = self
-        ViewProvider(obj.ViewObject)
-
-        obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
-
-        obj.ViewObject.ShapeColor = misc_color
-
-        _add_linked_object(obj, "Mount", mirror_mount_KA05To, pos_offset=(0, 0, 0), **mount_args)
-
-
-        _add_linked_object(obj, "Fiber Adapter", fiber_adapter_sm05fca2, pos_offset=(1.524, 0, 0))
-        _add_linked_object(obj, "Lens Tube",    lens_tube_sm05l05,       pos_offset=(1.524+3.812, 0, 0))
-        _add_linked_object(obj, "Lens Adapter", lens_adapter_s05tm09,     pos_offset=(1.524+5, 0, 0))
-        _add_linked_object(obj, "Lens",         mounted_lens_c220tmda,    pos_offset=(1.524+3.167+5, 0, 0))
-        _add_linked_object(obj, "Fiber Clamp 3 Bottom1", fiber_clamp_3_bottom1,
-                           pos_offset=(-2.5*layout.inch, 0, -12.7), rot_offset=(0, 0, -90))
-        _add_linked_object(obj, "Fiber Clamp 3 Top1", fiber_clamp_3_top1,
-                           pos_offset=(-2.5*layout.inch, 0, -12.7), rot_offset=(0, 0, -90))
 
 
 
@@ -4719,7 +4696,7 @@ class AOMO_3100_125:
         mount_for_km100pm (adapter_args)
     '''
     type = 'Mesh::FeaturePython'
-    def __init__(self, obj, drill=True, diffraction_angle=degrees(0.01), forward_direction=1, backward_direction=1, mount_args=dict(), surface_adapter_args=dict()):
+    def __init__(self, obj, drill=True, diffraction_angle=degrees(0.01), forward_direction=1, backward_direction=1, Fiber_Clamp=True, mount_args=dict(), surface_adapter_args=dict()):
         obj.Proxy = self
         ViewProvider(obj.ViewObject)
 
@@ -4728,6 +4705,7 @@ class AOMO_3100_125:
         obj.addProperty('App::PropertyAngle', 'DiffractionAngle').DiffractionAngle = diffraction_angle
         obj.addProperty('App::PropertyInteger', 'ForwardDirection').ForwardDirection = forward_direction
         obj.addProperty('App::PropertyInteger', 'BackwardDirection').BackwardDirection = backward_direction
+        obj.addProperty('App::PropertyBool', 'Fiber_Clamp').Fiber_Clamp = Fiber_Clamp
 
         obj.ViewObject.ShapeColor = misc_color
         self.part_numbers = ['G&H AOMO 3100-125']
@@ -4741,10 +4719,11 @@ class AOMO_3100_125:
                            pos_offset=(-30.3, -16.4, -24.5), **mount_args)
         _add_linked_object(obj, "AOM Adapter", aom_adapter,
                            pos_offset=(-17, -7.65, -17.1), rot_offset=(0, 0, -90))
-        _add_linked_object(obj, "Fiber Clamp 3 Bottom", fiber_clamp_3_bottom,
-                           pos_offset=(-0.4*layout.inch, -2.2*layout.inch, -12.7))
-        _add_linked_object(obj, "Fiber Clamp 3 Top", fiber_clamp_3_top,
-                           pos_offset=(-0.4*layout.inch, -2.2*layout.inch, -12.7))
+        if Fiber_Clamp:
+            _add_linked_object(obj, "Fiber Clamp 3 Bottom", fiber_clamp_3_bottom,
+                               pos_offset=(-0.4*layout.inch, -2.2*layout.inch, -12.7))
+            _add_linked_object(obj, "Fiber Clamp 3 Top", fiber_clamp_3_top,
+                               pos_offset=(-0.4*layout.inch, -2.2*layout.inch, -12.7))
         # _add_linked_object(obj, "Surface Adapter", surface_adapter_aom,
         #                    pos_offset=(-44.4, -3.65, -30), **surface_adapter_args)
 
@@ -4755,9 +4734,10 @@ class AOMO_3100_125:
         obj.Mesh = mesh
 
         part = _bounding_box(obj, 2, 0.125*layout.inch)
-        for i in [-1, 1]:
-            part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                              x=-0.4*layout.inch + 18*i, y=-2.2*layout.inch, z=0))
+        if getattr(obj, 'Fiber_Clamp', True):
+            for i in [-1, 1]:
+                part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
+                                                  x=-0.4*layout.inch + 18*i, y=-2.2*layout.inch, z=0))
 
         part.Placement = obj.Placement
         obj.DrillPart = part
@@ -5199,12 +5179,12 @@ class shutter_sr475:
         self.max_width = 5
 
         # _add_linked_object(obj, "Adapter", shutter_adapter, pos_offset=(2.7, 23.83, -25.4), rot_offset=(0, 0, 90))
-        _add_linked_object(obj, "Adapter", shutter_adapter, pos_offset=(0, 0, 0), rot_offset=(0, 0, 0))
+        _add_linked_object(obj, "Adapter", shutter_adapter, pos_offset=(2.7, 6.35, -4.83), rot_offset=(0, 0, 90))
 
 
     def execute(self, obj):
         # mesh = _import_stl("SR475.stl", (180, 0, 90), (0, 23.83, -6.35))
-        mesh = _import_stl("SR475.stl", (0, 0, 0), (0, 0, 0))
+        mesh = _import_stl("SR475.stl", (180, -90, 90), (0, 6.35, 23.83))
 
         mesh.Placement = obj.Mesh.Placement
         obj.Mesh = mesh
@@ -5367,7 +5347,7 @@ class shutter_adapter:
         for i in [-1, 1]:
             for j in [-1, 1]:
                 part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                                  x=j * 17, y=7.9248 + i * 22.86, z=0))
+                                                  x=j * 22.86, y=i * 17, z=0))
         part.Placement = obj.Placement
         obj.DrillPart = part
 
