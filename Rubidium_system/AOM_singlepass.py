@@ -35,7 +35,7 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     #                                 x=input_x, y=input_y, angle=layout.cardinal['right'])
 
     baseplate.place_element("Input Fiberport", optomech.fiberport_mount_KA05T, x=1*layout.inch, y=input_y, angle=layout.cardinal['right'], 
-                                        Fiber_Clamp="V1", mount_args=dict(thumbscrews=True))
+                                        Fiber_Clamp="None", mount_args=dict(thumbscrews=True))
     
     beam = baseplate.add_beam_path(x=input_x, y=input_y, angle=layout.cardinal['right'])    
 
