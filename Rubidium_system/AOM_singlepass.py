@@ -10,14 +10,14 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     label = ''
 
     # Dimension of the baseplate
-    dx = 12
+    dx = 11
     dy = 3
     base_dx = dx*layout.inch
     base_dy = dy*layout.inch
     base_dz = layout.inch
     gap = layout.inch/8
 
-    input_x = 2.5*layout.inch
+    input_x = 1.5*layout.inch
     input_y = 1.15*layout.inch
 
     mount_holes = [(0, 0),  (dx-1, dy-1), (0, dy-1), (dx-1,0)]
@@ -34,7 +34,7 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     # baseplate.place_element("Input Fiberport", optomech.mirror_mount_km05,
     #                                 x=input_x, y=input_y, angle=layout.cardinal['right'])
 
-    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_KA05T, x=2*layout.inch, y=input_y, angle=layout.cardinal['right'], 
+    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_KA05T, x=1*layout.inch, y=input_y, angle=layout.cardinal['right'], 
                                         Fiber_Clamp="V1", mount_args=dict(thumbscrews=True))
     
     beam = baseplate.add_beam_path(x=input_x, y=input_y, angle=layout.cardinal['right'])    
@@ -82,7 +82,7 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     # Adding AOM
     surface_adapter_args= dict(adapter_height=5)
     crystal = baseplate.place_element_along_beam("AOM", optomech.AOMO_3100_125, beam,
-                                       beam_index=0b1, distance=1.25*layout.inch, angle=layout.cardinal['left'], Fiber_Clamp=False, 
+                                       beam_index=0b1, distance=1*layout.inch, angle=layout.cardinal['left'], Fiber_Clamp=False, 
                                        forward_direction=-1, backward_direction=1, diffraction_angle = 0, surface_adapter_args=surface_adapter_args,) #422*1e-9 / 0.0002) 0.01
     # diffraction angle is roughtly wavelength_of_light/wavelength_of_sound
     # wavelength of sound is estimated in 20c in quartz
