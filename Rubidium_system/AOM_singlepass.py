@@ -5,19 +5,19 @@ from datetime import datetime
 def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_split=False, thumbscrews=True):
     
     # Adding name and date to keep a track of the updates
-    name = "Doublepass"
+    name = "Singlepass"
     date_time = datetime.now().strftime("%m/%d/%Y")
     label = ''
 
     # Dimension of the baseplate
     dx = 11
-    dy = 3
+    dy = 5.3
     base_dx = dx*layout.inch
     base_dy = dy*layout.inch
     base_dz = layout.inch
     gap = layout.inch/8
 
-    input_x = 1.5*layout.inch
+    input_x = 3.7*layout.inch
     input_y = 1.15*layout.inch
 
     mount_holes = [(0, 0),  (dx-1, dy-1), (0, dy-1), (dx-1,0)]
@@ -34,46 +34,16 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     # baseplate.place_element("Input Fiberport", optomech.mirror_mount_km05,
     #                                 x=input_x, y=input_y, angle=layout.cardinal['right'])
 
-    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_KA05T, x=1*layout.inch, y=input_y, angle=layout.cardinal['right'], 
-                                        Fiber_Clamp="None", mount_args=dict(thumbscrews=True))
+    baseplate.place_element("Input Fiberport", optomech.fiberport_mount_KA05T, x=3.2*layout.inch, y=input_y, angle=layout.cardinal['right'], 
+                                        Fiber_Clamp="V1", mount_args=dict(thumbscrews=True))
     
     beam = baseplate.add_beam_path(x=input_x, y=input_y, angle=layout.cardinal['right'])    
 
     # Adding a waveplate to control the ploarization
     baseplate.place_element_along_beam("Half waveplate", optomech.waveplate, beam,
-                                       beam_index=0b1, distance=1*layout.inch, angle=layout.cardinal['left'],
+                                       beam_index=0b1, distance=1.4*layout.inch, angle=layout.cardinal['left'],
                                        mount_type=optomech.rotation_stage_rsp05)
 
-    # Adding beam splitter to divide the beam to : to saty on the baseplate and to to send to the next baseplate
-    # baseplate.place_element_along_beam("Beam Splitter", optomech.cube_splitter, beam,
-    #                                    beam_index=0b1, distance=28, angle=layout.cardinal['up'],
-    #                                    mount_type=optomech.skate_mount)
-    
-    # baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, beam,
-    #                                    beam_index=0b1, distance=1.*layout.inch, angle=layout.cardinal['up'],
-    #                                    mount_type=optomech.prism_mount_km05pm, mount_args=dict(thumbscrews=thumbscrews))
-    # baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, beam,
-    #                                    beam_index=0b1, distance=1.*layout.inch, angle=layout.cardinal['down'],
-    #                                    mount_type=optomech.skate_mount)
-
-
-# made cube by code
-    # baseplate.place_element_along_beam("Beam Splitter Cube", optomech.cube_splitter, beam,
-    # beam_index=0b1, distance=1.*layout.inch, angle=layout.cardinal['up'],
-    # mount_type=optomech.skate_mount_rot90,
-    # mount_args=dict(
-    #     cube_dx=12.7, cube_dy=12.7, cube_dz=12.7,   # match cube_splitter default size :contentReference[oaicite:4]{index=4}
-    #     mount_hole_dy=20,
-    #     cube_depth=1,
-    #     outer_thickness=2,
-    #     cube_tol=0.1,
-    #     slots=False
-    # ))
-
-
-    baseplate.place_element_along_beam("Iris", optomech.pinhole_ida12, beam,
-                                       beam_index=0b1, distance=1*layout.inch, angle=layout.cardinal['left']) 
-    
 
     # # Adding AOM
     # crystal = baseplate.place_element_along_beam("AOM", optomech.isomet_1205c_on_km100pm, beam,
@@ -82,8 +52,8 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     # Adding AOM
     surface_adapter_args= dict(adapter_height=5)
     crystal = baseplate.place_element_along_beam("AOM", optomech.AOMO_3100_125, beam,
-                                       beam_index=0b1, distance=1*layout.inch, angle=layout.cardinal['left'], Fiber_Clamp=False, 
-                                       forward_direction=-1, backward_direction=1, diffraction_angle = 0, surface_adapter_args=surface_adapter_args,) #422*1e-9 / 0.0002) 0.01
+                                       beam_index=0b1, distance=1.1*layout.inch, angle=layout.cardinal['left'], Fiber_Clamp=False, 
+                                       forward_direction=-1, backward_direction=1, diffraction_angle = 1.06, surface_adapter_args=surface_adapter_args,) #422*1e-9 / 0.0002) 0.01
     # diffraction angle is roughtly wavelength_of_light/wavelength_of_sound
     # wavelength of sound is estimated in 20c in quartz
     # but it is usually quite small
@@ -91,30 +61,46 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
 
 
     # Adding lens to collimate the 1st-order AOM output
-    lens = baseplate.place_element_along_beam(
-        "Lens f50mm AB coat", optomech.circular_lens, beam,
-        beam_index=0b10, distance=75,
-        angle=layout.cardinal['right']- crystal.DiffractionAngle.Value,
-        focal_length=75, part_number='LA1213-AB',
-        mount_type=optomech.lens_holder_l05g
-    )
+    # lens = baseplate.place_element_along_beam(
+    #     "Lens f50mm AB coat", optomech.circular_lens, beam,
+    #     beam_index=0b10, distance=75,
+    #     angle=layout.cardinal['right']- crystal.DiffractionAngle.Value,
+    #     focal_length=75, part_number='LA1213-AB',
+    #     mount_type=optomech.lens_holder_l05g
+    # )
+
+    # add mirror along the transmitted beam, mounted in a fmp05 mount
+    baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
+                                       beam_index=0b11, distance=3*layout.inch, angle=layout.turn['right-up'],
+                                       mount_type=optomech.mirror_mount_FMP05)
+
+
+
+    baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
+                                       beam_index=0b11, distance=2.5*layout.inch, angle=layout.turn['up-left'],
+                                       mount_type=optomech.mirror_mount_M05,
+                                       mount_args=dict(thumbscrews=True))
 
 
 
         # # Adding Iris to select the beam of right order
 
-    baseplate.place_element_along_beam("Quarter waveplate", optomech.waveplate, beam,
-                                    beam_index=0b10, distance=20, angle=layout.cardinal['left'],
+    baseplate.place_element_along_beam("Half waveplate", optomech.waveplate, beam,
+                                    beam_index=0b11, distance=1*layout.inch, angle=layout.cardinal['right'],
+                                    mount_type=optomech.rotation_stage_rsp05)
+
+    baseplate.place_element_along_beam("Half waveplate", optomech.waveplate, beam,
+                                    beam_index=0b11, distance=1*layout.inch, angle=layout.cardinal['right'],
                                     mount_type=optomech.rotation_stage_rsp05)
 
 
     baseplate.place_element_along_beam("Iris", optomech.pinhole_ida12, beam,
-                                       beam_index=0b10, distance=20, angle=layout.cardinal['left'])  
+                                       beam_index=0b11, distance=1.5*layout.inch, angle=layout.cardinal['left'])  
     
     
     baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05T, beam, 
-                                    beam_index=0b10, distance=1*layout.inch, angle=layout.cardinal['left'], 
-                                    Fiber_Clamp=False, mount_args=dict(thumbscrews=True))
+                                    beam_index=0b11, distance=2.5*layout.inch, angle=layout.cardinal['right'], 
+                                    Fiber_Clamp=True, mount_args=dict(thumbscrews=True))
     
 
 
