@@ -121,11 +121,9 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
     #                                 beam_index=0b10111, distance=1.25*layout.inch, angle=layout.cardinal['down'],
     #                                 mount_type=optomech.rotation_stage_rsp05)
 
-    baseplate.place_element_along_beam("Iris", optomech.pinhole_ida12, beam,
-                                    beam_index=0b10111, distance=1.5*layout.inch, angle=layout.cardinal['down'])  
 
     baseplate.place_element_along_beam("Mirror", optomech.circular_mirror, beam,
-                                       beam_index=0b10111, distance=1.15*layout.inch, angle=layout.turn['up-right'],
+                                       beam_index=0b10111, distance=2.65*layout.inch, angle=layout.turn['up-right'],
                                        mount_type=optomech.mirror_mount_M05,
                                        mount_args=dict(thumbscrews=True))
 
@@ -139,9 +137,12 @@ def doublepass_f100(x=0, y=0, angle=0, mirror=optomech.mirror_mount_km05, x_spli
                                        mount_type=optomech.rotation_stage_rsp05)
 
 
+    baseplate.place_element_along_beam("Iris", optomech.pinhole_ida12, beam,
+                                    beam_index=0b10111, distance=1*layout.inch, angle=layout.cardinal['right'])  
+
     # Fiberport to fiber the beam
     baseplate.place_element_along_beam("Output Fiberport", optomech.fiberport_mount_KA05T, beam,
-                                      beam_index=0b10111, distance=2.25*layout.inch, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=True))
+                                      beam_index=0b10111, distance=1.25*layout.inch, angle=layout.cardinal['left'], mount_args=dict(thumbscrews=True))
 
 if __name__ == "__main__":
     doublepass_f100()  # changne the f__ depending on which lens you want
