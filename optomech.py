@@ -6664,6 +6664,8 @@ class Koheron_IPS_Laser_u:
 
     Args:
         drill (bool) : Whether baseplate mounting for this part should be drilled
+        Fiber_Clamp (str or bool) : ``'Standard'`` to include the Koheron fiber clamp,
+            ``'None'`` to omit it; a bool is accepted for compatibility (True → Standard, False → None)
 
     Sub-Parts:
         IPS_butterfly_diode (mount_args)
@@ -6671,18 +6673,26 @@ class Koheron_IPS_Laser_u:
  
     '''
     type = 'Part::FeaturePython'
-    def __init__(self, obj, drill=True, mount_args=dict()):
+    def __init__(self, obj, drill=True, mount_args=dict(), Fiber_Clamp='Standard'):
         obj.Proxy = self
         ViewProvider(obj.ViewObject)
 
         obj.addProperty('App::PropertyBool', 'Drill').Drill = drill
+        obj.addProperty('App::PropertyEnumeration', 'Fiber_Clamp')
+        obj.Fiber_Clamp = ['Standard', 'None']
+        if isinstance(Fiber_Clamp, bool):
+            Fiber_Clamp = 'Standard' if Fiber_Clamp else 'None'
+        if Fiber_Clamp not in ('Standard', 'None'):
+            Fiber_Clamp = 'Standard'
+        obj.Fiber_Clamp = Fiber_Clamp
 
         obj.ViewObject.ShapeColor = misc_color
 
         _add_linked_object(obj, "IPS Laser Diode", IPS_butterfly_diode, pos_offset=(0, 0, 0), **mount_args)
         _add_linked_object(obj, "Koheron Controller", Koheron_Controller, pos_offset=(0, 0, 0))
         _add_linked_object(obj, "Koheron adapter", Koheron_adapter, pos_offset=(0, 0, 0))
-        _add_linked_object(obj, "Fiber Clamp Koheron", Fiber_Clamp_Koheron, pos_offset=(0, 0, 0))
+        if Fiber_Clamp == 'Standard':
+            _add_linked_object(obj, "Fiber Clamp Koheron", Fiber_Clamp_Koheron, pos_offset=(0, 0, 0))
 
 
 class TA_butterfly:
@@ -6705,13 +6715,13 @@ class TA_butterfly:
 
         _add_linked_object(obj, "TA adapter", TA_adapter, pos_offset=(0, 0, 0))
         _add_linked_object(obj, "Fiber Clamp 3 Bottom", fiber_clamp_3_bottom,
-                           pos_offset=(-18, 3*layout.inch, -12.7))
+                           pos_offset=(-18, 5*layout.inch, -12.7))
         _add_linked_object(obj, "Fiber Clamp 3 Top", fiber_clamp_3_top,
-                           pos_offset=(-18, 3*layout.inch, -12.7))
+                           pos_offset=(-18, 5*layout.inch, -12.7))
         _add_linked_object(obj, "Fiber Clamp 3 Bottom", fiber_clamp_3_bottom,
-                           pos_offset=(-54, 3.7*layout.inch, -12.7))
+                           pos_offset=(-54, 5.7*layout.inch, -12.7))
         _add_linked_object(obj, "Fiber Clamp 3 Top", fiber_clamp_3_top,
-                           pos_offset=(-54, 3.7*layout.inch, -12.7))
+                           pos_offset=(-54, 5.7*layout.inch, -12.7))
 
     def execute(self, obj):
         mesh = _import_stl("TAboard.stl", (90, 0, 0), (0, 0, 0))
@@ -6733,11 +6743,11 @@ class TA_butterfly:
 
         for i in [-1, 1]:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                              x=-18 + 18*i, y=3*layout.inch, z=0))
+                                              x=-18 + 18*i, y=5*layout.inch, z=0))
 
         for i in [-1, 1]:
             part = part.fuse(_custom_cylinder(dia=bolt_8_32['tap_dia'], dz=drill_depth,
-                                              x=-54 + 18*i, y=3.7*layout.inch, z=0))
+                                              x=-54 + 18*i, y=5.7*layout.inch, z=0))
  
         part.Placement = obj.Placement
         obj.DrillPart = part
