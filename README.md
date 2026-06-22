@@ -4,6 +4,12 @@ This repository contains Sinclair Lab optical setup scripts, CAD exports, and de
 
 It is derived from earlier collaborative work on the `sinclairlab-pyopticl` branch of `hybrid-lab/PyOpticL_Rubidium_System`, which was originally developed around an Rb-87 neutral-atom optical platform. This repository is now the canonical home for Sinclair Lab-specific PyOpticL setup files.
 
+## Standard Instructions
+
+Clone the repository using 
+
+git clone https://github.com/SinclairQuantumLab/pyopticl-setups in the folder you would like this repository to live.
+
 ## Dependency
 
 This repository depends on the Sinclair Lab fork of PyOpticL:
