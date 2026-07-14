@@ -25,4 +25,11 @@ On Windows, the active FreeCAD PyOpticL installation is typically located at:
 C:\Users\<username>\AppData\Roaming\FreeCAD\v1-1\Mod\PyOpticL
 
 
- Andrew Barger 
+<<<<<<< HEAD
+ 
+=======
+Joon
+Ningyu
+Caleb
+Andrew
+>>>>>>> f13e16bd0a66b8facc8ee01aeb5fdd0a5f20fe7c
