@@ -20,16 +20,17 @@ Reusable PyOpticL library files, including `optomech.py` and reusable STL/STEP p
 
 On Windows, the active FreeCAD PyOpticL installation is typically located at:
 
-
 ```text
 C:\Users\<username>\AppData\Roaming\FreeCAD\v1-1\Mod\PyOpticL
+```
 
-
-
+Min
 Joon
 Ningyu
 Caleb
 Andrew
 Josie 
 Josiah
+
+
 
