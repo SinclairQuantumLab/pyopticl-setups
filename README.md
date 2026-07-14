@@ -32,7 +32,4 @@ Caleb
 Andrew
 Josie 
 Josiah
-
-
-
-Austin Rosypal!
+Austin
