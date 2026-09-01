@@ -1,20 +1,8 @@
 from PyOpticL.beam_path import BeamPath
 from PyOpticL.layout import Component
 from PyOpticL.library import Baseplate
-from PyOpticL.library.IMAQ_library import (
-    aom,
-    cube_05,
-    fiberport,
-    hwp,
-    iris,
-    isolator2,
-    lens_150,
-    mirror_u,
-    mirror_u_3knob,
-    qwp,
-    shutter,
-    ta,
-)
+from PyOpticL.library import Sinclair_library as sinclair
+from PyOpticL.library.IMAQ_library import *
 from PyOpticL.utils import Dimension as dim
 from PyOpticL.utils import cardinal_angle
 from PyOpticL.utils import turn_angle
