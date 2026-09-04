@@ -1,6 +1,7 @@
 from PyOpticL.beam_path import BeamPath
 from PyOpticL.layout import Component
 from PyOpticL.library import Baseplate
+from PyOpticL.library import Sinclair_library as sinclair
 from PyOpticL.library.IMAQ_library import *
 from PyOpticL.utils import Dimension as dim
 from PyOpticL.utils import cardinal_angle, turn_angle
@@ -22,7 +23,7 @@ input_x = dim(5, "in")
 input_y = dim(5, "in")
 
 
-def testboard(label: str = "Testboard"):
+def baseplate(label: str = "Testboard"):
     baseplate = Component(
         label=label,
         definition=Baseplate(
@@ -56,5 +57,5 @@ def testboard(label: str = "Testboard"):
 
 
 if __name__ == "__main__":
-    board = testboard()
+    board = baseplate()
     board.recompute()

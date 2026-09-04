@@ -14,7 +14,7 @@ gap = dim(1 / 8, "in")
 mount_holes = [
     (1, 1),
     (1, 13),
-    (18, 1),
+    (19, 1),
     (14, 13),
 
 ]
@@ -66,7 +66,7 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
     )
 
     ref_beam.add(
-        isolator2("Optical Isolator 2"),
+        isolator1("Optical Isolator 2"),
         beam_index=0b1,
         distance=dim(1.875, "in"),
         rotation=cardinal_angle["left"],
@@ -184,7 +184,7 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
             waist=dim(0.5, "mm"),
             final_distance=dim(5, "in"),
         ),
-        position=(dim(5.5, "in"), dim(4.5, "in"), 0),
+        position=(dim(7.5, "in"), dim(4.5, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
@@ -194,14 +194,14 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
             fiber_clamp="V1",
             thumbscrews="None",
         ),
-        position=(dim(5.0, "in"), dim(4.5, "in"), 0),
+        position=(dim(7.0, "in"), dim(4.5, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
     mot_beam.add(
         mirror("MOT Mirror"),
         beam_index=0b1,
-        distance=dim(5.25, "in"),
+        distance=dim(3.25, "in"),
         rotation=turn_angle["down-left"],
     )
 
@@ -288,7 +288,7 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
             waist=dim(0.5, "mm"),
             final_distance=dim(5, "in"),
         ),
-        position=(dim(7.5, "in"), dim(1.5, "in"), 0),
+        position=(dim(5.5, "in"), dim(1.5, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
@@ -298,14 +298,14 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
             fiber_clamp="V1",
             thumbscrews=True,
         ),
-        position=(dim(7.0, "in"), dim(1.5, "in"), 0),
+        position=(dim(5.0, "in"), dim(1.5, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
     spare_beam.add(
         mirror("Spare Mirror"),
         beam_index=0b1,
-        distance=dim(9.5, "in"),
+        distance=dim(11.5, "in"),
         rotation=turn_angle["down-left"],
     )
 

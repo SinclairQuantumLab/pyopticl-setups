@@ -1,6 +1,7 @@
 from PyOpticL.beam_path import BeamPath
 from PyOpticL.layout import Component
 from PyOpticL.library import Baseplate
+from PyOpticL.library import Sinclair_library as sinclair
 from PyOpticL.library.IMAQ_library import *
 from PyOpticL.utils import Dimension as dim
 from PyOpticL.utils import cardinal_angle, turn_angle
@@ -86,7 +87,7 @@ def testboard(label: str = "Testboard"):
         lens_50("Lens 50"),
         beam_index=0b1,
         distance=dim(100, "mm"),
-        rotation=cardinal_angle["left"],
+        rotation=cardinal_angle["right"],
     )
     beam.add(
         mirror("Mirror1"),
