@@ -4,6 +4,7 @@ from PyOpticL.library import Baseplate
 from PyOpticL.library import optics
 from PyOpticL.library.optics import micro_lens
 from PyOpticL.library.IMAQ_library import *
+from PyOpticL.library.Sinclair_library import *
 from PyOpticL.utils import Dimension as dim
 from PyOpticL.utils import cardinal_angle, turn_angle
 
@@ -58,6 +59,7 @@ def testboard(label: str = "Testboard"):
         distance=dim(50, "mm"),
         rotation=cardinal_angle["right"],
     )
+
 
 
     baseplate.add(
@@ -199,6 +201,11 @@ def testboard(label: str = "Testboard"):
         position=(dim(350, "mm"), dim(6, "in"), dim(1, "in")),
         rotation=cardinal_angle["right"],
     )
+
+
+
+
+
 
 
 
