@@ -79,6 +79,17 @@ glass_cell = beam.add(
 )
 
 
+# Keep the MOT coil at the glass cell's position and orientation.
+mot_coil = glass_cell.add(
+    Component(
+        label="MOT Coil",
+        definition=sinclair.mot_coil(),
+    ),
+    position=(0, 0, 0),
+    rotation=(0, 0, 0),
+)
+
+
 # Second 80 mm lens: x = 76.670 mm
 beam.add(
     Component(
