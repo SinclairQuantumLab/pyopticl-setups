@@ -185,24 +185,24 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
             waist=dim(0.5, "mm"),
             final_distance=dim(5, "in"),
         ),
-        position=(dim(10, "in"), dim(4.5, "in"), 0),
+        position=(dim(9.5, "in"), dim(4.5, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
     baseplate.add(
         fiberport(
             "MOT Input Fiberport",
-            fiber_clamp="Right",
+            fiber_clamp="Left",
             thumbscrews="None",
         ),
-        position=(dim(9.5, "in"), dim(4.5, "in"), 0),
+        position=(dim(9.0, "in"), dim(4.5, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
     mot_beam.add(
         mirror("MOT Mirror"),
         beam_index=0b1,
-        distance=dim(1.25, "in"),
+        distance=dim(1.75, "in"),
         rotation=turn_angle["down-left"],
     )
 
@@ -221,7 +221,7 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
             waist=dim(0.5, "mm"),
             final_distance=dim(5, "in"),
         ),
-        position=(dim(10.5, "in"), dim(3.0, "in"), 0),
+        position=(dim(11, "in"), dim(3.0, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
@@ -231,14 +231,14 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
             fiber_clamp="Right",
             thumbscrews="None",
         ),
-        position=(dim(10.0, "in"), dim(3.0, "in"), 0),
+        position=(dim(10.5, "in"), dim(3.0, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
     repump_beam.add(
         mirror("Repump Mirror"),
         beam_index=0b1,
-        distance=dim(3.875, "in"),
+        distance=dim(3.375, "in"),
         rotation=turn_angle["down-left"],
     )
 
