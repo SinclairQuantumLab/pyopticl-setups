@@ -109,7 +109,7 @@ def baseplate(label: str = "Laserboard"):
     )
 
     beam.add(
-        fiberport("Output1", fiber_clamp="V1"),
+        fiberport("Output1", fiber_clamp="Left"),
         beam_index=0b11,
         distance=dim(2.5, "in"),
         rotation=cardinal_angle["right"],

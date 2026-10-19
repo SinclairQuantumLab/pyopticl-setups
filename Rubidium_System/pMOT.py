@@ -18,7 +18,7 @@ baseplate = Component(
             dim(17, "in"),
             dim(1, "in"),
         ),
-        optical_height=dim(46.718, "mm"),
+        optical_height=dim(80.689, "mm"),
     ),
 )
 
@@ -276,9 +276,9 @@ beam3 = baseplate.add(
         final_distance=dim(5, "in"),
     ),
     position=(
-        dim(11.916815, "in"),
+        dim(10.916815, "in"),
         dim(9.083185, "in"),
-        dim(-27.668, "mm"),
+        dim(-49.5628, "mm"),
     ),
     rotation=180   # +Z
 )
@@ -299,7 +299,7 @@ beam780_3 = baseplate.add(
     position=(
         dim(13.916815, "in"),
         dim(9.083185, "in"),
-        dim(-27.668, "mm"),
+        dim(-49.5628, "mm"),
     ),
     rotation=180,
 )
@@ -310,7 +310,7 @@ beam780_3.add(
         definition=sinclair.mounted_lens_AC254_040_C_ML(),
     ),
     beam_index=0b1,
-    distance=dim(30.65, "mm"),
+    distance=dim(52.5448, "mm"),
     rotation=(0, 0, 180),
 )
 
@@ -321,7 +321,7 @@ beam3.add(
         definition=sinclair.mirror_cube_ccm1_p01(),
     ),
     beam_index=0b1,
-    distance=dim(2, "in"),
+    distance=dim(1, "in"),
     rotation=(0, 0, 180),
 )
 
@@ -335,7 +335,7 @@ beam3.add(
         definition=sinclair.mounted_lens_AC254_040_C_ML(),
     ),
     beam_index=0b1,
-    distance=dim(19.05, "mm"),
+    distance=dim(40.9448, "mm"),
     rotation=(0, -90, 0),
 )
 #95.4->19.05: 76.35 down

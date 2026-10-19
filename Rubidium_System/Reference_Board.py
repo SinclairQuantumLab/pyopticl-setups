@@ -12,14 +12,14 @@ base_dz = dim(1, "in")
 gap = dim(1 / 8, "in")
 
 mount_holes = [
-    (1, 1),
-    (1, 13),
-    (19, 1),
-    (14, 13),
+    (0.5, 0.5),
+    (0.5, 13.5),
+    (19.5, 0.5),
+    (15.5, 13.5),
 
 ]
 
-input_y = dim(7, "in")
+input_y = dim(4, "in")
 
 
 def reference_baseplate_v2(label: str = "Reference Baseplate"):
@@ -41,14 +41,21 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
             waist=dim(0.5, "mm"),
             final_distance=dim(5, "in"),
         ),
-        position=(dim(3, "in"), input_y, 0),
-        rotation=cardinal_angle["right"],
+        position=(dim(2, "in"), input_y, 0),
+        rotation=cardinal_angle["up"],
     )
 
     baseplate.add(
         ips_small("IPS Laser"),
-        position=(dim(3.125, "in"), input_y, 0),
-        rotation=0,
+        position=(dim(2, "in"), dim(4.125, "in"), 0),
+        rotation=cardinal_angle["up"],
+    )
+
+    ref_beam.add(
+        mirror_3knob("Mirror 0"),
+        beam_index=0b1,
+        distance=dim(3, "in"),
+        rotation=turn_angle["up-right"],
     )
 
     ref_beam.add(
@@ -59,23 +66,17 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
     )
 
     ref_beam.add(
-        isolator1("Optical Isolator 1"),
+        isolator2("Optical Isolator 1"),
         beam_index=0b1,
-        distance=dim(1.375, "in"),
+        distance=dim(3.25, "in"),
         rotation=cardinal_angle["left"],
     )
 
-    ref_beam.add(
-        isolator1("Optical Isolator 2"),
-        beam_index=0b1,
-        distance=dim(1.875, "in"),
-        rotation=cardinal_angle["left"],
-    )
 
     ref_beam.add(
         qwp("1/4 Waveplate"),
         beam_index=0b1,
-        distance=dim(1.25, "in"),
+        distance=dim(2.75, "in"),
         rotation=cardinal_angle["right"],
     )
 
@@ -104,7 +105,7 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
     ref_beam.add(
         hwp("1/2 Waveplate 3"),
         beam_index=0b11,
-        distance=dim(2.0, "in"),
+        distance=dim(2.2, "in"),
         rotation=cardinal_angle["left"],
     )
 
@@ -118,11 +119,11 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
     ref_beam.add(
         fiberport(
             "MOT Output Fiberport",
-            fiber_clamp="V1",
+            fiber_clamp="Left",
             thumbscrews=True,
         ),
         beam_index=0b11,
-        distance=dim(3.5, "in"),
+        distance=dim(3.3, "in"),
         rotation=cardinal_angle["right"],
     )
 
@@ -170,7 +171,7 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
     )
 
     ref_beam.add(
-        fiberport("Output1",fiber_clamp="V1",thumbscrews=True,),
+        fiberport("Output1",fiber_clamp="Left",thumbscrews=True,),
         beam_index=0b1000,
         distance=dim(3.0, "in") - dim(5.136, "mm"),
         rotation=cardinal_angle["down"],
@@ -184,24 +185,24 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
             waist=dim(0.5, "mm"),
             final_distance=dim(5, "in"),
         ),
-        position=(dim(7.5, "in"), dim(4.5, "in"), 0),
+        position=(dim(10, "in"), dim(4.5, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
     baseplate.add(
         fiberport(
             "MOT Input Fiberport",
-            fiber_clamp="V1",
+            fiber_clamp="Right",
             thumbscrews="None",
         ),
-        position=(dim(7.0, "in"), dim(4.5, "in"), 0),
+        position=(dim(9.5, "in"), dim(4.5, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
     mot_beam.add(
         mirror("MOT Mirror"),
         beam_index=0b1,
-        distance=dim(3.25, "in"),
+        distance=dim(1.25, "in"),
         rotation=turn_angle["down-left"],
     )
 
@@ -220,24 +221,24 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
             waist=dim(0.5, "mm"),
             final_distance=dim(5, "in"),
         ),
-        position=(dim(6.5, "in"), dim(3.0, "in"), 0),
+        position=(dim(10.5, "in"), dim(3.0, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
     baseplate.add(
         fiberport(
             "Repumper Input Fiberport",
-            fiber_clamp="V1",
+            fiber_clamp="Right",
             thumbscrews="None",
         ),
-        position=(dim(6.0, "in"), dim(3.0, "in"), 0),
+        position=(dim(10.0, "in"), dim(3.0, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
     repump_beam.add(
         mirror("Repump Mirror"),
         beam_index=0b1,
-        distance=dim(7.375, "in"),
+        distance=dim(3.875, "in"),
         rotation=turn_angle["down-left"],
     )
 
@@ -265,18 +266,18 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
     ref_beam.add(
         hwp("1/2 Waveplate 9"),
         beam_index=0b101,
-        distance=dim(3.0, "in"),
+        distance=dim(2.8, "in"),
         rotation=cardinal_angle["left"],
     )
 
     ref_beam.add(
         fiberport(
             "Repumper Output Fiberport",
-            fiber_clamp="V1",
+            fiber_clamp="Left",
             thumbscrews=True,
         ),
         beam_index=0b101,
-        distance=dim(3.5, "in"),
+        distance=dim(3.7, "in"),
         rotation=cardinal_angle["right"],
     )
 
@@ -288,24 +289,24 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
             waist=dim(0.5, "mm"),
             final_distance=dim(5, "in"),
         ),
-        position=(dim(5.5, "in"), dim(1.5, "in"), 0),
+        position=(dim(12.5, "in"), dim(1.5, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
     baseplate.add(
         fiberport(
             "Spare Input Fiberport",
-            fiber_clamp="V1",
+            fiber_clamp="Right",
             thumbscrews=True,
         ),
-        position=(dim(5.0, "in"), dim(1.5, "in"), 0),
+        position=(dim(12.0, "in"), dim(1.5, "in"), 0),
         rotation=cardinal_angle["right"],
     )
 
     spare_beam.add(
         mirror("Spare Mirror"),
         beam_index=0b1,
-        distance=dim(11.5, "in"),
+        distance=dim(5, "in"),
         rotation=turn_angle["down-left"],
     )
 
@@ -340,7 +341,7 @@ def reference_baseplate_v2(label: str = "Reference Baseplate"):
     ref_beam.add(
         fiberport(
             "Spare Output Fiberport",
-            fiber_clamp="V1",
+            fiber_clamp="Left",
             thumbscrews=True,
         ),
         beam_index=0b1001,
